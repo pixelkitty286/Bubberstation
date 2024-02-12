@@ -23,9 +23,11 @@
 /mob/living/silicon/robot/model/centcom/ResetModel()
 	return
 
+/*
 //Small cyborg traits
 /mob/living/silicon/robot/buckle_mob(mob/living/M, force = FALSE, check_loc = TRUE, buckle_mob_flags= NONE)
 	if(TRAIT_R_SMALL in model.model_features)
 		M.visible_message(span_warning("[M] is too heavy for [src]'s chassie!"))
 		return
 	return ..()
+*/
