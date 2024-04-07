@@ -12,3 +12,10 @@
 	desc = "Allows you to to turn a cyborg into a Security model, shitsec abound."
 	icon_state = "cyborg_upgrade3"
 	new_model = /obj/item/robot_model/security
+
+//D.I.Y. build a borg!
+/obj/item/borg/upgrade/transform/standard
+	name = "borg model picker (Custom)"
+	desc = "Allows you to to turn a cyborg into a Custom model."
+	icon_state = "cyborg_upgrade3"
+	new_model = /obj/item/robot_model/standard
