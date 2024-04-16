@@ -666,6 +666,7 @@
 		/obj/machinery/vending/imported/tiziran = "Tiziran Imported Delicacies", //SKYRAT EDIT ADDITION
 		/obj/machinery/vending/imported/yangyu = "Fudobenda", //SKYRAT EDIT ADDITION
 		/obj/machinery/vending/security = "Armadyne Peacekeeper Equipment Vendor", //SKYRAT EDIT CHANGE - SEC_HUAL - ORIGINAL: /obj/machinery/vending/security = "SecTech",
+		/obj/machinery/vending/deforest_medvend = "DeForest Med-Vend", //SKYRAT PORT ADDITION
 	)
 
 /obj/item/circuitboard/machine/vendor/screwdriver_act(mob/living/user, obj/item/tool)
@@ -1567,7 +1568,7 @@
 /obj/item/circuitboard/machine/brm
 	name = "Boulder Retrieval Matrix"
 	greyscale_colors = CIRCUIT_COLOR_SUPPLY
-	build_path = /obj/machinery/bouldertech/brm
+	build_path = /obj/machinery/brm
 	req_components = list(
 		/datum/stock_part/capacitor = 1,
 		/datum/stock_part/scanning_module = 1,
@@ -1579,10 +1580,9 @@
 	greyscale_colors = CIRCUIT_COLOR_SUPPLY
 	build_path = /obj/machinery/bouldertech/refinery
 	req_components = list(
-		/obj/item/reagent_containers/cup/beaker = 1,
 		/obj/item/assembly/igniter/condenser = 1,
 		/datum/stock_part/servo = 2,
-		/datum/stock_part/matter_bin = 1,
+		/datum/stock_part/matter_bin = 2,
 	)
 
 /obj/item/circuitboard/machine/smelter

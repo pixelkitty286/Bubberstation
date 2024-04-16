@@ -47,6 +47,7 @@
 	var/safe_plasma_min = 0
 	///How much breath partial pressure is a safe amount of plasma. 0 means that we are immune to plasma.
 	var/safe_plasma_max = 0.05
+	var/n2o_detect_min = 0.08 //Minimum n2o for effects
 	var/n2o_para_min = 1 //Sleeping agent
 	var/n2o_sleep_min = 5 //Sleeping agent
 	var/BZ_trip_balls_min = 1 //BZ gas
@@ -503,12 +504,12 @@
 /obj/item/organ/internal/lungs/proc/too_much_n2o(mob/living/carbon/breather, datum/gas_mixture/breath, n2o_pp, old_n2o_pp)
 	if(n2o_pp < n2o_para_min)
 		// Small amount of N2O, small side-effects.
-		if(n2o_pp <= 0.01)
-			if(old_n2o_pp > 0.01)
+		if(n2o_pp <= n2o_detect_min)
+			if(old_n2o_pp > n2o_detect_min)
 				return BREATH_LOST
 			return
 		// No alert for small amounts, but the mob randomly feels euphoric.
-		if(old_n2o_pp >= n2o_para_min || old_n2o_pp <= 0.01)
+		if(old_n2o_pp >= n2o_para_min || old_n2o_pp <= n2o_detect_min)
 			breather.clear_alert(ALERT_TOO_MUCH_N2O)
 
 		if(prob(20))
@@ -919,15 +920,20 @@
 	)
 
 	var/oxygen_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/oxygen][MOLES])
-	var/nitrogen_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/nitrogen][MOLES])
+	// var/nitrogen_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/nitrogen][MOLES]) BUBBERSTATION CHANGE: ALLOWS ASHWALKERS TO BREATHE ON STATION
 	var/plasma_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/plasma][MOLES])
 	var/carbon_dioxide_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/carbon_dioxide][MOLES])
 	var/bz_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/bz][MOLES])
 	var/miasma_pp = breath.get_breath_partial_pressure(breath_gases[/datum/gas/miasma][MOLES])
 
 	safe_oxygen_min = max(0, oxygen_pp - GAS_TOLERANCE)
+	/* BUBBERSTATION CHANGE START: ALLOWS ASHWALKERS TO BREATHE ON STATION
 	safe_nitro_min = max(0, nitrogen_pp - GAS_TOLERANCE)
 	safe_plasma_min = max(0, plasma_pp - GAS_TOLERANCE)
+	*/
+	safe_nitro_min = 0
+	safe_plasma_min = 0
+	//BUBBERSTATION CHANGE END
 
 	// Increase plasma tolerance based on amount in base air
 	safe_plasma_max += plasma_pp
