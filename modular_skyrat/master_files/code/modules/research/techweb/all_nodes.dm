@@ -230,14 +230,15 @@
 /datum/techweb_node/cyborg_upg_util/New()
 	design_ids += list(
 		"borg_upgrade_clamp",
+		"borg_upgrade_cargo_tele",
+		"borg_upgrade_forging",
 		"borg_upgrade_brush",
 	)
 	return ..()
 
 /datum/techweb_node/cyborg_upg_engiminer/New()
 	design_ids += list(
-		"advanced_materials",
-		"inducer_module",
+		"advanced_materials"
 	)
 	return ..()
 
@@ -256,3 +257,14 @@
 		"borg_upgrade_welding",
 	)
 	return ..()
+
+/datum/techweb_node/ayy_cyber_implants
+	id = "ayy_cyber_implants"
+	display_name = "Alien Cybernetic Implants"
+	description = "The best in cybernetic implants."
+	prereq_ids = list("neural_programming", "cyber_implants","integrated_HUDs", "adv_cyber_implants", "alien_bio", "alien_engi")
+	design_ids = list(
+		"ci-surgery-alien",
+		"ci-toolset-alien",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)

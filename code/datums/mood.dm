@@ -139,9 +139,16 @@
  * Arguments:
  * * category - (text) category of the mood event - see /datum/mood_event for category explanation
  * * type - (path) any /datum/mood_event
- * * timeout_mod - (number) /datum/mood_event timeout modifier
  */
-/datum/mood/proc/add_mood_event(category, type, timeout_mod = 1, ...)
+/datum/mood/proc/add_mood_event(category, type, ...)
+	// we may be passed an instantiated mood datum with a modified timeout
+	// it is to be used as a vehicle to copy data from and then cleaned up afterwards.
+	// why do it this way? because the params list may contain numbers, and we may not necessarily want those to be interpreted as a timeout modifier.
+	// this is only used by the food quality system currently
+	var/datum/mood_event/mood_to_copy_from
+	if (istype(type, /datum/mood_event))
+		mood_to_copy_from = type
+		type = mood_to_copy_from.type
 	if (!ispath(type, /datum/mood_event))
 		CRASH("A non path ([type]), was used to add a mood event. This shouldn't be happening.")
 	if (!istext(category))
@@ -154,8 +161,10 @@
 			clear_mood_event(category)
 		else
 			if (the_event.timeout)
-				the_event.timeout = initial(the_event.timeout) * timeout_mod
+				if (!isnull(mood_to_copy_from))
+					the_event.timeout = mood_to_copy_from.timeout
 				addtimer(CALLBACK(src, PROC_REF(clear_mood_event), category), the_event.timeout, (TIMER_UNIQUE|TIMER_OVERRIDE))
+			qdel(mood_to_copy_from)
 			return // Don't need to update the event.
 	var/list/params = args.Copy(3)
 
@@ -164,8 +173,10 @@
 	if (QDELETED(the_event)) // the mood event has been deleted for whatever reason (requires a job, etc)
 		return
 
-	the_event.timeout *= timeout_mod
 	the_event.category = category
+	if (!isnull(mood_to_copy_from))
+		the_event.timeout = mood_to_copy_from.timeout
+	qdel(mood_to_copy_from)
 	mood_events[category] = the_event
 	update_mood()
 
@@ -373,7 +384,7 @@
 		if(MOOD_LEVEL_HAPPY4)
 			msg += "[span_boldnicegreen("I love life!")]\n"
 	*/
-	//SKYRAT EDIT CHANGE BEGIN - ALEXITHYMIA
+	//SKYRAT EDIT CHANGE BEGIN - ALEXITHYMIA / ALCOHOL_PROCESSING
 	if(!HAS_TRAIT(user, TRAIT_MOOD_NOEXAMINE))
 		switch(mood_level)
 			if(MOOD_LEVEL_SAD4)
@@ -396,10 +407,12 @@
 				msg += "[span_boldnicegreen("I love life!")]\n"
 	else
 		msg += "[span_notice("No clue.")]\n"
-	//SKYRAT EDIT CHANGE END
+
 	msg += "[span_notice("Moodlets:")]\n"//All moodlets
-	//if(mood_events.len) //ORIGINAL
-	if(mood_events.len && !HAS_TRAIT(user, TRAIT_MOOD_NOEXAMINE)) //SKYRAT EDIT CHANGE - ALEXITHYMIA
+	msg += get_alcohol_processing(user)
+	msg += get_drunk_mood(user)
+	if(mood_events.len && !HAS_TRAIT(user, TRAIT_MOOD_NOEXAMINE)) // ORIGINAL - //if(mood_events.len)
+	//SKYRAT EDIT CHANGE END
 		for(var/category in mood_events)
 			var/datum/mood_event/event = mood_events[category]
 			switch(event.mood_change)

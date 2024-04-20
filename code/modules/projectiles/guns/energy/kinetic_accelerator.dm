@@ -15,6 +15,7 @@
 	var/max_mod_capacity = 100
 	var/list/modkits = list()
 	gun_flags = NOT_A_REAL_GUN
+	var/disablemodification = FALSE // Bubber edit, stops removal and addition of mods.
 
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/Initialize(mapload)
@@ -74,7 +75,7 @@
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/crowbar_act(mob/living/user, obj/item/I)
 	. = TRUE
-	if(modkits.len)
+	if(!disablemodification && modkits.len) // BUBBER EDIT
 		to_chat(user, span_notice("You pry all the modifications out."))
 		I.play_tool_sound(src, 100)
 		for(var/a in modkits)
@@ -130,7 +131,7 @@
 	return ..()
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/borg/upgrade/modkit))
+	if(!disablemodification && istype(I, /obj/item/borg/upgrade/modkit)) // BUBBER EDIT
 		var/obj/item/borg/upgrade/modkit/MK = I
 		MK.install(src, user)
 	else
@@ -153,7 +154,7 @@
 	icon_state = "kineticgun" // SKYRAT EDIT CHANGE
 	holds_charge = TRUE
 	unique_frequency = TRUE
-	max_mod_capacity = 80
+	max_mod_capacity = 100 // SKYRAT EDIT CHANGE FROM 90 - Balance due to fauna changes and no level perks applying
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/minebot
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL
@@ -166,7 +167,7 @@
 	projectile_type = /obj/projectile/kinetic
 	select_name = "kinetic"
 	e_cost = LASER_SHOTS(1, STANDARD_CELL_CHARGE * 0.5)
-	fire_sound = 'sound/weapons/kenetic_accel.ogg' // fine spelling there chap
+	fire_sound = 'sound/weapons/kinetic_accel.ogg'
 
 /obj/item/ammo_casing/energy/kinetic/ready_proj(atom/target, mob/living/user, quiet, zone_override = "")
 	..()
