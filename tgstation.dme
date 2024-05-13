@@ -8769,6 +8769,7 @@
 #include "modular_zubbers\modules\borgs\code\robot_defines.dm"
 #include "modular_zubbers\modules\borgs\code\robot_items.dm"
 #include "modular_zubbers\modules\borgs\code\robot_model.dm"
+#include "modular_zubbers\modules\borgs\code\robot_scruff.dm"
 #include "modular_zubbers\modules\borgs\code\robot_upgrade.dm"
 #include "modular_zubbers\modules\bubber_tram\code\moonstation_tram.dm"
 #include "modular_zubbers\modules\client\code\chat_color.dm"

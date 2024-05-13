@@ -70,7 +70,7 @@
 /obj/item/robot_model/standard/Initialize(mapload)
 	. = ..()
 	borg_skins |= list(
-		"F3-LINE" = list(SKIN_ICON_STATE = "FELI-Standard", SKIN_ICON = 'modular_zubbers/modules/borgs/sprites/felibot_all.dmi', SKIN_FEATURES = list(TRAIT_R_UNIQUEWRECK, TRAIT_R_WIDE, TRAIT_R_SMALL)),
+		"F3-LINE" = list(SKIN_ICON_STATE = "FELI-Standard", SKIN_ICON = 'modular_zubbers/modules/borgs/sprites/felibot_all.dmi', SKIN_FEATURES = list(TRAIT_R_UNIQUEWRECK, TRAIT_R_WIDE, TRAIT_R_SMALL, TRAIT_R_SCRUFF)),
 	)
 
 /obj/item/robot_model/medical/Initialize(mapload)
@@ -306,3 +306,24 @@
 	borg_skins |= list(
 		"F3-LINE" = list(SKIN_ICON_STATE = "FELI-Ninja", SKIN_ICON = 'modular_zubbers/modules/borgs/sprites/felibot_all.dmi', SKIN_FEATURES = list(TRAIT_R_UNIQUEWRECK, TRAIT_R_WIDE, TRAIT_R_SMALL)),
 	)
+
+//Small borg scruffing or holding
+/obj/item/robot_model/proc/update_smallborg()
+	var/mob/living/silicon/robot/cyborg = robot || loc
+	if (!istype(robot))
+		return
+	if (model_features && (TRAIT_R_SCRUFF in model_features))
+	/*
+		cyborg.can_be_held = TRUE
+		cyborg.held_w_class = WEIGHT_CLASS_HUGE
+	*/
+		RemoveComponentSource(/datum/component/tippable)
+		AddComponent(/datum/component/r_held)
+	else
+	/*
+		cyborg.can_be_held = FALSE
+		cyborg.held_w_class = WEIGHT_CLASS_NORMAL
+	*/
+		AddComponent(/datum/component/tippable)
+		RemoveComponentSource(/datum/component/r_held)
+
