@@ -142,6 +142,8 @@
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker (Latejoin)"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_VASSAL "Vassal"
+#define ROLE_MALFBORG "Malf Borg"
+#define ROLE_MALFBORG_MIDROUND "Malf Borg (Midround)"
 //BUBBER EDIT END
 
 /// This defines the antagonists you can operate with in the settings.

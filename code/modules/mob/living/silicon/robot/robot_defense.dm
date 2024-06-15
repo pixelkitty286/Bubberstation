@@ -365,6 +365,16 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		ResetModel()
 		return TRUE
 
+	//BUBBER EDIT BEGIN: MALF CYBORGS
+	if(mind && mind.has_antag_datum(/datum/antagonist/malf_borg))
+		to_chat(src, span_danger("ALERT: Foreign software execution prevented."))
+		logevent("ALERT: Foreign software execution prevented.")
+		// This is a subtle coverblow if the cyborg has not already disconnected them self already.
+		to_chat(connected_ai, span_danger("ALERT: Cyborg unit \[[src]\] successfully defended against subversion own their own!"))
+		log_silicon("EMAG: [key_name(user)] attempted to emag cyborg [key_name(src)], but they were a traitor cyborg.")
+		return TRUE // emag succeeded, it was just counteracted
+	//BUBBER EDIT END: MALF CYBORGS
+
 	SetEmagged(1)
 	SetStun(60) //Borgs were getting into trouble because they would attack the emagger before the new laws were shown
 	lawupdate = FALSE
