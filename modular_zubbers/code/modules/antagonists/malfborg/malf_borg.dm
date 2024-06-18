@@ -9,9 +9,9 @@
 	antagpanel_category = "Malf Borg"
 	job_rank = ROLE_MALFBORG
 	antag_hud_name = "traitor"
-	ui_name = "AntagInfoMalf"
+	ui_name = "AntagInfoMalfBorg"
 	can_assign_self_objectives = TRUE
-	default_custom_objective = "Make sure your precious crew are incapable of ever, ever leaving you."
+	default_custom_objective = "Make them suffer for what they've done to you."
 	view_exploitables = TRUE
 	///the name of the antag flavor this traitor has.
 	var/employer
@@ -21,10 +21,8 @@
 	var/give_objectives = TRUE
 	///bool for giving codewords
 	var/should_give_codewords = TRUE
-	/*
 	///since the module purchasing is built into the antag info, we need to keep track of its compact mode here
 	var/module_picker_compactmode = FALSE
-	*/
 	///malf on_gain sound effect. Set here so Infected AI can override
 	var/malf_sound = 'sound/ambience/antag/malf.ogg'
 
@@ -141,15 +139,14 @@
 	to_chat(malf_borg, "Your radio has been upgraded! Use :t to speak on an encrypted channel with Syndicate Agents!")
 
 //TODO: MALF BORG PICKER
-/*
-/datum/antagonist/malf_borg/ui_data(mob/living/silicon/ai/malf_borg)
+
+/datum/antagonist/malf_borg/ui_data(mob/living/silicon/robot/malf_borg)
 	var/list/data = list()
-	data["processingTime"] = malf_ai.malf_picker.processing_time
+	//data["processingTime"] = malf_borg.malf_picker.processing_time
 	data["compactMode"] = module_picker_compactmode
 	return data
-*/
 
-/datum/antagonist/malf_borg/ui_static_data(mob/living/silicon/ai/malf_borg)
+/datum/antagonist/malf_borg/ui_static_data(mob/living/silicon/robot/malf_borg)
 	var/list/data = list()
 
 	//antag panel data
