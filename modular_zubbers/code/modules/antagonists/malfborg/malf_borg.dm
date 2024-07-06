@@ -47,6 +47,9 @@
 	malfunction_flavor = strings(MALFUNCTION_FLAVOR_FILE, employer)
 
 	add_law_zero()
+	var/mob/living/silicon/robot/malf_borg = owner.current
+	add_verb(malf_borg, /mob/living/silicon/robot/proc/ResetSecurityCodes)
+	malf_borg.lawupdate = FALSE //NUH UH
 	if(malf_sound)
 		owner.current.playsound_local(get_turf(owner.current), malf_sound, 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	owner.current.grant_language(/datum/language/codespeak, source = LANGUAGE_MALF)
@@ -66,7 +69,7 @@
 
 	return ..()
 
-/// Generates a complete set of malf AI objectives up to the traitor objective limit.
+/// Generates a complete set of malf Borg objectives up to the traitor objective limit.
 /datum/antagonist/malf_borg/proc/forge_borg_objectives()
 	if(prob(PROB_SPECIAL))
 		forge_special_objective()
@@ -88,21 +91,17 @@
 
 /// Generates a special objective and adds it to the objective list.
 /datum/antagonist/malf_borg/proc/forge_special_objective()
-	var/special_pick = rand(3,4) // SKYRAT EDIT - REMOVING PURGE/BLOCK
+	var/special_pick = rand(1,3)
 	switch(special_pick)
 		if(1)
-			var/datum/objective/block/block_objective = new
-			block_objective.owner = owner
-			objectives += block_objective
+			var/datum/objective/destroy/killai = new
+			killai.owner = owner
+			objectives += killai
 		if(2)
-			var/datum/objective/purge/purge_objective = new
-			purge_objective.owner = owner
-			objectives += purge_objective
-		if(3)
-			var/datum/objective/robot_army/robot_objective = new
-			robot_objective.owner = owner
-			objectives += robot_objective
-		if(4) //Protect and strand a target
+			var/datum/objective/steal/steal = new
+			steal.owner = owner
+			objectives += steal
+		if(3) //Protect and strand a target
 			var/datum/objective/protect/yandere_one = new
 			yandere_one.owner = owner
 			objectives += yandere_one
@@ -142,7 +141,7 @@
 
 /datum/antagonist/malf_borg/ui_data(mob/living/silicon/robot/malf_borg)
 	var/list/data = list()
-	//data["processingTime"] = malf_borg.malf_picker.processing_time
+	data["processingTime"] = malf_borg.malf_picker.processing_time
 	data["compactMode"] = module_picker_compactmode
 	return data
 
@@ -160,6 +159,25 @@
 	data["goal"] = malfunction_flavor["goal"]
 	data["objectives"] = get_objectives()
 	data["can_change_objective"] = can_assign_self_objectives
+
+	//module picker data
+
+	data["categories"] = list()
+	if(malf_borg.malf_picker)
+		for(var/category in malf_borg.malf_picker.possible_modules)
+			var/list/cat = list(
+				"name" = category,
+				"items" = (category == malf_borg.malf_picker.selected_cat ? list() : null))
+			for(var/module in malf_borg.malf_picker.possible_modules[category])
+				var/datum/ai_module/mod = malf_borg.malf_picker.possible_modules[category][module]
+				cat["items"] += list(list(
+					"name" = mod.name,
+					"cost" = mod.cost,
+					"desc" = mod.description,
+				))
+			data["categories"] += list(cat)
+
+	return data
 
 
 // Upgrades malf borg's radios to syndicate

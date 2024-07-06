@@ -82,7 +82,7 @@
 			R.logevent("AI connection fault [mend?"cleared":"detected"]")
 		if(WIRE_LAWSYNC) // Cut the law wire, and the borg will no longer receive law updates from its AI. Repair and it will re-sync.
 			if(mend)
-				if(!R.emagged)
+				if(!R.emagged || !R.mind.has_antag_datum(/datum/antagonist/malf_borg))//BUBBER EDIT - Malf borgs should not lose law 0!
 					R.lawupdate = TRUE
 					log_silicon("[key_name(usr)] enabled [key_name(R)]'s lawsync via wire")
 			else if(!R.deployed) //AI shells must always have the same laws as the AI
