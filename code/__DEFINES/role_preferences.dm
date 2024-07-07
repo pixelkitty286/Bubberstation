@@ -142,6 +142,8 @@
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker (Latejoin)"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_VASSAL "Vassal"
+
+#define ROLE_CHANGELING_ZOMBIE "Changeling Zombie"
 #define ROLE_MALFBORG "Malf Borg"
 #define ROLE_MALFBORG_MIDROUND "Malf Borg (Midround)"
 //BUBBER EDIT END
@@ -207,6 +209,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_VAMPIRICACCIDENT = 14,
 	ROLE_BLOODSUCKERBREAKOUT = 14,
 	ROLE_MONSTERHUNTER = 14,
+	ROLE_CHANGELING_ZOMBIE = 0
 	//BUBBER EDIT END
 ))
 
