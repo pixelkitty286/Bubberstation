@@ -1,6 +1,18 @@
 /datum/armament_entry/company_import/sol_defense
-	category = SOL_DEFENSE_DEFENSE_NAME
+	category = COMPANY_NAME_SOL_DEFENSE_DEFENSE
 	company_bitflag = CARGO_COMPANY_SOL_DEFENSE
+
+// Beautiful SolFed clothing
+
+/datum/armament_entry/company_import/sol_defense/clothing
+	subcategory = "Surplus Clothing"
+	cost = PAYCHECK_CREW
+
+/datum/armament_entry/company_import/sol_defense/clothing/peacekeeper
+	item_type = /obj/item/clothing/under/sol_peacekeeper
+
+/datum/armament_entry/company_import/sol_defense/clothing/emt
+	item_type = /obj/item/clothing/under/sol_emt
 
 // Armor vests for protecting against bullets
 
@@ -20,12 +32,11 @@
 /datum/armament_entry/company_import/sol_defense/armor/sf_soft_vest
 	item_type = /obj/item/clothing/suit/armor/sf_peacekeeper
 
-/datum/armament_entry/company_import/sol_defense/armor/normal_vest
-	name = "type I vest - normal"
-	item_type = /obj/item/clothing/suit/armor/vest/alt
+/datum/armament_entry/company_import/sol_defense/armor/flak_jacket
+	item_type = /obj/item/clothing/suit/armor/vest/det_suit/sol
 
 /datum/armament_entry/company_import/sol_defense/armor/slim_vest
-	name = "type I vest - slim"
+	name = "type I vest"
 	item_type = /obj/item/clothing/suit/armor/vest
 
 /datum/armament_entry/company_import/sol_defense/armor_hardened
@@ -127,23 +138,23 @@
 	item_type = /obj/item/gun/ballistic/automatic/sol_grenade_launcher
 	cost = PAYCHECK_COMMAND * 46
 	contraband = TRUE
-
+*/
 /datum/armament_entry/company_import/sol_defense/magazines
 	subcategory = "Magazines"
 	cost = PAYCHECK_CREW
 
 /datum/armament_entry/company_import/sol_defense/magazines/c35_mag
-	item_type = /obj/item/ammo_box/magazine/c35sol_pistol/starts_empty
+	item_type = /obj/item/ammo_box/magazine/c35sol_pistol
 
 /datum/armament_entry/company_import/sol_defense/magazines/c35_extended
-	item_type = /obj/item/ammo_box/magazine/c35sol_pistol/stendo/starts_empty
+	item_type = /obj/item/ammo_box/magazine/c35sol_pistol/stendo
 
 /datum/armament_entry/company_import/sol_defense/magazines/c585_mag
-	item_type = /obj/item/ammo_box/magazine/c585trappiste_pistol/spawns_empty
+	item_type = /obj/item/ammo_box/magazine/c585trappiste_pistol
 
 /datum/armament_entry/company_import/sol_defense/magazines/sol_rifle_short
-	item_type = /obj/item/ammo_box/magazine/c40sol_rifle/starts_empty
-
+	item_type = /obj/item/ammo_box/magazine/c40sol_rifle
+/*
 /datum/armament_entry/company_import/sol_defense/magazines/sol_rifle_standard
 	item_type = /obj/item/ammo_box/magazine/c40sol_rifle/standard/starts_empty
 	cost = PAYCHECK_COMMAND
@@ -152,11 +163,11 @@
 	item_type = /obj/item/ammo_box/magazine/c40sol_rifle/drum/starts_empty
 	cost = PAYCHECK_COMMAND * 3
 	contraband = TRUE
-
+*/
 /datum/armament_entry/company_import/sol_defense/magazines/sol_grenade_standard
 	item_type = /obj/item/ammo_box/magazine/c980_grenade/starts_empty
 	cost = PAYCHECK_COMMAND * 2
-
+/*
 /datum/armament_entry/company_import/sol_defense/magazines/sol_grenade_drum
 	item_type = /obj/item/ammo_box/magazine/c980_grenade/drum/starts_empty
 	cost = PAYCHECK_CREW * 3

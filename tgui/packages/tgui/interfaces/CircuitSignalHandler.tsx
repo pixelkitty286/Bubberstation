@@ -1,7 +1,15 @@
-import { BooleanLike } from 'common/react';
-import { Component, KeyboardEvent } from 'react';
+import { Component, KeyboardEvent, MouseEvent } from 'react';
+import {
+  Box,
+  Button,
+  Dropdown,
+  Input,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
-import { Box, Stack, Section, Input, Button, Dropdown } from '../components';
 import { Window } from '../layouts';
 
 type Response = {
@@ -192,7 +200,7 @@ export class CircuitSignalHandler extends Component<
 }
 
 type EntryProps = {
-  onRemove: (e: MouseEvent) => any;
+  onRemove: (e: MouseEvent<HTMLDivElement>) => any;
   onChange: (e: KeyboardEvent<HTMLInputElement>, value: string) => any;
   onSetOption?: (type: string) => any;
   name: string;
@@ -204,7 +212,7 @@ const Entry = (props: EntryProps) => {
   const {
     onRemove,
     onChange,
-    onSetOption,
+    onSetOption = () => null,
     name,
     current_option,
     options = [],
@@ -220,7 +228,7 @@ const Entry = (props: EntryProps) => {
         <Stack.Item>
           {(options.length && (
             <Dropdown
-              displayText={current_option}
+              selected={current_option}
               options={options}
               onSelected={onSetOption}
             />

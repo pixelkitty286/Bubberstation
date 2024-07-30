@@ -33,6 +33,7 @@
 /obj/item/vending_refill/security
 	machine_name = "Armadyne Peacekeeper Equipment Vendor"
 
+
 /obj/machinery/vending/wardrobe/sec_wardrobe
 	name = "\improper Peacekeeper Outfitting Station"
 	desc = "A vending machine stocked with Lopland's \"Peacekeeper\" security package, including standardized uniforms and general equipment."
@@ -52,6 +53,10 @@
 					/obj/item/storage/backpack/duffelbag/sec = 5,
 					/obj/item/clothing/under/rank/security/officer = 10,
 					/obj/item/clothing/under/rank/security/officer/skirt = 10,
+					/obj/item/clothing/under/rank/security/peacekeeper/skirt = 10,
+					/obj/item/clothing/under/rank/security/peacekeeper/shortskirt = 10,
+					/obj/item/clothing/under/rank/security/peacekeeper/miniskirt = 10,
+					/obj/item/clothing/under/rank/security/peacekeeper/jumpsuit = 10,
 					/obj/item/clothing/under/rank/security/peacekeeper = 10,
 					/obj/item/clothing/under/rank/security/skyrat/utility = 3,
 					/obj/item/clothing/shoes/jackboots/sec = 10,

@@ -1,5 +1,3 @@
-import { useBackend } from '../backend';
-import { UserDetails } from './Vending';
 import {
   BlockQuote,
   Box,
@@ -10,9 +8,12 @@ import {
   Section,
   Stack,
   TextArea,
-} from '../components';
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { formatMoney } from '../format';
 import { Window } from '../layouts';
+import { UserDetails } from './Vending';
 
 type Data = {
   accountName: string;
@@ -173,13 +174,14 @@ export const BountyBoardContent = (props) => {
               />
               <Box>
                 <NumberInput
-                  animate
+                  animated
                   unit="cr"
                   minValue={1}
                   maxValue={1000}
                   value={bountyValue}
+                  step={1}
                   width="80px"
-                  onChange={(e, value) =>
+                  onChange={(value) =>
                     act('bountyVal', {
                       bountyval: value,
                     })

@@ -1,20 +1,20 @@
 // THIS IS A SKYRAT UI FILE
 import { Fragment } from 'react';
-import { useBackend } from '../backend';
+
+import { useBackend, useLocalState } from '../backend';
 import {
-  Icon,
   Box,
   Button,
-  Section,
-  Table,
-  Divider,
-  Grid,
-  ProgressBar,
   Collapsible,
+  Divider,
+  Icon,
+  ProgressBar,
+  Section,
+  Stack,
+  Table,
 } from '../components';
-import { Window } from '../layouts';
 import { TableRow } from '../components/Table';
-import { useState } from 'react';
+import { Window } from '../layouts';
 
 const brassColor = '#DFC69C';
 const tinkerCache = '#B5FD9D';
@@ -33,7 +33,10 @@ const convertPower = (power_in) => {
 };
 
 export const ClockworkSlab = (props) => {
-  const [selectedTab, setSelectedTab] = useState('Servitude');
+  const [selectedTab, setSelectedTab] = useLocalState(
+    'selectedTab',
+    'Servitude',
+  );
   return (
     <Window theme="clockwork" width={860} height={700}>
       <Window.Content>
@@ -308,12 +311,12 @@ const ClockworkOverviewStat = (props) => {
   const { title, iconName, amount, maxAmount, unit, overrideText } = props;
   return (
     <Box height="22px" fontSize="16px">
-      <Grid>
-        <Grid.Column>
+      <Stack>
+        <Stack.Item width="8%">
           <Icon name={iconName} rotation={0} spin={0} />
-        </Grid.Column>
-        <Grid.Column size="2">{title}</Grid.Column>
-        <Grid.Column size="8">
+        </Stack.Item>
+        <Stack.Item width="20%">{title}</Stack.Item>
+        <Stack.Item width="80%">
           <ProgressBar
             value={amount}
             minValue={0}
@@ -326,26 +329,23 @@ const ClockworkOverviewStat = (props) => {
           >
             {overrideText ? overrideText : amount + ' ' + unit}
           </ProgressBar>
-        </Grid.Column>
-      </Grid>
+        </Stack.Item>
+      </Stack>
     </Box>
   );
 };
 
 const ClockworkButtonSelection = (props) => {
-  const [selectedTab, setSelectedTab] = useState({});
+  const [selectedTab, setSelectedTab] = useLocalState('selectedTab', {});
   const tabs = ['Servitude', 'Preservation', 'Structures'];
   return (
     <Table>
       <Table.Row>
         {tabs.map((tab) => (
           <Table.Cell key={tab} collapsing>
-            <Button
-              key={tab}
-              fluid
-              content={tab}
-              onClick={() => setSelectedTab(tab)}
-            />
+            <Button key={tab} fluid onClick={() => setSelectedTab(tab)}>
+              {tab}
+            </Button>
           </Table.Cell>
         ))}
       </Table.Row>

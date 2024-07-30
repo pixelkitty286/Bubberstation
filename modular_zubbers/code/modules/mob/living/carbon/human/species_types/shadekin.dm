@@ -1,8 +1,12 @@
 /datum/species/shadekin
 	name = "Shadekin"
 	id = SPECIES_SHADEKIN
+	eyes_icon = 'modular_zubbers/icons/mob/human/human_face.dmi'
 	say_mod = "mars"
+	mutanttongue = /obj/item/organ/internal/tongue/shadekin
+	mutantears = /obj/item/organ/internal/ears/shadekin
 	mutant_bodyparts = list()
+	mutanteyes = /obj/item/organ/internal/eyes/shadekin
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/shadekin,
@@ -20,6 +24,7 @@
 		TRAIT_SLICK_SKIN,
 		TRAIT_MUTANT_COLORS,
 	)
+	species_language_holder = /datum/language_holder/shadekin
 
 /datum/species/shadekin/get_default_mutant_bodyparts()
 	return list(
@@ -66,5 +71,7 @@
 	shadekin.dna.mutant_bodyparts["ears"] = list(MUTANT_INDEX_NAME = "Shadekin", MUTANT_INDEX_COLOR_LIST = list(main_color, secondary_color, tertiary_color))
 	shadekin.dna.mutant_bodyparts["snout"] = list(MUTANT_INDEX_NAME = "None", MUTANT_INDEX_COLOR_LIST = list(main_color, secondary_color, tertiary_color))
 	shadekin.dna.mutant_bodyparts["tail"] = list(MUTANT_INDEX_NAME = "Shadekin", MUTANT_INDEX_COLOR_LIST = list(main_color, secondary_color, tertiary_color))
+	shadekin.eye_color_left = "#c4c400"
+	shadekin.eye_color_right = "#c4c400"
 	regenerate_organs(shadekin, src, visual_only = TRUE)
 	shadekin.update_body(TRUE)

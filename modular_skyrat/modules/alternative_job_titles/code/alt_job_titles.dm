@@ -29,6 +29,7 @@
 		"Trader",
 		"Off-Duty Crew",
 		"Off-Duty Staff",
+		"Musician",
 	)
 
 /datum/job/atmospheric_technician
@@ -85,6 +86,10 @@
 		"Hydroponicist",
 		"Mycologist",
 		"Junior Botanist",
+		"Apiarist",
+		"Apiculturist",
+		"Beekeeper",
+		"Farmer",
 	)
 
 /datum/job/bouncer
@@ -106,10 +111,12 @@
 		"Commanding Officer",
 		"Site Manager",
 		"Station Commander",
+		"Facility Director",
 	)
 
 /datum/job/cargo_technician
 	alt_titles = list(
+		"Cargo Technician",
 		"Warehouse Technician",
 		"Commodities Trader",
 		"Deck Worker",
@@ -132,6 +139,7 @@
 		"Pontifex",
 		"Rabbi",
 		"Reverend",
+		"Cleric",
 	)
 
 /datum/job/chemist
@@ -173,6 +181,9 @@
 		"Chef",
 		"Culinary Artist",
 		"Sous-Chef",
+		"Baker",
+		"Confectionist",
+		"Pastry Chef",
 	)
 
 /datum/job/coroner
@@ -223,6 +234,10 @@
 		"Physician",
 		"Surgeon",
 		"Medical Student",
+		"Virologist",
+		"Epidemiologist",
+		"Pathologist",
+		"Junior Pathologist",
 	)
 
 /datum/job/engineering_guard //see orderly
@@ -376,6 +391,7 @@
 
 /datum/job/shaft_miner
 	alt_titles = list(
+		"Shaft Miner",
 		"Union Miner",
 		"Excavator",
 		"Drill Technician",
@@ -395,13 +411,15 @@
 		"Apprentice Engineer",
 	)
 
-/datum/job/virologist
+/datum/job/telecomms_specialist
 	alt_titles = list(
-		"Virologist",
-		"Epidemiologist",
-		"Pathologist",
-		"Junior Pathologist",
+		"Telecomms Specialist",
+		"Wireless Operator",
+		"Network Engineer",
+		"Sysadmin",
+		"Tram Technician",
 	)
+
 
 /datum/job/warden
 	alt_titles = list(

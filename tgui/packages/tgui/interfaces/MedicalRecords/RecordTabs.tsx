@@ -1,16 +1,17 @@
 import { filter, sortBy } from 'common/collections';
-import { flow } from 'common/fp';
+import { useState } from 'react';
 import { useBackend, useLocalState } from 'tgui/backend';
 import {
-  Stack,
-  Input,
-  Section,
-  Tabs,
-  NoticeBox,
   Box,
-  Icon,
   Button,
+  Icon,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+  Tabs,
 } from 'tgui/components';
+
 import { JOB2ICON } from '../common/JobToIcon';
 import { isRecordMatch } from '../SecurityRecords/helpers';
 import { MedicalRecord, MedicalRecordData } from './types';
@@ -24,12 +25,12 @@ export const MedicalRecordTabs = (props) => {
     ? 'No records found.'
     : 'No match. Refine your search.';
 
-  const [search, setSearch] = useLocalState('search', '');
+  const [search, setSearch] = useState('');
 
-  const sorted: MedicalRecord[] = flow([
-    filter((record: MedicalRecord) => isRecordMatch(record, search)),
-    sortBy((record: MedicalRecord) => record.name?.toLowerCase()),
-  ])(records);
+  const sorted: MedicalRecord[] = sortBy(
+    filter(records, (record) => isRecordMatch(record, search)),
+    (record) => record.name?.toLowerCase(),
+  );
 
   return (
     <Stack fill vertical>
@@ -87,7 +88,7 @@ const CrewTab = (props: { record: MedicalRecord }) => {
   const { act, data } = useBackend<MedicalRecordData>();
   const { assigned_view } = data;
   const { record } = props;
-  const { crew_ref, name, rank } = record;
+  const { crew_ref, name, trim } = record;
 
   /** Sets the record to preview */
   const selectRecord = (record: MedicalRecord) => {
@@ -102,12 +103,11 @@ const CrewTab = (props: { record: MedicalRecord }) => {
   return (
     <Tabs.Tab
       className="candystripe"
-      label={name}
       onClick={() => selectRecord(record)}
       selected={selectedRecord?.crew_ref === crew_ref}
     >
-      <Box wrap>
-        <Icon name={JOB2ICON[rank] || 'question'} /> {name}
+      <Box>
+        <Icon name={JOB2ICON[trim] || 'question'} /> {name}
       </Box>
     </Tabs.Tab>
   );

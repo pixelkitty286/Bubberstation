@@ -129,10 +129,13 @@
 		if(JOB_UNAVAILABLE_LANGUAGE)
 			return "[jobtitle] is restricted due to your selected languages."
 		if(JOB_UNAVAILABLE_SPECIES)
-			return "[jobtitle] requires you to have [CONFIG_GET(number/flavor_text_character_requirement)] characters of Flavor Text. Go to the character setup and write more."
-			//Bubber edit: Why was this not already here?
+			return "[jobtitle] is restricted due to your selected species."
+		//BUBBER EDIT BEGIN: Silicon flavor text
 		if(JOB_UNAVAILABLE_FLAVOUR)
-			return "[jobtitle] requires you to have flavour text for your character."
+			return "[jobtitle] requires you to have [CONFIG_GET(number/flavor_text_character_requirement)] characters of Flavor Text. Go to the character setup and write more."
+		if(JOB_UNAVAILABLE_FLAVOUR_SILICON)
+			return "[jobtitle] requires you to have [CONFIG_GET(number/silicon_flavor_text_character_requirement)] characters of Silicon Flavor Text. Go to the character setup and write more."
+		//BUBBER EDIT END: Silicon flavor text
 		if(JOB_UNAVAILABLE_AUGMENT)
 			return "[jobtitle] is restricted due to your selected body augments."
 		//SKYRAT EDIT END
@@ -168,7 +171,7 @@
 		return JOB_UNAVAILABLE_LANGUAGE
 	if(job.has_banned_quirk(client.prefs))
 		return JOB_UNAVAILABLE_QUIRK
-	if(job.veteran_only && !SSplayer_ranks.is_veteran(client))
+	if(!CONFIG_GET(flag/bypass_veteran_system) && job.veteran_only && !SSplayer_ranks.is_veteran(client))
 		return JOB_NOT_VETERAN
 	if(job.has_banned_species(client.prefs))
 		return JOB_UNAVAILABLE_SPECIES
@@ -229,7 +232,7 @@
 		is_captain = IS_FULL_CAPTAIN
 		captain_sound = ANNOUNCER_DEPARTMENTAL // SKYRAT EDIT CHANGE - Announcer Sounds
 	// If we don't have an assigned cap yet, check if this person qualifies for some from of captaincy.
-	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(ckey, list(JOB_CAPTAIN)))
+	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(character.ckey, list(JOB_CAPTAIN)))
 		is_captain = IS_ACTING_CAPTAIN
 	if(is_captain != IS_NOT_CAPTAIN)
 		minor_announce(job.get_captaincy_announcement(character), sound_override = captain_sound)
@@ -247,7 +250,6 @@
 	if(humanc) //These procs all expect humans
 		// BEGIN SKYRAT EDIT CHANGE - ALTERNATIVE_JOB_TITLES
 		var/chosen_rank = humanc.client?.prefs.alt_job_titles[rank] || rank
-		GLOB.manifest.inject(humanc, humanc.client)
 		if(SSshuttle.arrivals)
 			SSshuttle.arrivals.QueueAnnounce(humanc, chosen_rank)
 		else
@@ -268,23 +270,21 @@
 		if(SSshuttle.emergency)
 			switch(SSshuttle.emergency.mode)
 				if(SHUTTLE_RECALL, SHUTTLE_IDLE)
-					SSticker.mode.make_antag_chance(humanc)
+					SSdynamic.make_antag_chance(humanc)
 				if(SHUTTLE_CALL)
 					if(SSshuttle.emergency.timeLeft(1) > initial(SSshuttle.emergency_call_time)*0.5)
-						SSticker.mode.make_antag_chance(humanc)
+						SSdynamic.make_antag_chance(humanc)
 
 	if((job.job_flags & JOB_ASSIGN_QUIRKS) && humanc && CONFIG_GET(flag/roundstart_traits))
 		SSquirks.AssignQuirks(humanc, humanc.client)
 
-	log_manifest(character.mind.key,character.mind,character,latejoin = TRUE)
+	if(humanc) // Quirks may change manifest datapoints, so inject only after assigning quirks
+		GLOB.manifest.inject(humanc, humanc.client) // SKYRAT EDIT - Added humanc.client - ALTERNATIVE_JOB_TITLES
 
-	// SKYRAT EDIT ADDITION START
-	if(humanc)
-		for(var/datum/loadout_item/item as anything in loadout_list_to_datums(humanc?.client?.prefs?.loadout_list))
-			if (item.restricted_roles && length(item.restricted_roles) && !(job.title in item.restricted_roles))
-				continue
-			item.post_equip_item(humanc.client?.prefs, humanc)
-	// SKYRAT EDIT END
+	var/area/station/arrivals = GLOB.areas_by_type[/area/station/hallway/secondary/entry]
+	if(humanc && arrivals && !arrivals.power_environ) //arrivals depowered
+		humanc.put_in_hands(new /obj/item/crowbar/large/emergency(get_turf(humanc))) //if hands full then just drops on the floor
+	log_manifest(character.mind.key, character.mind, character, latejoin = TRUE)
 
 /mob/dead/new_player/proc/AddEmploymentContract(mob/living/carbon/human/employee)
 	//TODO:  figure out a way to exclude wizards/nukeops/demons from this.
@@ -339,11 +339,7 @@
 		return
 	client.crew_manifest_delay = world.time + (1 SECONDS)
 
-	if(!GLOB.crew_manifest_tgui)
-		GLOB.crew_manifest_tgui = new /datum/crew_manifest(src)
-
-
-	GLOB.crew_manifest_tgui.ui_interact(src)
+	GLOB.manifest.ui_interact(src)
 
 /mob/dead/new_player/Move()
 	return 0

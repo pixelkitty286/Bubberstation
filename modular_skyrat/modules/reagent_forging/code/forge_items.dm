@@ -1,26 +1,3 @@
-GLOBAL_LIST_INIT(allowed_forging_materials, list(
-	/datum/material/iron,
-	/datum/material/silver,
-	/datum/material/gold,
-	/datum/material/uranium,
-	/datum/material/bananium,
-	/datum/material/titanium,
-	/datum/material/runite,
-	/datum/material/adamantine,
-	/datum/material/mythril,
-	/datum/material/metalhydrogen,
-	/datum/material/runedmetal,
-	/datum/material/bronze,
-	/datum/material/hauntium,
-	/datum/material/alloy/plasteel,
-	/datum/material/alloy/plastitanium,
-	/datum/material/alloy/alien,
-	/datum/material/cobolterium,
-	/datum/material/copporcitite,
-	/datum/material/tinumium,
-	/datum/material/brussite,
-))
-
 /obj/item/forging
 	icon = 'modular_skyrat/modules/reagent_forging/icons/obj/forge_items.dmi'
 	lefthand_file = 'modular_skyrat/modules/reagent_forging/icons/mob/forge_weapon_l.dmi'
@@ -61,7 +38,7 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 		/obj/structure/reagent_crafting_bench
 	)
 
-/obj/item/forging/hammer/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+/obj/item/forging/hammer/afterattack(atom/target, mob/user, click_parameters)
 	. = ..()
 	if(!is_type_in_list(target, fast_attacks))
 		return
@@ -94,6 +71,8 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 	var/times_hit = 0
 	///the required time before each strike to prevent spamming
 	var/average_wait = 1 SECONDS
+	///the number of current perfect hits (really only impacts weapons atm)
+	var/current_perfects = 0
 	///the path of the item that will be spawned upon completion
 	var/spawn_item
 	//because who doesn't want to have a plasma sword?
@@ -191,6 +170,8 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 /obj/item/forging/complete
 	///the path of the item that will be created
 	var/spawning_item
+	///the amount of perfect hits on the item, if it was allowed
+	var/current_perfects = 0
 	//because who doesn't want to have a plasma sword?
 	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_GREYSCALE | MATERIAL_COLOR
 
@@ -307,9 +288,9 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 		new /obj/item/ammo_casing/arrow/(src_turf)
 	qdel(src)
 
-/obj/item/stock_parts/cell/attackby(obj/item/attacking_item, mob/user, params)
+/obj/item/stock_parts/power_store/cell/attackby(obj/item/attacking_item, mob/user, params)
 	if(istype(attacking_item, /obj/item/forging/coil))
-		var/obj/item/stock_parts/cell/crank/new_crank = new(get_turf(src))
+		var/obj/item/stock_parts/power_store/cell/crank/new_crank = new(get_turf(src))
 		new_crank.maxcharge = maxcharge
 		new_crank.charge = charge
 		qdel(attacking_item)
@@ -319,9 +300,6 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 
 /obj/item/stack/tong_act(mob/living/user, obj/item/tool)
 	. = ..()
-	if(!(material_type in GLOB.allowed_forging_materials))
-		user.balloon_alert(user, "can only forge metal!")
-		return
 	if(length(tool.contents) > 0)
 		user.balloon_alert(user, "tongs are full already!")
 		return FALSE
@@ -339,3 +317,43 @@ GLOBAL_LIST_INIT(allowed_forging_materials, list(
 	if(skyrat_obj_flags & ANVIL_REPAIR)
 		forceMove(tool)
 		tool.icon_state = "tong_full"
+
+/obj/item/empty_circuit
+	name = "empty circuit"
+	desc = "This is a circuit that is close to being finished; it just requires some forethought and gold."
+	icon = 'modular_skyrat/modules/reagent_forging/icons/obj/forge_items.dmi'
+	icon_state = "circuit"
+	var/static/recycleable_circuits = typecacheof(list(
+		/obj/item/electronics/airalarm,
+		/obj/item/electronics/firealarm,
+		/obj/item/electronics/apc,
+	))//A typecache of circuits consumable for material
+
+/obj/item/empty_circuit/attackby(obj/item/attacking_item, mob/user, params)
+	if(istype(attacking_item, /obj/item/stack/sheet/mineral/gold))
+		var/obj/item/stack/attacking_stack = attacking_item
+
+		if(user.mind.get_skill_level(/datum/skill/research) < SKILL_LEVEL_JOURNEYMAN)
+			to_chat(user, span_warning("You are not skilled enough in research to create a circuit!"))
+			return
+
+		var/choice = tgui_input_list(user, "Which circuit are you thinking about?", "Circuit Creation", recycleable_circuits)
+		if(!choice)
+			to_chat(user, span_notice("You decide against creating the circuit..."))
+			return
+
+		if(!do_after(user, 5 SECONDS, src))
+			to_chat(user, span_warning("You moved around, destroying the circuit!"))
+			qdel(src)
+			return
+
+		if(!attacking_stack.use(1))
+			to_chat(user, span_warning("You weren't able to use the gold, destroying the circuit!"))
+			qdel(src)
+			return
+
+		new choice(get_turf(src))
+		qdel(src)
+		return
+
+	return ..()

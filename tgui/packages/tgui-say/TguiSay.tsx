@@ -1,12 +1,13 @@
+import { isEscape, KEY } from 'common/keys';
+import { BooleanLike } from 'common/react';
+import { Component, createRef, RefObject } from 'react';
+import { dragStartHandler } from 'tgui/drag';
+
 import { Channel, ChannelIterator } from './ChannelIterator';
 import { ChatHistory } from './ChatHistory';
-import { Component, createRef, RefObject } from 'react';
 import { LINE_LENGTHS, RADIO_PREFIXES, WINDOW_SIZES } from './constants';
+import { windowClose, windowOpen, windowSet } from './helpers';
 import { byondMessages } from './timers';
-import { dragStartHandler } from 'tgui/drag';
-import { windowOpen, windowClose, windowSet } from './helpers';
-import { BooleanLike } from 'common/react';
-import { KEY } from 'common/keys';
 
 type ByondOpen = {
   channel: Channel;
@@ -161,7 +162,7 @@ export class TguiSay extends Component<{}, State> {
       ? prefix + currentValue
       : currentValue;
 
-    this.messages.forceSayMsg(grunt);
+    this.messages.forceSayMsg(grunt, this.channelIterator.current());
     this.reset();
   }
 
@@ -244,9 +245,10 @@ export class TguiSay extends Component<{}, State> {
         this.handleIncrementChannel();
         break;
 
-      case KEY.Escape:
-        this.handleClose();
-        break;
+      default:
+        if (isEscape(event.key)) {
+          this.handleClose();
+        }
     }
   }
 
@@ -272,6 +274,7 @@ export class TguiSay extends Component<{}, State> {
   };
 
   reset() {
+    this.currentPrefix = null;
     this.setValue('');
     this.setSize();
     this.setState({

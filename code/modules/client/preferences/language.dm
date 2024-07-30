@@ -3,6 +3,9 @@
 	savefile_key = "language"
 	savefile_identifier = PREFERENCE_CHARACTER
 
+/datum/preference/choiced/language/create_default_value()
+	return "Random"
+
 /datum/preference/choiced/language/is_accessible(datum/preferences/preferences)
 	if (!..(preferences))
 		return FALSE
@@ -20,6 +23,7 @@
 	//we add uncommon as it's foreigner-only.
 	var/datum/language/uncommon/uncommon_language = /datum/language/uncommon
 	values += initial(uncommon_language.name)
+	values += /datum/language/common::name // SKYRAT EDIT ADDITION START - Let's you select common
 
 	for(var/datum/language/language_type as anything in GLOB.uncommon_roundstart_languages)
 		if(initial(language_type.name) in values)

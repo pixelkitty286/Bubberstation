@@ -19,7 +19,7 @@
 //Mutation classes. Normal being on them, extra being additional mutations with instability and other being stuff you dont want people to fuck with like wizard mutate
 /// A mutation that can be activated and deactived by completing a sequence
 #define MUT_NORMAL 1
-/// A mutation that is in the mutations tab, and can be given and taken away through though the DNA console. Has a 0 before it's name in the mutation section of the dna console
+/// A mutation that is in the mutations tab, and can be given and taken away through though the DNA console. Has a 0 before its name in the mutation section of the dna console
 #define MUT_EXTRA 2
 /// Cannot be interacted with by players through normal means. I.E. wizards mutate
 #define MUT_OTHER 3
@@ -37,8 +37,12 @@
 #define DNA_HAIR_COLOR_BLOCK 6
 #define DNA_FACIAL_HAIRSTYLE_BLOCK 7
 #define DNA_FACIAL_HAIR_COLOR_BLOCK 8
+#define DNA_HAIRSTYLE_GRADIENT_BLOCK 9
+#define DNA_HAIR_COLOR_GRADIENT_BLOCK 10
+#define DNA_FACIAL_HAIRSTYLE_GRADIENT_BLOCK 11
+#define DNA_FACIAL_HAIR_COLOR_GRADIENT_BLOCK 12
 
-#define DNA_UNI_IDENTITY_BLOCKS 8
+#define DNA_UNI_IDENTITY_BLOCKS 12
 
 //SKYRAT EDIT REMOVAL BEGIN - CUSTOMIZATION (moved to modular_skyrat/modules/customization/_DEFINES/DNA.dm)
 /*
@@ -58,21 +62,19 @@
 #define DNA_MOTH_MARKINGS_BLOCK 13
 #define DNA_MUSHROOM_CAPS_BLOCK 14
 #define DNA_POD_HAIR_BLOCK 15
+#define DNA_MONKEY_TAIL_BLOCK 16
+*/ //SKYRAT EDIT REMOVAL END
 
-#define DNA_FEATURE_BLOCKS 15
-*/ //SKYRAT EDIT CHANGE - ORIGINAL
-#define DNA_FEATURE_BLOCKS GLOB.dna_total_feature_blocks
-
+#define DNA_FEATURE_BLOCKS SSaccessories.dna_total_feature_blocks // SKYRAT EDIT CHANGE - ORIGINAL: #define DNA_FEATURE_BLOCKS 16
+// SKYRAT EDIT ADDITION START
 #define DNA_MANDATORY_COLOR_BLOCKS 5
 #define DNA_MUTANT_COLOR_BLOCK 1
 #define DNA_MUTANT_COLOR_2_BLOCK 2
 #define DNA_MUTANT_COLOR_3_BLOCK 3
 #define DNA_ETHEREAL_COLOR_BLOCK 4
 #define DNA_SKIN_COLOR_BLOCK 5
-
 #define DNA_POD_HAIR_BLOCK 15
-
-// SKYRAT EDIT CHANGE END
+// SKYRAT EDIT ADDITION END
 
 #define DNA_SEQUENCE_LENGTH 4
 #define DNA_MUTATION_BLOCKS 8
@@ -96,6 +98,7 @@
 #define ORGAN_SLOT_MONSTER_CORE "monstercore"
 #define ORGAN_SLOT_RIGHT_ARM_AUG "r_arm_device"
 #define ORGAN_SLOT_LEFT_ARM_AUG "l_arm_device" //This one ignores alphabetical order cause the arms should be together
+#define ORGAN_SLOT_SPINE "spine"
 #define ORGAN_SLOT_STOMACH "stomach"
 #define ORGAN_SLOT_STOMACH_AID "stomach_aid"
 #define ORGAN_SLOT_THRUSTERS "thrusters"
@@ -111,7 +114,6 @@
 #define ORGAN_SLOT_EXTERNAL_HORNS "horns"
 #define ORGAN_SLOT_EXTERNAL_WINGS "wings"
 #define ORGAN_SLOT_EXTERNAL_ANTENNAE "antennae"
-#define ORGAN_SLOT_EXTERNAL_BODYMARKINGS "bodymarkings"
 #define ORGAN_SLOT_EXTERNAL_POD_HAIR "pod_hair"
 
 /// Xenomorph organ slots

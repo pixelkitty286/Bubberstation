@@ -11,6 +11,12 @@
 			add_overlay("[model.cyborg_base_icon]_cl")
 	update_altborg_icons()
 
+	if(combat_indicator)
+		add_overlay(GLOB.combat_indicator_overlay)
+
+	if(temporary_flavor_text)
+		add_overlay(GLOB.temporary_flavor_text_indicator)
+
 /mob/living/silicon/robot/proc/update_altborg_icons()
 	var/extra_overlay
 	for(var/i in held_items)
@@ -44,10 +50,8 @@
 					icon_state = "[model.cyborg_base_icon]"
 			cut_overlays()
 
-			if(hat)  // Don't forget your hat
-				var/mutable_appearance/head_overlay = hat.build_worn_icon(default_layer = 20)
-				head_overlay.pixel_y += (hat_offset - 14)
-				add_overlay(head_overlay)
+			if(hat_overlay)  // Don't forget your hat
+				add_overlay(hat_overlay)
 
 	else
 		icon_state = "[model.cyborg_base_icon]"
@@ -62,4 +66,4 @@
 		icon_state = "[model.cyborg_base_icon]-wreck"
 
 
-	update_fire()
+	update_appearance(UPDATE_OVERLAYS)

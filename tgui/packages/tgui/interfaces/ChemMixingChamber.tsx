@@ -1,4 +1,4 @@
-import { useBackend } from '../backend';
+import { useState } from 'react';
 import {
   AnimatedNumber,
   Box,
@@ -6,11 +6,12 @@ import {
   NumberInput,
   Section,
   Stack,
-} from '../components';
+} from 'tgui-core/components';
+import { round, toFixed } from 'tgui-core/math';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { round, toFixed } from 'common/math';
-import { BooleanLike } from 'common/react';
-import { useState } from 'react';
 
 type Reagent = {
   name: string;
@@ -52,7 +53,7 @@ export const ChemMixingChamber = (props) => {
                       value={round(targetTemp, 0.1)}
                       minValue={0}
                       maxValue={1000}
-                      onDrag={(e, value) =>
+                      onDrag={(value) =>
                         act('temperature', {
                           target: value,
                         })
@@ -124,7 +125,7 @@ export const ChemMixingChamber = (props) => {
                         step={1}
                         stepPixelSize={3}
                         width="39px"
-                        onDrag={(e, value) => setReagentQuantity(value)}
+                        onDrag={(value) => setReagentQuantity(value)}
                       />
                       <Box inline mr={1} />
                     </Stack.Item>

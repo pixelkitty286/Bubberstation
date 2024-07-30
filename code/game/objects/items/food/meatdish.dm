@@ -34,6 +34,7 @@
 	foodtypes = SEAFOOD
 	eatverbs = list("bite", "chew", "gnaw", "swallow", "chomp")
 	w_class = WEIGHT_CLASS_SMALL
+	starting_reagent_purity = 1.0
 
 /obj/item/food/fishmeat/carp
 	name = "carp fillet"
@@ -88,6 +89,7 @@
 	name = "donkfillet"
 	desc = "The dreaded donkfish fillet. No sane spaceman would eat this, and it does not get better when cooked."
 	icon_state = "donkfillet"
+	starting_reagent_purity = 0.3
 
 /obj/item/food/fishmeat/octopus
 	name = "octopus tentacle"
@@ -554,6 +556,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	venue_value = FOOD_PRICE_CHEAP
 	crafting_complexity = FOOD_COMPLEXITY_2
+	custom_price = PAYCHECK_CREW * 0.6
 
 /obj/item/food/sausage/make_processable()
 	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/salami, 6, 3 SECONDS, table_required = TRUE,  screentip_verb = "Slice")
@@ -734,6 +737,7 @@
 	foodtypes = MEAT | DAIRY | GRAIN
 	w_class = WEIGHT_CLASS_TINY
 	crafting_complexity = FOOD_COMPLEXITY_3
+	custom_price = PAYCHECK_CREW
 
 /obj/item/food/bbqribs
 	name = "bbq ribs"
@@ -935,6 +939,39 @@
 	)
 	tastes = list("beef" = 3, "mushrooms" = 1, "pancetta" = 1)
 	foodtypes = MEAT | VEGETABLES | GRAIN
+	w_class = WEIGHT_CLASS_SMALL
+	venue_value = FOOD_PRICE_NORMAL
+	crafting_complexity = FOOD_COMPLEXITY_5
+
+/obj/item/food/korta_wellington
+	name = "Kotra wellington"
+	desc = "A luxurious log of beef, covered in a fine mushroom duxelle and pancetta ham, then bound in korta pastry."
+	icon = 'icons/obj/food/meat.dmi'
+	icon_state = "korta_wellington"
+	food_reagents = list(
+		/datum/reagent/consumable/nutriment/protein = 21,
+		/datum/reagent/consumable/nutriment/vitamin = 6,
+	)
+	tastes = list("beef" = 3, "mushrooms" = 1, "pancetta" = 1)
+	foodtypes = MEAT | VEGETABLES | NUTS
+	w_class = WEIGHT_CLASS_NORMAL
+	venue_value = FOOD_PRICE_EXOTIC
+	crafting_complexity = FOOD_COMPLEXITY_5
+
+/obj/item/food/korta_wellington/make_processable()
+	AddElement(/datum/element/processable, TOOL_KNIFE,  /obj/item/food/korta_wellington_slice, 3, 3 SECONDS, table_required = TRUE,  screentip_verb = "Cut")
+
+/obj/item/food/korta_wellington_slice
+	name = "korta wellington slice"
+	desc = "A slice of korta & beef wellington, topped with a rich gravy. Simply delicious."
+	icon = 'icons/obj/food/meat.dmi'
+	icon_state = "korta_wellington_slice"
+	food_reagents = list(
+		/datum/reagent/consumable/nutriment/protein = 7,
+		/datum/reagent/consumable/nutriment/vitamin = 2,
+	)
+	tastes = list("beef" = 3, "mushrooms" = 1, "pancetta" = 1)
+	foodtypes = MEAT | VEGETABLES | NUTS
 	w_class = WEIGHT_CLASS_SMALL
 	venue_value = FOOD_PRICE_NORMAL
 	crafting_complexity = FOOD_COMPLEXITY_5

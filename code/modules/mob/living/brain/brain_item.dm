@@ -6,7 +6,6 @@
 	throw_speed = 3
 	throw_range = 5
 	layer = ABOVE_MOB_LAYER
-	plane = GAME_PLANE_UPPER
 	zone = BODY_ZONE_HEAD
 	slot = ORGAN_SLOT_BRAIN
 	organ_flags = ORGAN_ORGANIC | ORGAN_VITAL
@@ -41,13 +40,26 @@
 
 	/// Size modifier for the sprite
 	var/brain_size = 1
+	/// Can this brain become smooth after it gets washed
+	var/can_smoothen_out = TRUE
+	/// We got smooth from being washed
+	var/smooth_brain = FALSE
 
 /obj/item/organ/internal/brain/Initialize(mapload)
 	. = ..()
 	// Brain size logic
 	transform = transform.Scale(brain_size)
 
-/obj/item/organ/internal/brain/Insert(mob/living/carbon/brain_owner, special = FALSE, drop_if_replaced = TRUE, no_id_transfer = FALSE)
+/obj/item/organ/internal/brain/examine()
+	. = ..()
+	if (smooth_brain)
+		. += span_notice("All the pesky wrinkles are gone. Now it just needs a good drying...")
+	if(brain_size < 1)
+		. += span_notice("It is a bit on the smaller side...")
+	if(brain_size > 1)
+		. += span_notice("It is bigger than average...")
+
+/obj/item/organ/internal/brain/mob_insert(mob/living/carbon/brain_owner, special = FALSE, movement_flags)
 	. = ..()
 	if(!.)
 		return
@@ -55,7 +67,7 @@
 	name = initial(name)
 
 	// Special check for if you're trapped in a body you can't control because it's owned by a ling.
-	if(brain_owner?.mind?.has_antag_datum(/datum/antagonist/changeling) && !no_id_transfer)
+	if(IS_CHANGELING(brain_owner) && !(movement_flags & NO_ID_TRANSFER))
 		if(brainmob && !(brain_owner.stat == DEAD || (HAS_TRAIT(brain_owner, TRAIT_DEATHCOMA))))
 			to_chat(brainmob, span_danger("You can't feel your body! You're still just a brain!"))
 		forceMove(brain_owner)
@@ -102,29 +114,15 @@
 	//Update the body's icon so it doesnt appear debrained anymore
 	brain_owner.update_body_parts()
 
-/obj/item/organ/internal/brain/on_insert(mob/living/carbon/organ_owner, special)
-	// Are we inserting into a new mob from a head?
-	// If yes, we want to quickly steal the brainmob from the head before we do anything else.
-	// This is usually stuff like reattaching dismembered/amputated heads.
-	if(istype(loc, /obj/item/bodypart/head))
-		var/obj/item/bodypart/head/brain_holder = loc
-		if(brain_holder.brainmob)
-			brainmob = brain_holder.brainmob
-			brain_holder.brainmob = null
-			brainmob.container = null
-			brainmob.forceMove(src)
-
-	return ..()
-
-/obj/item/organ/internal/brain/Remove(mob/living/carbon/brain_owner, special = 0, no_id_transfer = FALSE)
+/obj/item/organ/internal/brain/mob_remove(mob/living/carbon/organ_owner, special, movement_flags)
 	// Delete skillchips first as parent proc sets owner to null, and skillchips need to know the brain's owner.
-	if(!QDELETED(brain_owner) && length(skillchips))
+	if(!QDELETED(organ_owner) && length(skillchips))
 		if(!special)
-			to_chat(brain_owner, span_notice("You feel your skillchips enable emergency power saving mode, deactivating as your brain leaves your body..."))
-		for(var/chip in skillchips)
-			var/obj/item/skillchip/skillchip = chip
-			// Run the try_ proc with force = TRUE.
-			skillchip.try_deactivate_skillchip(silent = special, force = TRUE)
+			to_chat(organ_owner, span_notice("You feel your skillchips enable emergency power saving mode, deactivating as your brain leaves your body..."))
+			for(var/chip in skillchips)
+				var/obj/item/skillchip/skillchip = chip
+				// Run the try_ proc with force = TRUE.
+				skillchip.try_deactivate_skillchip(silent = special, force = TRUE)
 
 	. = ..()
 
@@ -133,10 +131,15 @@
 		BT.on_lose(TRUE)
 		BT.owner = null
 
-	if((!gc_destroyed || (owner && !owner.gc_destroyed)) && !no_id_transfer)
-		transfer_identity(brain_owner)
-	brain_owner.update_body_parts()
-	brain_owner.clear_mood_event("brain_damage")
+	if((!gc_destroyed || (owner && !owner.gc_destroyed)) && !(movement_flags & NO_ID_TRANSFER))
+		transfer_identity(organ_owner)
+	if(!special)
+		organ_owner.update_body_parts()
+		organ_owner.clear_mood_event("brain_damage")
+
+/obj/item/organ/internal/brain/update_icon_state()
+	icon_state = "[initial(icon_state)][smooth_brain ? "-smooth_brain" : ""]"
+	return ..()
 
 /obj/item/organ/internal/brain/proc/transfer_identity(mob/living/L)
 	name = "[L.name]'s [initial(name)]"
@@ -380,6 +383,10 @@
 
 /obj/item/organ/internal/brain/machine_wash(obj/machinery/washing_machine/brainwasher)
 	. = ..()
+	if (can_smoothen_out && !smooth_brain)
+		smooth_brain = TRUE
+		update_appearance()
+
 	if(HAS_TRAIT(brainwasher, TRAIT_BRAINWASHING))
 		set_organ_damage(0)
 		cure_all_traumas(TRAUMA_RESILIENCE_LOBOTOMY)
@@ -401,12 +408,21 @@
 /obj/item/organ/internal/brain/primitive //No like books and stompy metal men
 	name = "primitive brain"
 	desc = "This juicy piece of meat has a clearly underdeveloped frontal lobe."
-	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP, TRAIT_PRIMITIVE) // No literacy
+	organ_traits = list(
+		TRAIT_ADVANCEDTOOLUSER,
+		TRAIT_CAN_STRIP,
+		TRAIT_PRIMITIVE, // No literacy
+		TRAIT_FORBID_MINING_SHUTTLE_CONSOLE_OUTSIDE_STATION,
+		TRAIT_EXPERT_FISHER, // live off land, fish from river
+		TRAIT_ROUGHRIDER, // ride beast, chase down prey, flee from danger
+		TRAIT_BEAST_EMPATHY, // know the way of beast, calm with food
+	)
 
 /obj/item/organ/internal/brain/golem
 	name = "crystalline matrix"
 	desc = "This collection of sparkling gems somehow allows a golem to think."
 	icon_state = "adamantine_resonator"
+	can_smoothen_out = FALSE
 	color = COLOR_GOLEM_GRAY
 	organ_flags = ORGAN_MINERAL
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_LITERATE, TRAIT_CAN_STRIP, TRAIT_ROCK_METAMORPHIC)
@@ -415,13 +431,14 @@
 	name = "lustrous brain"
 	desc = "This is your brain on bluespace dust. Not even once."
 	icon_state = "random_fly_4"
+	can_smoothen_out = FALSE
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_LITERATE, TRAIT_CAN_STRIP)
 
-/obj/item/organ/internal/brain/lustrous/before_organ_replacement(mob/living/carbon/organ_owner, special)
+/obj/item/organ/internal/brain/lustrous/on_mob_remove(mob/living/carbon/organ_owner, special)
 	. = ..()
 	organ_owner.cure_trauma_type(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 
-/obj/item/organ/internal/brain/lustrous/on_insert(mob/living/carbon/organ_owner, special)
+/obj/item/organ/internal/brain/lustrous/on_mob_insert(mob/living/carbon/organ_owner, special)
 	. = ..()
 	organ_owner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 
@@ -492,6 +509,11 @@
 		arguments = args.Copy(3)
 	. = brain_gain_trauma(trauma, resilience, arguments)
 
+/obj/item/organ/internal/brain/vv_edit_var(var_name, var_value)
+	. = ..()
+	if(var_name == NAMEOF(src, smooth_brain))
+		update_appearance()
+
 //Direct trauma gaining proc. Necessary to assign a trauma to its brain. Avoid using directly.
 /obj/item/organ/internal/brain/proc/brain_gain_trauma(datum/brain_trauma/trauma, resilience, list/arguments)
 	if(!can_gain_trauma(trauma, resilience))
@@ -515,6 +537,7 @@
 		actual_trauma.owner = owner
 		SEND_SIGNAL(owner, COMSIG_CARBON_GAIN_TRAUMA, trauma)
 		actual_trauma.on_gain()
+		log_game("[key_name_and_tag(owner)] has gained the following brain trauma: [trauma.type]")
 	if(resilience)
 		actual_trauma.resilience = resilience
 	SSblackbox.record_feedback("tally", "traumas", 1, actual_trauma.type)
@@ -580,6 +603,6 @@
 /// Brains REALLY like ghosting people. we need special tricks to avoid that, namely removing the old brain with no_id_transfer
 /obj/item/organ/internal/brain/replace_into(mob/living/carbon/new_owner)
 	var/obj/item/organ/internal/brain/old_brain = new_owner.get_organ_slot(ORGAN_SLOT_BRAIN)
-	old_brain.Remove(new_owner, special = TRUE, no_id_transfer = TRUE)
+	old_brain.Remove(new_owner, special = TRUE, movement_flags = NO_ID_TRANSFER)
 	qdel(old_brain)
-	return Insert(new_owner, special = TRUE, drop_if_replaced = FALSE, no_id_transfer = TRUE)
+	return Insert(new_owner, special = TRUE, movement_flags = NO_ID_TRANSFER | DELETE_IF_REPLACED)

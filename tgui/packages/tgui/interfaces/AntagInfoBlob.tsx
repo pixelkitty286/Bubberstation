@@ -1,4 +1,3 @@
-import { useBackend } from '../backend';
 import {
   Box,
   Collapsible,
@@ -6,13 +5,12 @@ import {
   LabeledList,
   Section,
   Stack,
-} from '../components';
-import { Objective } from './common/Objectives';
-// SKYRAT EDIT BEGIN
-import { Rules } from './AntagInfoRules';
-// SKYRAT EDIT END
+} from 'tgui-core/components';
 
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { Rules } from './AntagInfoRules'; // SKYRAT EDIT ADDITION
+import { Objective } from './common/Objectives';
 
 type Data = {
   color: string;

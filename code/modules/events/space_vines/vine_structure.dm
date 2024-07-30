@@ -7,7 +7,6 @@
 	anchored = TRUE
 	density = FALSE
 	layer = SPACEVINE_LAYER
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	mouse_opacity = MOUSE_OPACITY_OPAQUE //Clicking anywhere on the turf is good enough
 	pass_flags = PASSTABLE | PASSGRILLE
 	max_integrity = 50
@@ -166,7 +165,7 @@
 	if(!istype(stepturf))
 		return
 
-	if(isspaceturf(stepturf) || isopenspaceturf(stepturf) || !stepturf.Enter(src))
+	if(is_space_or_openspace(stepturf) || !stepturf.Enter(src))
 		return
 	if(ischasm(stepturf) && !HAS_TRAIT(stepturf, TRAIT_CHASM_STOPPED))
 		return

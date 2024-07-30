@@ -12,7 +12,7 @@
 	icon_state = "tongue"
 	modifies_speech = TRUE
 
-/obj/item/organ/internal/tongue/dog/Insert(mob/living/carbon/signer, special = FALSE, drop_if_replaced = TRUE)
+/obj/item/organ/internal/tongue/dog/Insert(mob/living/carbon/signer, special = FALSE, movement_flags = DELETE_IF_REPLACED)
 	. = ..()
 	signer.verb_ask = "arfs"
 	signer.verb_exclaim = "wans"
@@ -27,6 +27,20 @@
 	speaker.verb_sing = initial(verb_sing)
 	speaker.verb_yell = initial(verb_yell)
 
+/obj/item/organ/internal/tongue/cat/Insert(mob/living/carbon/signer, special = FALSE, movement_flags = DELETE_IF_REPLACED)
+	. = ..()
+	signer.verb_ask = "mrrps"
+	signer.verb_exclaim = "mrrowls"
+	signer.verb_whisper = "purrs"
+	signer.verb_yell = "yowls"
+
+/obj/item/organ/internal/tongue/cat/Remove(mob/living/carbon/speaker, special = FALSE)
+	. = ..()
+	speaker.verb_ask = initial(verb_ask)
+	speaker.verb_exclaim = initial(verb_exclaim)
+	speaker.verb_whisper = initial(verb_whisper)
+	speaker.verb_yell = initial(verb_yell)
+
 /obj/item/organ/internal/tongue/avian
 	name = "avian tongue"
 	desc = "A short and stubby tongue that craves seeds."
@@ -34,7 +48,7 @@
 	icon_state = "tongue"
 	modifies_speech = TRUE
 
-/obj/item/organ/internal/tongue/avian/Insert(mob/living/carbon/signer, special = FALSE, drop_if_replaced = TRUE)
+/obj/item/organ/internal/tongue/avian/Insert(mob/living/carbon/signer, special = FALSE, movement_flags = DELETE_IF_REPLACED)
 	. = ..()
 	signer.verb_ask = "peeps"
 	signer.verb_exclaim = "squawks"
@@ -54,12 +68,41 @@
 /obj/item/organ/internal/tongue/human
 	say_mod = "says"
 
+/obj/item/organ/internal/tongue/lizard/robot
+	name = "robotic lizard voicebox"
+	desc = "A lizard-like voice synthesizer that can interface with organic lifeforms."
+	organ_flags = ORGAN_ROBOTIC
+	icon_state = "tonguerobot"
+	say_mod = "hizzes"
+	attack_verb_continuous = list("beeps", "boops")
+	attack_verb_simple = list("beep", "boop")
+	modifies_speech = TRUE
+	taste_sensitivity = 25 // not as good as an organic tongue
+	voice_filter = "alimiter=0.9,acompressor=threshold=0.2:ratio=20:attack=10:release=50:makeup=2,highpass=f=1000"
+
+/obj/item/organ/internal/tongue/lizard/robot/can_speak_language(language)
+	return TRUE // THE MAGIC OF ELECTRONICS
+
+/obj/item/organ/internal/tongue/lizard/robot/modify_speech(datum/source, list/speech_args)
+	. = ..()
+	speech_args[SPEECH_SPANS] |= SPAN_ROBOT
+
+/obj/item/organ/internal/tongue/lizard/cybernetic
+	name = "forked cybernetic tongue"
+	icon = 'modular_skyrat/modules/organs/icons/cyber_tongue.dmi'
+	icon_state = "cybertongue-lizard"
+	desc =  "A fully-functional forked synthetic tongue, encased in soft silicone. Features include high-resolution vocals and taste receptors."
+	organ_flags = ORGAN_ROBOTIC
+	// Not as good as organic tongues, not as bad as the robotic voicebox.
+	taste_sensitivity = 20
+	modifies_speech = TRUE
+
 /obj/item/organ/internal/tongue/cybernetic
 	name = "cybernetic tongue"
 	icon = 'modular_skyrat/modules/organs/icons/cyber_tongue.dmi'
 	icon_state = "cybertongue"
 	desc =  "A fully-functional synthetic tongue, encased in soft silicone. Features include high-resolution vocals and taste receptors."
-	organ_flags = ORGAN_ROBOTIC | ORGAN_SYNTHETIC_FROM_SPECIES
+	organ_flags = ORGAN_ROBOTIC
 	say_mod = "says"
 	// Not as good as organic tongues, not as bad as the robotic voicebox.
 	taste_sensitivity = 20

@@ -1,7 +1,8 @@
 // THIS IS A SKYRAT UI FILE
 import { sortBy } from 'common/collections';
+
 import { useBackend } from '../backend';
-import { Box, Button, Section, Table, Icon } from '../components';
+import { Box, Button, Icon, Section, Table } from '../components';
 import { COLORS } from '../constants';
 import { Window } from '../layouts';
 
@@ -87,7 +88,7 @@ export const CrewConsoleSkyrat = () => {
 
 const CrewTable = (props) => {
   const { act, data } = useBackend();
-  const sensors = sortBy((s) => s.ijob)(data.sensors ?? []);
+  const sensors = sortBy(data.sensors ?? [], (s) => s.ijob);
   return (
     <Table cellpadding="3">
       <Table.Row>

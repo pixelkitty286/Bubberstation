@@ -1,17 +1,17 @@
 // THIS IS A SKYRAT UI FILE
 import {
-  FeatureDropdownInput,
-  Feature,
-  FeatureNumberInput,
   CheckboxInput,
-  FeatureTriColorInput,
-  FeatureTriBoolInput,
+  Feature,
+  FeatureChoiced,
+  FeatureChoicedServerData,
+  FeatureNumberInput,
   FeatureNumeric,
   FeatureToggle,
-  FeatureChoiced,
+  FeatureTriBoolInput,
+  FeatureTriColorInput,
   FeatureValueProps,
-  FeatureChoicedServerData,
 } from '../../base';
+import { FeatureDropdownInput } from '../../dropdowns';
 
 export const feature_penis: Feature<string> = {
   name: 'Penis Choice',
@@ -214,6 +214,11 @@ export const erp_status_pref_nc: FeatureChoiced = {
 
 export const erp_status_pref_v: FeatureChoiced = {
   name: 'ERP Vore Status',
+  component: FeatureDropdownInput,
+};
+
+export const erp_status_pref_hypnosis: FeatureChoiced = {
+  name: 'ERP Hypnosis Status',
   component: FeatureDropdownInput,
 };
 

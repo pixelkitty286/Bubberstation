@@ -207,7 +207,7 @@ Medical HUD! Basic mode needs suit sensors on.
 	if(HAS_TRAIT(src, TRAIT_XENO_HOST))
 		holder.icon_state = "hudxeno"
 	else if(stat == DEAD || (HAS_TRAIT(src, TRAIT_FAKEDEATH)))
-		if(can_defib_client())
+		if(HAS_TRAIT(src, TRAIT_MIND_TEMPORARILY_GONE) || can_defib_client())
 			holder.icon_state = "huddefib"
 		else
 			holder.icon_state = "huddead"
@@ -290,7 +290,7 @@ Security HUDs! Basic mode shows only the job.
 
 /mob/living/proc/sec_hud_set_implants()
 	var/image/holder
-	for(var/i in list(IMPSEC_FIRST_HUD, IMPLOYAL_HUD, IMPSEC_SECOND_HUD))
+	for(var/i in (list(IMPSEC_FIRST_HUD, IMPLOYAL_HUD, IMPSEC_SECOND_HUD) & hud_list))
 		holder = hud_list[i]
 		holder.icon_state = null
 		set_hud_image_inactive(i)

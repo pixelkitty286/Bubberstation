@@ -1,40 +1,43 @@
 import { BooleanLike } from 'common/react';
-import { formatSiUnit } from '../format';
+import { useState } from 'react';
+
 import { useBackend } from '../backend';
 import {
+  AnimatedNumber,
+  Box,
   Button,
+  Collapsible,
   ColorBox,
+  Dimmer,
+  Dropdown,
+  Icon,
   LabeledList,
+  NoticeBox,
+  NumberInput,
   ProgressBar,
   Section,
-  Collapsible,
-  Box,
-  Icon,
   Stack,
   Table,
-  Dimmer,
-  NumberInput,
-  AnimatedNumber,
-  Dropdown,
-  NoticeBox,
 } from '../components';
+import { formatSiUnit } from '../format';
 import { Window } from '../layouts';
-import { useState } from 'react';
 
 type MODsuitData = {
   // Static
   ui_theme: string;
   control: string;
   complexity_max: number;
-  helmet: string;
-  chestplate: string;
-  gauntlets: string;
-  boots: string;
+  parts: PartData[];
   // Dynamic
   suit_status: SuitStatus;
   user_status: UserStatus;
   module_custom_status: ModuleCustomStatus;
   module_info: Module[];
+};
+
+type PartData = {
+  slot: string;
+  name: string;
 };
 
 type SuitStatus = {
@@ -97,7 +100,7 @@ type Module = {
   pinned: BooleanLike;
   idle_power: number;
   active_power: number;
-  use_power: number;
+  use_energy: number;
   module_complexity: number;
   cooldown_time: number;
   cooldown: number;
@@ -170,9 +173,10 @@ const ConfigureNumberEntry = (props) => {
       value={value}
       minValue={-50}
       maxValue={50}
+      step={1}
       stepPixelSize={5}
       width="39px"
-      onChange={(e, value) =>
+      onChange={(value) =>
         act('configure', {
           key: name,
           value: value,
@@ -224,7 +228,7 @@ const ConfigureListEntry = (props) => {
   const { act } = useBackend();
   return (
     <Dropdown
-      displayText={value}
+      selected={value}
       options={values}
       onSelected={(value) =>
         act('configure', {
@@ -237,6 +241,22 @@ const ConfigureListEntry = (props) => {
   );
 };
 
+const ConfigurePinEntry = (props) => {
+  const { name, value, module_ref } = props;
+  const { act } = useBackend();
+  return (
+    <Button
+      onClick={() =>
+        act('configure', { key: name, value: !value, ref: module_ref })
+      }
+      icon="thumbtack"
+      selected={value}
+      tooltip="Pin"
+      tooltipPosition="left"
+    />
+  );
+};
+
 const ConfigureDataEntry = (props) => {
   const { name, display_name, type, value, values, module_ref } = props;
   const configureEntryTypes = {
@@ -244,6 +264,7 @@ const ConfigureDataEntry = (props) => {
     bool: <ConfigureBoolEntry {...props} />,
     color: <ConfigureColorEntry {...props} />,
     list: <ConfigureListEntry {...props} />,
+    pin: <ConfigurePinEntry {...props} />,
   };
   return (
     <LabeledList.Item label={display_name}>
@@ -384,11 +405,11 @@ const SuitStatusSection = (props) => {
                 : cell_charge_current === 1e31
                   ? 'Infinite'
                   : `${formatSiUnit(
-                      cell_charge_current * 1000,
+                      cell_charge_current,
                       0,
                       'J',
                     )} of ${formatSiUnit(
-                      cell_charge_max * 1000,
+                      cell_charge_max,
                       0,
                       'J',
                     )} (${charge_percent}%)`}
@@ -457,7 +478,7 @@ const SuitStatusSection = (props) => {
 
 const HardwareSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
-  const { control, helmet, chestplate, gauntlets, boots } = data;
+  const { control } = data;
   const { ai_name, core_name } = data.suit_status;
   return (
     <Section title="Hardware" style={{ textTransform: 'capitalize' }}>
@@ -469,16 +490,25 @@ const HardwareSection = (props) => {
           {core_name || 'No Core Detected'}
         </LabeledList.Item>
         <LabeledList.Item label="Control Unit">{control}</LabeledList.Item>
-        <LabeledList.Item label="Helmet">{helmet || 'None'}</LabeledList.Item>
-        <LabeledList.Item label="Chestplate">
-          {chestplate || 'None'}
-        </LabeledList.Item>
-        <LabeledList.Item label="Gauntlets">
-          {gauntlets || 'None'}
-        </LabeledList.Item>
-        <LabeledList.Item label="Boots">{boots || 'None'}</LabeledList.Item>
+        <ModParts />
       </LabeledList>
     </Section>
+  );
+};
+
+const ModParts = (props) => {
+  const { act, data } = useBackend<MODsuitData>();
+  const { parts } = data;
+  return (
+    <>
+      {parts.map((part) => {
+        return (
+          <LabeledList.Item key={part.slot} label={part.slot + ' Slot'}>
+            {part.name}
+          </LabeledList.Item>
+        );
+      })}
+    </>
   );
 };
 
@@ -669,13 +699,13 @@ const ModuleSection = (props) => {
       ) : (
         <Table>
           <Table.Row header>
-            <Table.Cell colspan={3}>Actions</Table.Cell>
+            <Table.Cell colSpan={3}>Actions</Table.Cell>
             <Table.Cell>Name</Table.Cell>
             <Table.Cell width={1} textAlign="center">
               <Button
                 color="transparent"
                 icon="plug"
-                tooltip="Idle Power Cost"
+                tooltip="Idle Power Cost (Watts)"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -683,7 +713,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="lightbulb"
-                tooltip="Active Power Cost"
+                tooltip="Active Power Cost (Watts)"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -691,7 +721,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="bolt"
-                tooltip="Use Power Cost"
+                tooltip="Use Energy Cost (Joules)"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -762,11 +792,15 @@ const ModuleSection = (props) => {
                     />
                   )}
                 </Table.Cell>
-                <Table.Cell textAlign="center">{module.idle_power}</Table.Cell>
                 <Table.Cell textAlign="center">
-                  {module.active_power}
+                  {formatSiUnit(module.idle_power, 0)}
                 </Table.Cell>
-                <Table.Cell textAlign="center">{module.use_power}</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {formatSiUnit(module.active_power, 0)}
+                </Table.Cell>
+                <Table.Cell textAlign="center">
+                  {formatSiUnit(module.use_energy, 0)}
+                </Table.Cell>
                 <Table.Cell textAlign="center">
                   {module.module_complexity}
                 </Table.Cell>

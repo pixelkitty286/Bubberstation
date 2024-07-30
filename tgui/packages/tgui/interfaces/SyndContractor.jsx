@@ -1,4 +1,5 @@
-import { FakeTerminal } from '../components/FakeTerminal';
+import { useState } from 'react';
+
 import { useBackend } from '../backend';
 import {
   Box,
@@ -10,11 +11,12 @@ import {
   Modal,
   NoticeBox,
   Section,
-  Tabs,
+  Stack,
   Table,
+  Tabs,
 } from '../components';
+import { FakeTerminal } from '../components/FakeTerminal';
 import { NtosWindow } from '../layouts';
-import { useState } from 'react';
 
 const CONTRACT_STATUS_INACTIVE = 1;
 const CONTRACT_STATUS_ACTIVE = 2;
@@ -180,8 +182,8 @@ export const StatusPane = (props) => {
         </Box>
       }
     >
-      <Grid>
-        <Grid.Column size={0.85}>
+      <Stack>
+        <Stack.Item grow>
           <LabeledList>
             <LabeledList.Item
               label="TC Available"
@@ -199,16 +201,16 @@ export const StatusPane = (props) => {
               {String(data.earned_tc)}
             </LabeledList.Item>
           </LabeledList>
-        </Grid.Column>
-        <Grid.Column>
+        </Stack.Item>
+        <Stack.Item grow>
           <LabeledList>
             <LabeledList.Item label="Contracts Completed">
               {String(data.contracts_completed)}
             </LabeledList.Item>
             <LabeledList.Item label="Current Status">ACTIVE</LabeledList.Item>
           </LabeledList>
-        </Grid.Column>
-      </Grid>
+        </Stack.Item>
+      </Stack>
     </Section>
   );
 };

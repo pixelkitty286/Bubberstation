@@ -1,18 +1,16 @@
+import { useState } from 'react';
+import { BlockQuote, Button, Section, Stack, Tabs } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
-import { multiline } from 'common/string';
-import { GenericUplink, Item } from './Uplink/GenericUplink';
-import { BlockQuote, Button, Section, Stack, Tabs } from '../components';
-import { BooleanLike } from 'common/react';
 import { Window } from '../layouts';
+import { Rules } from './AntagInfoRules'; // SKYRAT EDIT ADDITION
 import {
-  ObjectivePrintout,
   Objective,
+  ObjectivePrintout,
   ReplaceObjectivesButton,
 } from './common/Objectives';
-import { useState } from 'react';
-// SKYRAT EDIT BEGIN
-import { Rules } from './AntagInfoRules';
-// SKYRAT EDIT END
+import { GenericUplink, Item } from './Uplink/GenericUplink';
 
 const allystyle = {
   fontWeight: 'bold',
@@ -83,12 +81,12 @@ const FlavorSection = (props) => {
           mt={-0.5}
           icon="hammer"
           /* SKYRAT EDIT: ORIGINAL TOOLTIP
-          tooltip={multiline`
+          tooltip={`
             This is a gameplay suggestion for bored ais.
             You don't have to follow it, unless you want some
             ideas for how to spend the round.`}
           */
-          tooltip={multiline`
+          tooltip={`
             Please refer to the 'Antagonist Policy' section of the wiki
             if you have any questions.`}
           tooltipPosition="bottom-start"

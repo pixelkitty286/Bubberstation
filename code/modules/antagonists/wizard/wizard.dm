@@ -25,6 +25,8 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	show_to_ghosts = TRUE
 	/// This mob's Grand Ritual ability
 	var/datum/action/cooldown/grand_ritual/ritual
+	/// Perks that wizard learn
+	var/list/perks = list()
 
 /datum/antagonist/wizard/New()
 	if(move_to_lair) // kick off loading of your lair, if you want to be moved to it
@@ -262,6 +264,7 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	name = "Wizard Apprentice"
 	antag_hud_name = "apprentice"
 	can_assign_self_objectives = FALSE
+	move_to_lair = FALSE
 	var/datum/mind/master
 	var/school = APPRENTICE_DESTRUCTION
 	outfit_type = /datum/outfit/wizard/apprentice

@@ -1,4 +1,4 @@
-import { useBackend, useLocalState } from '../backend';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,8 +6,10 @@ import {
   LabeledList,
   NumberInput,
   Section,
-} from '../components';
-import { capitalizeAll } from 'common/string';
+} from 'tgui-core/components';
+import { capitalizeAll } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type Product = {
@@ -21,10 +23,10 @@ type Category = {
 };
 
 type Data = {
-  current_volume: Number;
+  current_volume: number;
   product_name: string;
-  min_volume: Number;
-  max_volume: Number;
+  min_volume: number;
+  max_volume: number;
   packaging_category: string;
   packaging_types: Category[];
   packaging_type: string;
@@ -41,10 +43,7 @@ export const ChemPress = (props) => {
     packaging_types,
     packaging_type,
   } = data;
-  const [categoryName, setCategoryName] = useLocalState(
-    'categoryName',
-    packaging_category,
-  );
+  const [categoryName, setCategoryName] = useState(packaging_category);
   const shownCategory =
     packaging_types.find((category) => category.cat_name === categoryName) ||
     packaging_types[0];
@@ -72,7 +71,7 @@ export const ChemPress = (props) => {
                 maxValue={max_volume}
                 step={1}
                 stepPixelSize={2}
-                onChange={(e, value) =>
+                onChange={(value) =>
                   act('change_current_volume', {
                     volume: value,
                   })

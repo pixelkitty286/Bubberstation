@@ -1,19 +1,23 @@
 import { map, sortBy } from 'common/collections';
+import { useState } from 'react';
+
 import { useBackend, useLocalState } from '../backend';
 import {
-  Button,
-  Section,
-  Modal,
-  Tabs,
   Box,
-  Input,
-  Flex,
-  ProgressBar,
+  Button,
   Collapsible,
-  Icon,
   Divider,
+  Flex,
+  Icon,
+  Input,
+  LabeledList,
+  Modal,
+  ProgressBar,
+  Section,
+  Tabs,
+  VirtualList,
 } from '../components';
-import { Window, NtosWindow } from '../layouts';
+import { NtosWindow, Window } from '../layouts';
 import { Experiment } from './ExperimentConfigure';
 
 // Data reshaping / ingestion (thanks stylemistake for the help, very cool!)
@@ -38,9 +42,9 @@ const selectRemappedStaticData = (data) => {
       ...node,
       id: remapId(id),
       costs,
-      prereq_ids: map(remapId)(node.prereq_ids || []),
-      design_ids: map(remapId)(node.design_ids || []),
-      unlock_ids: map(remapId)(node.unlock_ids || []),
+      prereq_ids: map(node.prereq_ids || [], remapId),
+      design_ids: map(node.design_ids || [], remapId),
+      unlock_ids: map(node.unlock_ids || [], remapId),
       required_experiments: node.required_experiments || [],
       discount_experiments: node.discount_experiments || [],
     };
@@ -82,13 +86,6 @@ const useRemappedBackend = () => {
     ...rest,
   };
 };
-
-// Utility Functions
-
-const abbreviations = {
-  'General Research': 'Gen. Res.',
-};
-const abbreviateName = (name) => abbreviations[name] ?? name;
 
 // Actual Components
 
@@ -151,36 +148,46 @@ export const TechwebContent = (props) => {
     t_disk,
     d_disk,
     locked,
+    queue_nodes = [],
+    node_cache,
   } = data;
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
-  const [lastPoints, setLastPoints] = useLocalState('lastPoints', {});
+  const [lastPoints, setLastPoints] = useState({});
 
   return (
     <Flex direction="column" className="Techweb__Viewport" height="100%">
       <Flex.Item className="Techweb__HeaderSection">
         <Flex className="Techweb__HeaderContent">
           <Flex.Item>
-            <Box>
-              Available points:
-              <ul className="Techweb__PointSummary">
-                {Object.keys(points).map((k) => (
-                  <li key={k}>
-                    <b>{k}</b>: {points[k]}
-                    {!!points_last_tick[k] && ` (+${points_last_tick[k]}/sec)`}
-                  </li>
-                ))}
-              </ul>
-            </Box>
-            <Box>
-              Security protocols:
-              <span
-                className={`Techweb__SecProtocol ${
-                  !!sec_protocols && 'engaged'
-                }`}
-              >
-                {sec_protocols ? 'Engaged' : 'Disengaged'}
-              </span>
-            </Box>
+            <LabeledList>
+              <LabeledList.Item label="Security">
+                <span
+                  className={`Techweb__SecProtocol ${
+                    !!sec_protocols && 'engaged'
+                  }`}
+                >
+                  {sec_protocols ? 'Engaged' : 'Disengaged'}
+                </span>
+              </LabeledList.Item>
+              {Object.keys(points).map((k) => (
+                <LabeledList.Item key={k} label="Points">
+                  <b>{points[k]}</b>
+                  {!!points_last_tick[k] && ` (+${points_last_tick[k]}/sec)`}
+                </LabeledList.Item>
+              ))}
+              <LabeledList.Item label="Queue">
+                {queue_nodes.length !== 0
+                  ? Object.keys(queue_nodes).map((node_id) => (
+                      <Button
+                        key={node_id}
+                        tooltip={`Added by: ${queue_nodes[node_id]}`}
+                      >
+                        {node_cache[node_id].name}
+                      </Button>
+                    ))
+                  : 'Empty'}
+              </LabeledList.Item>
+            </LabeledList>
           </Flex.Item>
           <Flex.Item grow={1} />
           <Flex.Item>
@@ -236,7 +243,7 @@ const TechwebRouter = (props) => {
 const TechwebOverview = (props) => {
   const { act, data } = useRemappedBackend();
   const { nodes, node_cache, design_cache } = data;
-  const [tabIndex, setTabIndex] = useLocalState('overviewTabIndex', 1);
+  const [tabIndex, setTabIndex] = useState(1);
   const [searchText, setSearchText] = useLocalState('searchText');
 
   // Only search when 3 or more characters have been input
@@ -255,10 +262,11 @@ const TechwebOverview = (props) => {
       );
     });
   } else {
-    displayedNodes = sortBy((x) => node_cache[x.id].name)(
+    displayedNodes = sortBy(
       tabIndex < 2
         ? nodes.filter((x) => x.tier === tabIndex)
         : nodes.filter((x) => x.tier >= tabIndex),
+      (x) => node_cache[x.id].name,
     );
   }
 
@@ -307,9 +315,11 @@ const TechwebOverview = (props) => {
         </Flex>
       </Flex.Item>
       <Flex.Item className={'Techweb__OverviewNodes'} height="100%">
-        {displayedNodes.map((n) => {
-          return <TechNode node={n} key={n.id} />;
-        })}
+        <VirtualList key={tabIndex + searchText}>
+          {displayedNodes.map((n) => {
+            return <TechNode node={n} key={n.id} />;
+          })}
+        </VirtualList>
       </Flex.Item>
     </Flex>
   );
@@ -423,7 +433,7 @@ const TechNodeDetail = (props) => {
   const { node } = props;
   const { id } = node;
   const { prereq_ids, unlock_ids } = node_cache[id];
-  const [tabIndex, setTabIndex] = useLocalState('nodeDetailTabIndex', 0);
+  const [tabIndex, setTabIndex] = useState(0);
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
 
   const prereqNodes = nodes.filter((x) => prereq_ids.includes(x.id));
@@ -487,9 +497,24 @@ const TechNodeDetail = (props) => {
 
 const TechNode = (props) => {
   const { act, data } = useRemappedBackend();
-  const { node_cache, design_cache, experiments, points, nodes } = data;
+  const {
+    node_cache,
+    design_cache,
+    experiments,
+    points = [],
+    nodes,
+    point_types_abbreviations = [],
+    queue_nodes = [],
+  } = data;
   const { node, nodetails, nocontrols } = props;
-  const { id, can_unlock, tier } = node;
+  const {
+    id,
+    can_unlock,
+    have_experiments_done,
+    tier,
+    enqueued_by_user,
+    is_free,
+  } = node;
   const {
     name,
     description,
@@ -500,7 +525,7 @@ const TechNode = (props) => {
     discount_experiments,
   } = node_cache[id];
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
-  const [tabIndex, setTabIndex] = useLocalState('nodeDetailTabIndex', 0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const expcompl = required_experiments.filter(
     (x) => experiments[x]?.completed,
@@ -549,6 +574,40 @@ const TechNode = (props) => {
       buttons={
         !nocontrols && (
           <>
+            {tier > 0 &&
+              (!!can_unlock && (is_free || queue_nodes.length === 0) ? (
+                <Button
+                  icon="lightbulb"
+                  disabled={!can_unlock || tier > 1 || queue_nodes.length > 0}
+                  onClick={() => act('researchNode', { node_id: id })}
+                >
+                  Research
+                </Button>
+              ) : enqueued_by_user ? (
+                <Button
+                  icon="trash"
+                  color="bad"
+                  onClick={() => act('dequeueNode', { node_id: id })}
+                >
+                  Dequeue
+                </Button>
+              ) : id in queue_nodes && !enqueued_by_user ? (
+                <Button icon="check" color="good">
+                  Queued
+                </Button>
+              ) : (
+                <Button
+                  icon="lightbulb"
+                  disabled={
+                    !have_experiments_done ||
+                    id in queue_nodes ||
+                    techcompl < prereq_ids.length
+                  }
+                  onClick={() => act('enqueueNode', { node_id: id })}
+                >
+                  Enqueue
+                </Button>
+              ))}
             {!nodetails && (
               <Button
                 icon="tasks"
@@ -558,15 +617,6 @@ const TechNode = (props) => {
                 }}
               >
                 Details
-              </Button>
-            )}
-            {tier > 0 && (
-              <Button
-                icon="lightbulb"
-                disabled={!can_unlock || tier > 1}
-                onClick={() => act('researchNode', { node_id: id })}
-              >
-                Research
               </Button>
             )}
           </>
@@ -592,7 +642,7 @@ const TechNode = (props) => {
                       : Math.min(1, (points[k.type] || 0) / reqPts)
                   }
                 >
-                  {abbreviateName(k.type)} ({nodeProg}/{reqPts})
+                  {point_types_abbreviations[k.type]} ({nodeProg}/{reqPts})
                 </ProgressBar>
               </Flex.Item>
             );
@@ -615,7 +665,7 @@ const TechNode = (props) => {
       <Box className="Techweb__NodeUnlockedDesigns" mb={2}>
         {design_ids.map((k, i) => (
           <Button
-            key={id}
+            key={k}
             className={`${design_cache[k].class} Techweb__DesignIcon`}
             tooltip={design_cache[k].name}
             tooltipPosition={i % 15 < 7 ? 'right' : 'left'}

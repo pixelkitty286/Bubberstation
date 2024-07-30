@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		if (getFireLoss() > 0 || getToxLoss() > 0)
 			if(src == user)
 				to_chat(user, span_notice("You start fixing yourself..."))
-				if(!do_after(user, 50, target = src))
+				if(!do_after(user, 5 SECONDS, target = src))
 					return
 			if (coil.use(1))
 				adjustFireLoss(-30)
@@ -22,7 +22,7 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 			to_chat(user, span_warning("The wires seem fine, there's no need to fix them."))
 		return
 
-	if(istype(W, /obj/item/stock_parts/cell) && opened) // trying to put a cell inside
+	if(istype(W, /obj/item/stock_parts/power_store/cell) && opened) // trying to put a cell inside
 		if(wiresexposed)
 			to_chat(user, span_warning("Close the cover first!"))
 		else if(cell)
@@ -52,7 +52,7 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 			return
 		to_chat(user, span_notice("You begin to place [W] on [src]'s head..."))
 		to_chat(src, span_notice("[user] is placing [W] on your head..."))
-		if(do_after(user, 30, target = src))
+		if(do_after(user, 3 SECONDS, target = src))
 			if (user.temporarilyRemoveItemFromInventory(W, TRUE))
 				place_on_head(W)
 		return
@@ -207,24 +207,6 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		..()
 	return
 
-/mob/living/silicon/robot/attack_slime(mob/living/simple_animal/slime/M, list/modifiers)
-	if(..()) //successful slime shock
-		flash_act()
-		var/stunprob = M.powerlevel * 7 + 10
-		if(prob(stunprob) && M.powerlevel >= 8)
-			adjustBruteLoss(M.powerlevel * rand(6,10))
-
-	var/damage = rand(1, 3)
-
-	if(M.is_adult)
-		damage = rand(20, 40)
-	else
-		damage = rand(5, 35)
-	damage = round(damage / 2) // borgs receive half damage
-	adjustBruteLoss(damage)
-
-	return
-
 /mob/living/silicon/robot/attack_hand(mob/living/carbon/human/user, list/modifiers)
 	add_fingerprint(user)
 	if(!opened)
@@ -245,7 +227,12 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		return
 	spark_system.start()
 	step_away(src, user, 15)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step_away), src, get_turf(user), 15), 3)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step_away), src, get_turf(user), 15), 0.3 SECONDS)
+
+/mob/living/silicon/robot/get_shove_flags(mob/living/shover, obj/item/weapon)
+	. = ..()
+	if(isnull(weapon) || stat != CONSCIOUS)
+		. &= ~(SHOVE_CAN_MOVE|SHOVE_CAN_HIT_SOMETHING)
 
 /mob/living/silicon/robot/welder_act(mob/living/user, obj/item/tool)
 	if(user.combat_mode && usr != src)
@@ -255,7 +242,7 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 	if (!getBruteLoss())
 		to_chat(user, span_warning("[src] is already in good condition!"))
 		return
-	if (!tool.tool_start_check(user, amount=1)) //The welder has 1u of fuel consumed by it's afterattack, so we don't need to worry about taking any away.
+	if (!tool.tool_start_check(user, amount=1)) //The welder has 1u of fuel consumed by its afterattack, so we don't need to worry about taking any away.
 		return
 	if(src == user)
 		to_chat(user, span_notice("You start fixing yourself..."))

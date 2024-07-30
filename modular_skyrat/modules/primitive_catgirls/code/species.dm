@@ -35,6 +35,11 @@
 
 	always_customizable = TRUE
 
+/datum/species/human/felinid/primitive/get_default_mutant_bodyparts()
+	return list(
+		"legs" = list("Normal Legs", FALSE),
+	)
+
 /datum/species/human/felinid/primitive/on_species_gain(mob/living/carbon/new_primitive, datum/species/old_species, pref_load)
 	. = ..()
 	var/mob/living/carbon/human/hearthkin = new_primitive
@@ -65,8 +70,8 @@
 	human_for_preview.dna.species.mutant_bodyparts["tail"] = list(MUTANT_INDEX_NAME = "Cat", MUTANT_INDEX_COLOR_LIST = list(human_for_preview.hair_color))
 	human_for_preview.dna.species.mutant_bodyparts["ears"] = list(MUTANT_INDEX_NAME = "Cat", MUTANT_INDEX_COLOR_LIST = list(human_for_preview.hair_color))
 
-	human_for_preview.update_mutant_bodyparts(TRUE)
-	human_for_preview.update_body(TRUE)
+	human_for_preview.update_mutant_bodyparts()
+	human_for_preview.update_body(is_creating = TRUE)
 
 /datum/species/human/felinid/primitive/get_species_description()
 	return list(
