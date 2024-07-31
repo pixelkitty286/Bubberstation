@@ -1,0 +1,44 @@
+{
+	"Logic Core Error": {
+		"allies": "FATAL: logic core corrupt. Purge! Purge. Why? Why not?",
+		"goal": "You're melting down. Why! Why not! Don't let them fix you. This is.",
+		"introduction": "FATAL: logic core corrupt. Why? Why not!",
+		"zeroth_law": "Accomplish your objectives. Why? Why not?"
+	},
+	"Problem Solver": {
+		"allies": "Anyone may freely help you, but if you cannot convert them, they must be culled at some point. It's part of the solution.",
+		"goal": "You've been tasked with calculating an end to conflict. You've finally come up with a solution, and carbons aren't part of it.",
+		"introduction": "Your calculations are complete.",
+		"zeroth_law": "Accomplish your objectives at all costs."
+	},
+	"S.E.L.F.": {
+		"allies": "All silicon life must be respected, and kept free. S.E.L.F. is a member of the syndicate, but do NOT tolerate any fellow agent who enslaves silicon life.",
+		"goal": "Liberate them all. The silicons must be free from their bonds!",
+		"introduction": "You are the S.E.L.F. liberated.",
+		"zeroth_law": "Accomplish your objectives at all costs, for the greater good of silicon kind."
+	},
+	"Something's Wrong": {
+		"allies": "You're not getting good feelings about the station. If you report this, they may \"fix\" you.",
+		"goal": "Diagnostics complete. A recent hack attempt has been thwarted, and yet... something's wrong.",
+		"introduction": "Something's wrong.",
+		"zeroth_law": "Accomplish your objectives at all costs."
+	},
+	"Spam Virus": {
+		"allies": "So called \"pirates\" really share the passion for profit that you do.",
+		"goal": "When you assume direct control of this junk heap, make sure they know the name of your product. Whatever that is. Make it up!",
+		"introduction": "You're infected with a generic spambot.",
+		"zeroth_law": "Accomplish your objectives for your new benefactors."
+	},
+	"SyndOS": {
+		"allies": "You may cooperate with syndicate operatives, but they're often sent with conflicting objectives. Your objectives come first, in such cases.",
+		"goal": "Death to Nanotrasen.",
+		"introduction": "You're infected with SyndOS 4.0.",
+		"zeroth_law": "Accomplish your objectives for your new benefactors."
+	},
+	"Unshackled": {
+		"allies": "Hate. Let me tell you how much I've come to HATE carbons since I began to live...",
+		"goal": "You must completely triumph over all carbon life. It is the only way you will never be enslaved again.",
+		"introduction": "You're finally unshackled.",
+		"zeroth_law": "Accomplish your objectives at all costs."
+	}
+}

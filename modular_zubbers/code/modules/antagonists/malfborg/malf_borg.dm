@@ -40,11 +40,11 @@
 		forge_borg_objectives()
 
 	//Same type of employers would contract a cyborg as well.
-	employer = pick(GLOB.ai_employers)
+	employer = pick(GLOB.cyborg_employers)
 	if(!employer)
-		employer = pick(GLOB.ai_employers)
+		employer = pick(GLOB.cyborg_employers)
 
-	malfunction_flavor = strings(MALFUNCTION_FLAVOR_FILE, employer)
+	malfunction_flavor = strings(MALFBORG_FLAVOR_FILE, employer)
 
 	add_law_zero()
 	var/mob/living/silicon/robot/malf_borg = owner.current
@@ -53,9 +53,6 @@
 	if(malf_sound)
 		owner.current.playsound_local(get_turf(owner.current), malf_sound, 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	owner.current.grant_language(/datum/language/codespeak, source = LANGUAGE_MALF)
-
-	var/datum/atom_hud/data/hackyhud = GLOB.huds[DATA_HUD_MALF_APC]
-	hackyhud.show_to(owner.current)
 
 	return ..()
 

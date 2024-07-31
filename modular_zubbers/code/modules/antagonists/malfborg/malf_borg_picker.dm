@@ -66,7 +66,7 @@
 	. = ..()
 	if(.)
 		return
-	if(!isAI(usr))
+	if(!iscyborg(usr))
 		return
 	switch(action)
 		if("buy")
@@ -75,9 +75,9 @@
 			for(var/category in possible_modules)
 				buyable_items += possible_modules[category]
 			for(var/key in buyable_items)
-				var/datum/ai_module/AM = buyable_items[key]
+				var/datum/cyborg_module/AM = buyable_items[key]
 				if(AM.name == item_name)
-					//purchase_module(usr, AM)
+					purchase_module(usr, AM)
 					return TRUE
 		if("select")
 			selected_cat = params["category"]
@@ -85,7 +85,7 @@
 		if("compact_toggle")
 			compact_mode = !compact_mode
 			return TRUE
-/*
+
 //TODO replace with borg upgrade modules
 /datum/borg_module_picker/proc/purchase_module(mob/living/silicon/robot/CYBORG, datum/cyborg_module/AM)
 	if(!istype(AM))
@@ -94,7 +94,7 @@
 		return
 	if(AM.cost > processing_time)
 		return
-
+/*
 	var/datum/action/innate/ai/action = locate(AM.power_type) in CYBORG.actions
 	// Give the power and take away the money.
 	if(AM.upgrade) //upgrade and upgrade() are separate, be careful!

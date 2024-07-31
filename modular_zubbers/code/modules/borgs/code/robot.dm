@@ -5,7 +5,7 @@
 	held_rh = 'icons/mob/inhands/pai_item_rh.dmi'
 	held_state = "cat"
 
-//Malf borg Datoms
+//Malf borg Datums
 	var/datum/borg_module_picker/malf_picker
 
 //Cyborgs that are being held should act almost as how the AI behaves when carded.
