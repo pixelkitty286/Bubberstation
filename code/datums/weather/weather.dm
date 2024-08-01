@@ -1,4 +1,3 @@
-/* SKYRAT EDIT REMOVAL - MOVED TO MODULAR
 /**
  * Causes weather to occur on a z level in certain area types
  *
@@ -270,3 +269,4 @@
 		gen_overlay_cache += weather_overlay
 
 	return gen_overlay_cache
+

@@ -198,7 +198,6 @@ SUBSYSTEM_DEF(shuttle)
 		log_mapping("No /obj/docking_port/mobile/supply placed on the map!")
 
 	init_sold_shuttles()//SKYRAT EDIT ADDITON
-	return ..()
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/shuttle/proc/setup_shuttles(list/stationary)

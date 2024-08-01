@@ -3,7 +3,6 @@
 #define MAIN_STAGE 2
 #define WIND_DOWN_STAGE 3
 #define END_STAGE 4
-/* SKYRAT EDIT REMOVAL
 //Used for all kinds of weather, ex. lavaland ash storms.
 /// Used for all kinds of weather, ex. lavaland ash storms.
 SUBSYSTEM_DEF(weather)
@@ -100,4 +99,3 @@ ADMIN_VERB(stop_weather, R_DEBUG|R_ADMIN, "Stop All Active Weather", "Stop all c
 		if(current_weather in SSweather.processing)
 			current_weather.end()
 	BLACKBOX_LOG_ADMIN_VERB("Stop All Active Weather")
-*/

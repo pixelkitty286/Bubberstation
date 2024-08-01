@@ -18,7 +18,7 @@
 
 	area_type = /area
 	protect_indoors = TRUE
-	//target_trait = ZTRAIT_SNOWSTORM SKYRAT EDIT REMOVAL
+	target_trait = ZTRAIT_SNOWSTORM
 
 	immunity_type = TRAIT_SNOWSTORM_IMMUNE
 
