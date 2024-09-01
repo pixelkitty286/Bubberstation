@@ -89,6 +89,7 @@
 #define CYBORG_ICON_TYPE_SEC_CATBORG "FELI-Security"
 #define CYBORG_ICON_TYPE_SYNDI_CATBORG "FELI-Combat"
 #define CYBORG_ICON_TYPE_NINJA_CATBORG "FELI-Ninja"
+#define CYBORG_ICON_TYPE_STRAY_CATBORG "FELI-Stray"
 
 /mob/living/silicon/robot/model/centcom
 	icon = CYBORG_ICON_CENTCOM_WIDE_BUBBER

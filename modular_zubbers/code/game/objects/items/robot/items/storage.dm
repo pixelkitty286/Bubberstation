@@ -58,6 +58,37 @@
 		to_chat(user, span_warning("This circuit board doesn't seem to have standard robot apparatus pin holes. You're unable to pick it up."))
 	return ..()
 
+//Stray cyborg apparatus
+/obj/item/borg/apparatus/stray
+	name = "Worn manipulation gripper"
+	desc = "A simple grasping tool suited to assist in a wide array of applications."
+	icon = 'modular_zubbers/code/modules/borgs/sprites/robot_items.dmi'
+	icon_state = "gripper_sci"
+	storable = list(
+					/obj/item/disk,
+					/obj/item/computer_disk,
+					/obj/item/stock_parts,
+					/obj/item/reagent_containers/cup/beaker,
+					/obj/item/borg/upgrade/rename, //Basics not an upgrade
+					/obj/item/relic,
+					/obj/item/mod,
+					/obj/item/reagent_containers/syringe,
+					/obj/item/reagent_containers/dropper,
+					/obj/item/conveyor_switch_construct,
+					/obj/item/stack/conveyor,
+					/obj/item/wallframe,
+					/obj/item/vending_refill,
+					/obj/item/circuitboard,
+					/obj/item/light,
+					/obj/item/electronics,
+					)
+
+/obj/item/borg/apparatus/stray/examine()
+	. = ..()
+	if(stored)
+		. += "The gripper currently has [stored] secured."
+	. += span_notice(" <i>Alt-click</i> will drop the currently held item. ")
+
 //Illegal gripper to allow research cyborgs when hacked to do further robotics work
 /obj/item/borg/apparatus/illegal
 	name = "Sketchy looking gripper"

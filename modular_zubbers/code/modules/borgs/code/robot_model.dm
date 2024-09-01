@@ -300,6 +300,46 @@
 	)
 
 
+//Stray ghost role cyborg
+
+/obj/item/robot_model/stray
+	name = "Stray"
+	basic_modules = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/extinguisher/mini,
+		/obj/item/crowbar/cyborg,
+		/obj/item/weldingtool/largetank/cyborg,
+		/obj/item/borg/cyborg_omnitool/engineering,
+		/obj/item/analyzer,
+		/obj/item/storage/bag/sheetsnatcher/borg,
+		/obj/item/borg/apparatus/sheet_manipulator,
+		/obj/item/pickaxe,
+		/obj/item/t_scanner/adv_mining_scanner/cyborg,
+		/obj/item/stack/cable_coil,
+		/obj/item/borg/apparatus/research,
+		/obj/item/borg/apparatus/tank_manipulator,
+		/obj/item/t_scanner,
+		/obj/item/electroadaptive_pseudocircuit,
+		/obj/item/construction/rcd/borg,
+		/obj/item/soap/nanotrasen,
+		/obj/item/borg/cyborghug,
+	)
+
+	//TODO: Make it the same as the other cyborg modules
+	cyborg_base_icon = "FELI-Stray"
+	cyborg_icon_override = 'modular_zubbers/code/modules/borgs/sprites/felibot_all.dmi'
+	model_select_icon = "lost"
+	model_select_alternate_icon = 'modular_zubbers/code/modules/borgs/sprites/screen_robot.dmi'
+	model_traits = list(TRAIT_NEGATES_GRAVITY)
+	borg_skins = list(
+		"F3-LINE S7-R4Y" = list(
+		SKIN_ICON_STATE = CYBORG_ICON_TYPE_STRAY_CATBORG,
+		SKIN_ICON = CYBORG_ICON_ALL_CATBORG,
+		SKIN_FEATURES = list(TRAIT_R_UNIQUEWRECK, TRAIT_R_SQUADRUPED, TRAIT_R_SMALL, TRAIT_R_LIGHT_WEIGHT),
+		F3LINE_HAT_OFFSET
+		)
+	)
+
 /* BUBBER SPRITE ADDITIONS BELOW */
 /obj/item/robot_model/clown/Initialize(mapload)
 	. = ..()
@@ -860,6 +900,7 @@
 #undef CYBORG_ICON_TYPE_SEC_CATBORG
 #undef CYBORG_ICON_TYPE_SYNDI_CATBORG
 #undef CYBORG_ICON_TYPE_NINJA_CATBORG
+#undef CYBORG_ICON_TYPE_STRAY_CATBORG
 
 //Haydeez borgs are nuts
 #undef CYBORG_ICON_MED_HAYDEE_BUBBER

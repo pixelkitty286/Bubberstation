@@ -8822,6 +8822,7 @@
 #include "modular_zubbers\code\modules\borgs\code\robot_defines.dm"
 #include "modular_zubbers\code\modules\borgs\code\robot_items.dm"
 #include "modular_zubbers\code\modules\borgs\code\robot_model.dm"
+#include "modular_zubbers\code\modules\borgs\code\robot_stray.dm"
 #include "modular_zubbers\code\modules\borgs\code\robot_upgrade.dm"
 #include "modular_zubbers\code\modules\bow_adjustments\arrow.dm"
 #include "modular_zubbers\code\modules\bow_adjustments\bow.dm"
