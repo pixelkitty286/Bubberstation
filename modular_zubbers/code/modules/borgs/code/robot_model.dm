@@ -307,12 +307,12 @@
 	basic_modules = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/extinguisher/mini,
-		/obj/item/crowbar/cyborg,
 		/obj/item/weldingtool/largetank/cyborg,
 		/obj/item/borg/cyborg_omnitool/engineering,
 		/obj/item/analyzer,
 		/obj/item/storage/bag/sheetsnatcher/borg,
 		/obj/item/borg/apparatus/sheet_manipulator,
+		/obj/item/borg/apparatus/stray,
 		/obj/item/pickaxe,
 		/obj/item/t_scanner/adv_mining_scanner/cyborg,
 		/obj/item/stack/cable_coil,

@@ -63,7 +63,7 @@
 	name = "Worn manipulation gripper"
 	desc = "A simple grasping tool suited to assist in a wide array of applications."
 	icon = 'modular_zubbers/code/modules/borgs/sprites/robot_items.dmi'
-	icon_state = "gripper_sci"
+	icon_state = "gripper"
 	storable = list(
 					/obj/item/disk,
 					/obj/item/computer_disk,
