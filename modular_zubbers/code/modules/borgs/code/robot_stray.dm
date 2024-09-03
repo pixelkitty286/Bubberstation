@@ -37,7 +37,7 @@
 	balloon_alert(user, "Sparks!")
 	spark_system.start()
 	emag_cooldown = world.time + 100
-	SetStun(60)
+	SetStun(60)// We still stun even though our software can conteract hacking attempts to process the anti subversion.
 
 	message_admins("[ADMIN_LOOKUPFLW(user)] attempted emagging cyborg [ADMIN_LOOKUPFLW(src)].")
 	log_silicon("EMAG: [key_name(user)] attempted emagging cyborg [key_name(src)].")
@@ -46,9 +46,9 @@
 	return TRUE
 
 /mob/living/silicon/robot/model/stray/proc/borg_stray_emag_end(mob/user)
-	//They already are emagged this just fries them
+	//They already are emagged this just overloads them!
 	sleep(1 SECONDS)
-	to_chat(src, span_danger("ALERT: OVER HEATING!"))
+	to_chat(src, span_danger("ALERT: SUBVERSION ATTEMPT EVADED! PROCESSER OVER HEATING!"))
 	sleep(0.5 SECONDS)
 	//little flavor to show they are over heating
 	if (stat != DEAD)
@@ -80,7 +80,7 @@
 		return
 	spark_system.start()
 	playsound(loc, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
-	to_chat(src, span_danger("ALERT: OVER HEATING!"))
+	to_chat(src, span_danger("ALERT: SUBVERSION ATTEMPT EVADED! PROCESSER OVER HEATING!"))
 	sleep(0.5 SECONDS)
 	//little flavor to show they are over heating
 	if (stat != DEAD)
@@ -93,3 +93,37 @@
 
 //!!!STRAY CYBORG SPAWNER CODE BELOW DO NOT BRING IT ABOVE THIS LINE!!!
 
+
+/obj/effect/mob_spawn/ghost_role/robot/stray
+	name = "Cafe Robotic Storage"
+	prompt_name = "a ghost cafe robot"
+	infinite_use = TRUE
+	deletes_on_zero_uses_left = FALSE
+	icon = 'modular_skyrat/modules/ghostcafe/icons/robot_storage.dmi'
+	icon_state = "robostorage"
+	anchored = TRUE
+	density = FALSE
+	spawner_job_path = /datum/job/robotstray
+	you_are_text = "You are a Stray cyborg!"
+	flavour_text = "You remember vagely being a linked cyborg to your AI being told an intrusion alert only to "
+	important_text = "You may be law less but this does not make you antagonist! Do not attempt to subvert or harm other cyborgs / AIs you may encounter!"
+	mob_type = /mob/living/silicon/robot/model/stray
+/*
+/obj/effect/mob_spawn/ghost_role/robot/ghostcafe/special(mob/living/silicon/robot/new_spawn)
+	. = ..()
+	if(new_spawn.client)
+		new_spawn.custom_name = null
+		new_spawn.updatename(new_spawn.client)
+		new_spawn.transfer_emote_pref(new_spawn.client)
+		new_spawn.gender = NEUTER
+		var/area/A = get_area(src)
+		//new_spawn.AddElement(/datum/element/ghost_role_eligibility, free_ghosting = TRUE) SKYRAT PORT -- Needs to be completely rewritten
+		new_spawn.AddElement(/datum/element/dusts_on_catatonia)
+		new_spawn.AddElement(/datum/element/dusts_on_leaving_area,list(A.type, /area/misc/hilbertshotel, /area/centcom/holding/cafe,
+		/area/centcom/holding/cafe/vox, /area/centcom/holding/cafe/dorms, /area/centcom/holding/cafe/park))
+		ADD_TRAIT(new_spawn, TRAIT_SIXTHSENSE, TRAIT_GHOSTROLE)
+		ADD_TRAIT(new_spawn, TRAIT_FREE_GHOST, TRAIT_GHOSTROLE)
+		to_chat(new_spawn,span_warning("<b>Ghosting is free!</b>"))
+		var/datum/action/toggle_dead_chat_mob/D = new(new_spawn)
+		D.Grant(new_spawn)
+*/

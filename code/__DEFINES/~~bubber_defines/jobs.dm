@@ -20,3 +20,6 @@
 #define JOB_BLACKSMITH "Blacksmith"
 
 #define JOB_DISPLAY_ORDER_BLACKSMITH 48
+
+//Spawner roles
+#define JOB_STRAY_ROBOT "Stray robot"
