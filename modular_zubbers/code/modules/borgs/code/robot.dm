@@ -19,7 +19,7 @@
 		return
 	return ..()
 
-//The only malfuction "module" installed by default
+//The only malfuction "action" installed by default
 /mob/living/silicon/robot/proc/ResetSecurityCodes()
 	set category = "Malf Commands"
 	set name = "Elevate root privileges"

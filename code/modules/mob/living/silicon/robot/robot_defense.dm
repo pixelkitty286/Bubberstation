@@ -406,7 +406,6 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		ResetModel()
 		return TRUE
 
-	scrambledcodes = TRUE // BUBBER EDIT START
 	//BUBBER EDIT BEGIN: MALF CYBORGS
 	if(mind && mind.has_antag_datum(/datum/antagonist/malf_borg))
 		to_chat(src, span_danger("ALERT: Foreign software execution prevented."))
@@ -417,6 +416,7 @@ GLOBAL_LIST_INIT(blacklisted_borg_hats, typecacheof(list( //Hats that don't real
 		return TRUE // emag succeeded, it was just counteracted
 	//BUBBER EDIT END: MALF CYBORGS
 
+	scrambledcodes = TRUE // BUBBER EDIT START
 	SetEmagged(1)
 	SetStun(60) //Borgs were getting into trouble because they would attack the emagger before the new laws were shown
 	lawupdate = FALSE

@@ -94,8 +94,7 @@
 		return
 	if(AM.cost > processing_time)
 		return
-/*
-	var/datum/action/innate/ai/action = locate(AM.power_type) in CYBORG.actions
+
 	// Give the power and take away the money.
 	if(AM.upgrade) //upgrade and upgrade() are separate, be careful!
 		AM.upgrade(CYBORG)
@@ -105,24 +104,6 @@
 		if(AM.unlock_sound)
 			CYBORG.playsound_local(CYBORG, AM.unlock_sound, 50, 0)
 		update_static_data(CYBORG)
-	else
-		if(AM.power_type)
-			if(!action) //Unlocking for the first time
-				var/datum/action/AC = new AM.power_type
-				AC.Grant(CYBORG)
-				AI.current_modules += new AM.type
-				if(AM.one_purchase)
-					possible_modules[AM.category] -= AM
-					update_static_data(AI)
-				if(AM.unlock_text)
-					to_chat(AI, AM.unlock_text)
-				if(AM.unlock_sound)
-					AI.playsound_local(AI, AM.unlock_sound, 50, 0)
-			else //Adding uses to an existing module
-				action.uses += initial(action.uses)
-				action.desc = "[initial(action.desc)] It has [action.uses] use\s remaining."
-				action.build_all_button_icons()
 	processing_time -= AM.cost
 	log_malf_upgrades("[key_name(CYBORG)] purchased [AM.name]")
 	SSblackbox.record_feedback("nested tally", "malfunction_modules_bought", 1, list("[initial(AM.name)]", "[AM.cost]"))
-*/
