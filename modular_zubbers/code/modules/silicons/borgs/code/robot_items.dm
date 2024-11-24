@@ -212,13 +212,25 @@
 		/obj/item/shard,
 		/obj/item/food/grown,
 		/obj/item/pipe,
+		/obj/effect/decal/cleanable/garbage,
 
 	)
 
 	//List of tiny mobs (instant grinding)
-	var/list/mob/tinymob = list()
+	var/list/mob/tinymob = list(
+		/mob/living/basic/mouse,
+		/mob/living/basic/axolotl,
+		/mob/living/basic/butterfly,
+		/mob/living/basic/cockroach,
+		/mob/living/basic/frog,
+		/mob/living/basic/lizard,
+		/mob/living/basic/bat,
+	)
 	//List of small mobs (Longer time to grind)
-	var/list/mob/smallmob = list()
+	var/list/mob/smallmob = list(
+		/mob/living/basic/mothroach,
+
+	)
 	//List of large mobs (Very long time) HOLY SHIT IT GIBBED THEM!!!
 	var/list/mob/largemob = list()
 
@@ -273,11 +285,13 @@
 		if(grindcheck)
 			playsound(src.loc, 'sound/items/weapons/circsawhit.ogg', 50, vary = TRUE)
 			to_chat(user, span_notice("It's a bit of a struggle, but you manage to suck [M] into your decompiler. It makes a series of visceral crunching noises."))
+			new/obj/effect/decal/cleanable/blood/splatter(get_turf(src))
 			qdel(tinymob)
 			return TRUE
 		else
 			continue
 
+	//Small mobs hide your pets!
 	for(var/mob/M in T)
 		var/grindcheck = FALSE
 		for(var/mob/grindable in smallmob)
