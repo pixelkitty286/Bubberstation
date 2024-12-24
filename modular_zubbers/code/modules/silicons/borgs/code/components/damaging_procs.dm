@@ -2,7 +2,7 @@
 						Component damage!
 ***********************************************************************/
 //* Raw Damage *//
-
+//TODO: refactor to work with new
 /mob/living/silicon/robot/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_bodytype, updating_health = TRUE, forced = FALSE)
 	var/list/datum/robot_component/parts = get_damaged_components(brute,burn)
 
