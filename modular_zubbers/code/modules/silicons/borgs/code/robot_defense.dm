@@ -20,7 +20,7 @@
 /**********************************************************************
 						Components oh god oh fuck
 ***********************************************************************/
-
+//TODO: REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR!!!
 //Component removal
 /mob/living/silicon/robot/crowbar_act_secondary(mob/living/user, obj/item/tool)
 	if(!cell)
