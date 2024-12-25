@@ -5,12 +5,6 @@
 #define TRAIT_CHANGELING_ZOMBIE "changelingzombie"
 #define TRAIT_RESEARCH_CYBORG "research_cyborg"
 
-/// Cyborgs with unique sprites
-/// 32x32 quadruped skins with resting, sitting, and belly up sprites
-#define TRAIT_R_SQUADRUPED "squadruped_borg"
-// For light weight borgs
-#define TRAIT_R_LIGHT_WEIGHT "lightweight_borg"
-
 //For the hemophage quirk that allows hemophages to eat/drink normal food/drink.
 #define TRAIT_MASQUERADE_FOOD "masquerade_food"
 
