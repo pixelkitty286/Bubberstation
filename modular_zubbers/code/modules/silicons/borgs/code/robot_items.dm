@@ -288,6 +288,8 @@
 
 	//Medium mobs hide your pets!
 	else if(is_type_in_list (atom, medium_mob))
+		if(!user.combat_mode)
+			return
 		var/mob/living/M = atom
 		if(M.stat == DEAD)
 			playsound(src.loc, smob_grind, 50, vary = TRUE)
@@ -300,15 +302,19 @@
 
 	//Large mobs HUMANS?!
 	else if(is_type_in_list (atom, large_mob))
-		var/mob/living/M = atom
-		if(M.stat == DEAD)
-			playsound(src.loc, lmob_grind, 50, vary = TRUE)
-			if(!do_after(user, 6 SECONDS))
-				return
-			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [M] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
-			M.gib(DROP_ALL_REMAINS)
-			playsound(src.loc, grind_gib, 50, vary = TRUE)
-			return TRUE
+		if(!user.combat_mode)
+			return
+		var/mob/living/silicon/robot/robot_user = user
+		if(robot_user.emagged)
+			var/mob/living/M = atom
+			if(M.stat == DEAD)
+				playsound(src.loc, lmob_grind, 50, vary = TRUE)
+				if(!do_after(user, 6 SECONDS))
+					return
+				to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [M] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
+				M.gib(DROP_ALL_REMAINS)
+				playsound(src.loc, grind_gib, 50, vary = TRUE)
+				return TRUE
 	return
 
 /obj/item/robot_model/janitor/Initialize(mapload)
