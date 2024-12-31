@@ -252,6 +252,7 @@
 		/mob/living/basic/space_dragon,
 		/mob/living/basic/carp,
 		/mob/living/basic/bear,
+		/mob/living/basic/spider,
 	)
 
 /// This is to deal handle interactions with trash and small rodents.
@@ -284,36 +285,32 @@
 		playsound(src.loc, grind_gib, 50, vary = TRUE)
 		qdel(atom)
 		return TRUE
-	return
-
-/// This is to handel dealing with larger mobs
-
-/obj/item/trash_shreader/attack(mob/living/target_mob, mob/living/user, params)
-	. = ..()
 
 	//Medium mobs hide your pets!
-	if(is_type_in_list (target_mob, medium_mob))
-		if(target_mob.stat == DEAD)
+	else if(is_type_in_list (atom, medium_mob))
+		var/mob/living/M = atom
+		if(M.stat == DEAD)
 			playsound(src.loc, smob_grind, 50, vary = TRUE)
 			if(!do_after(user, 3 SECONDS))
 				return
-			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [target_mob] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
-			target_mob.gib(DROP_ALL_REMAINS)
+			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [M] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
+			M.gib(DROP_ALL_REMAINS)
 			playsound(src.loc, grind_gib, 50, vary = TRUE)
 			return TRUE
 
 	//Large mobs HUMANS?!
-	else if(is_type_in_list (target_mob, large_mob))
-		if(target_mob.stat == DEAD)
+	else if(is_type_in_list (atom, large_mob))
+		var/mob/living/M = atom
+		if(M.stat == DEAD)
 			playsound(src.loc, lmob_grind, 50, vary = TRUE)
 			if(!do_after(user, 6 SECONDS))
 				return
-			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [target_mob] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
-			target_mob.gib(DROP_ALL_REMAINS)
+			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [M] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
+			M.gib(DROP_ALL_REMAINS)
 			playsound(src.loc, grind_gib, 50, vary = TRUE)
 			return TRUE
 	return
 
 /obj/item/robot_model/janitor/Initialize(mapload)
-	emag_modules += /obj/item/trash_shreader
+	basic_modules += /obj/item/trash_shreader
 	. = ..()
