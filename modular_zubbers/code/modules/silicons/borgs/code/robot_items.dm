@@ -233,6 +233,9 @@
 		/mob/living/basic/frog,
 		/mob/living/basic/lizard,
 		/mob/living/basic/bat,
+		/mob/living/basic/bee,
+		/mob/living/basic/crab,
+		/mob/living/basic/chick,
 	)
 	//List of medium mobs (Longer time to grind) HOLY SHIT IT GIBBED THEM!!!
 	var/list/mob/living/medium_mob = list(
@@ -243,6 +246,8 @@
 		/mob/living/basic/slime, // what did you think the grinder was ment for xeno bio?
 		/mob/living/basic/headslug,
 		/mob/living/basic/regal_rat,
+		/mob/living/basic/chicken,
+
 	)
 	//List of large mobs (Very long time)
 	var/list/mob/living/large_mob = list(
