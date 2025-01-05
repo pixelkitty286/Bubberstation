@@ -193,11 +193,12 @@
 
 /obj/item/trash_shreader
 	name = "Trash Shreader"
-	desc = "A trash eating module designed to clean up small and useless trash"
+	desc = "A trash eating module designed to clean up small useless trash and rid of small rodents"
 	icon = 'icons/mob/silicon/robot_items.dmi'
 	icon_state = "connector"
 	hitsound = 'sound/items/weapons/circsawhit.ogg'
 	force = 15
+	sharpness = SHARP_EDGED
 
 	// Sounds
 
@@ -237,18 +238,6 @@
 		/mob/living/basic/crab,
 		/mob/living/basic/chick,
 	)
-	//List of medium mobs (Longer time to grind) HOLY SHIT IT GIBBED THEM!!!
-	var/list/mob/living/medium_mob = list(
-		/mob/living/basic/mothroach,
-		/mob/living/basic/drone,
-		/mob/living/basic/pet,
-		/mob/living/basic/parrot,
-		/mob/living/basic/slime, // what did you think the grinder was ment for xeno bio?
-		/mob/living/basic/headslug,
-		/mob/living/basic/regal_rat,
-		/mob/living/basic/chicken,
-
-	)
 	//List of large mobs (Very long time)
 	var/list/mob/living/large_mob = list(
 		/mob/living/carbon/human,
@@ -258,6 +247,9 @@
 		/mob/living/basic/carp,
 		/mob/living/basic/bear,
 		/mob/living/basic/spider,
+		/mob/living/basic/headslug,
+		/mob/living/basic/regal_rat,
+		/mob/living/basic/drone,
 	)
 
 /// This is to deal handle interactions with trash and small rodents.
@@ -290,20 +282,6 @@
 		playsound(src.loc, grind_gib, 50, vary = TRUE)
 		qdel(atom)
 		return TRUE
-
-	//Medium mobs hide your pets!
-	else if(is_type_in_list (atom, medium_mob))
-		if(!user.combat_mode)
-			return
-		var/mob/living/M = atom
-		if(M.stat == DEAD)
-			playsound(src.loc, smob_grind, 50, vary = TRUE)
-			if(!do_after(user, 3 SECONDS))
-				return
-			to_chat(user, span_danger("It's a bit of a struggle, but you manage to suck [M] into your shreader! It makes a series of visceral crunching noises and sends gore every where!"))
-			M.gib(DROP_ALL_REMAINS)
-			playsound(src.loc, grind_gib, 50, vary = TRUE)
-			return TRUE
 
 	//Large mobs HUMANS?!
 	else if(is_type_in_list (atom, large_mob))
