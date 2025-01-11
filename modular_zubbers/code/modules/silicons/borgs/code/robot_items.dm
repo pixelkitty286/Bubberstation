@@ -283,6 +283,8 @@
 		qdel(atom)
 		return TRUE
 
+	// Emag functions
+
 	//Large mobs HUMANS?!
 	else if(is_type_in_list (atom, large_mob))
 		if(!user.combat_mode)
