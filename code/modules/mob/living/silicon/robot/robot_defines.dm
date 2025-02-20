@@ -9,8 +9,8 @@
 	real_name = "Cyborg"
 	icon = 'icons/mob/silicon/robots.dmi' //SKYRAT EDIT - Modified in modular_skyrat\modules\altborgs\code\robot_defines.dm (to allow for custom transformation animations)
 	icon_state = "robot"
-	maxHealth = 100
-	health = 100
+	maxHealth = 135 // Bubber Edit
+	health = 135 // Bubber Edit
 	bubble_icon = "robot"
 	designation = "Default" //used for displaying the prefix & getting the current model of cyborg
 	has_limbs = TRUE
@@ -119,10 +119,10 @@
 	var/low_power_mode = FALSE
 	///So they can initialize sparks whenever/N
 	var/datum/effect_system/spark_spread/spark_system
-	///Smoke particle holder for brute damage
-	var/obj/effect/abstract/particle_holder/smoke_particles = null
-	///Spark particle holder for burn damage
-	var/obj/effect/abstract/particle_holder/spark_particles = null
+	///Smoke particle type for brute damage
+	var/smoke_particles
+	///Spark particle type for burn damage
+	var/spark_particles
 
 	///Jetpack-like effect.
 	var/ionpulse = FALSE
