@@ -7711,7 +7711,6 @@
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\podweak.dm"
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\roundstartslime.dm"
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\skrell.dm"
-#include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\tajaran.dm"
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\unathi.dm"
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\vox.dm"
 #include "modular_skyrat\modules\customization\modules\mob\living\carbon\human\species\vulpkanin.dm"
