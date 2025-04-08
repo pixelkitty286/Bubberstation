@@ -187,9 +187,7 @@
 		/obj/item/bonesetter/cyborg,
 	)
 
-/**********************************************************************
-					Trash shreader oh god oh fuck
-***********************************************************************/
+/** TRASH SHREADER **/
 
 /obj/item/trash_shreader
 	name = "Trash Shreader"
