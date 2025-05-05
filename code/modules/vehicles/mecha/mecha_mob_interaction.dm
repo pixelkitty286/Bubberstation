@@ -155,6 +155,13 @@
 		var/mob/living/silicon/robot/borg = M
 		mob_container = borg
 		borg.remote_control = null
+		if(forced)
+			to_chat(borg, span_danger("ZZUZULU.ERR--ERRR-CONNE-- DIST-B**@"))
+			for(var/count in 1 to 5)
+				addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(do_sparks), rand(10, 20), FALSE, borg), count SECONDS)
+			borg.emp_act(EMP_HEAVY)
+
+		return ..()
 	//BUBBER ADDITION END - TEST CHANGE FOR RESEARCH BORGS
 	else if(isliving(M))
 		mob_container = M

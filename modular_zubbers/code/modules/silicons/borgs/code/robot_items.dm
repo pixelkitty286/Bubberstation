@@ -186,3 +186,51 @@
 		/obj/item/surgical_drapes/cyborg,
 		/obj/item/bonesetter/cyborg,
 	)
+
+
+/* Research cyborg mech control tool */
+
+//Cyborg specific entering method
+/obj/vehicle/sealed/mecha/proc/cyborg_enter_mech(mob/living/silicon/robot/cyborg)
+	mecha_flags |= SILICON_PILOT
+	moved_inside(cyborg)
+	cyborg.remote_control = src
+	add_occupant(cyborg)
+
+//The item to interface with
+
+// Does not really do much other than allow you to go in
+/obj/item/borg/mech_connector
+	name = "Exosuit interfacing tool"
+	desc = "A tool used by cyborgs to interface with mechs"
+	icon_state = "charger_charge"
+
+/obj/item/borg/mech_connector/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(ismecha(interacting_with))
+		var/obj/vehicle/sealed/mecha/interact = interacting_with
+		if(length(interact.return_occupants()) >= interact.max_occupants)
+			to_chat(user, span_warning("This exosuit has a pilot and cannot be controlled."))
+			return ITEM_INTERACT_BLOCKING
+		var/mob/living/silicon/robot/robot_user = user
+		var/can_control_mech = FALSE
+		for(var/obj/item/mecha_parts/mecha_tracking/ai_control/A in interact.trackers)
+			can_control_mech = TRUE
+
+		if(robot_user.emagged && !can_control_mech)
+			balloon_alert(user, "Hacking on board computer...")
+			if(!do_after(user, 10 SECONDS)) //HACKING THE SYSTEM
+				return ITEM_INTERACT_SUCCESS
+			//WE'RE IN!
+			interact.cyborg_enter_mech(user)
+			return ITEM_INTERACT_SUCCESS
+
+		else if(!can_control_mech)
+			to_chat(user, span_warning("You cannot control exosuits without AI control beacons installed."))
+			return ITEM_INTERACT_BLOCKING
+
+		balloon_alert(user, "Interfacing with exosuit...")
+		if(!do_after(user, 3 SECONDS))
+			return ITEM_INTERACT_BLOCKING
+		interact.cyborg_enter_mech(user)
+
+	return ITEM_INTERACT_SUCCESS

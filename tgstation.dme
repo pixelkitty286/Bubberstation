@@ -9510,7 +9510,6 @@
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_defense.dm"
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_defines.dm"
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_items.dm"
-#include "modular_zubbers\code\modules\silicons\borgs\code\robot_mech_interaction.dm"
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_model.dm"
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_model_traits.dm"
 #include "modular_zubbers\code\modules\silicons\borgs\code\robot_upgrade.dm"

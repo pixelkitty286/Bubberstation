@@ -53,6 +53,15 @@
 	model_type += /obj/item/robot_model/sci
 	model_flags += BORG_MODEL_RESEARCH
 
+/obj/item/borg/upgrade/mech_connector
+	name = "Research cyborg Exosuit Interfacing Device"
+	desc = "A small connector that can interface with exosuits with an AI beacon installed"
+	icon_state = "module_engineer"
+	require_model = TRUE
+	model_type = list(/obj/item/robot_model/sci)
+	model_flags = BORG_MODEL_RESEARCH
+	items_to_add = list(/obj/item/borg/mech_connector)
+
 // Engineering BRPED
 /obj/item/borg/upgrade/rped/Initialize(mapload)
 	. = ..()
