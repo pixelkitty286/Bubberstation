@@ -150,6 +150,12 @@
 				addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(do_sparks), rand(10, 20), FALSE, AI), count SECONDS)
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(empulse), get_turf(AI), /*heavy_range = */10, /*light_range = */20), 10 SECONDS)
 		return ..()
+	//BUBBER ADDITION START - TEST CHANGE FOR RESEARCH BORGS
+	else if(iscyborg(M))
+		var/mob/living/silicon/robot/borg = M
+		mob_container = borg
+		borg.remote_control = null
+	//BUBBER ADDITION END - TEST CHANGE FOR RESEARCH BORGS
 	else if(isliving(M))
 		mob_container = M
 	else

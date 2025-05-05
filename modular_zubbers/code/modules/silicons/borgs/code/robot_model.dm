@@ -94,6 +94,7 @@
 		/obj/item/experi_scanner,
 		/obj/item/stack/medical/gauze,
 		/obj/item/borg/apparatus/tank_manipulator,
+		/obj/item/borg/mech_connector, //TEST ITEM REMOVE AFTER TESTS
 	)
 	radio_channels = list(RADIO_CHANNEL_SCIENCE)
 
