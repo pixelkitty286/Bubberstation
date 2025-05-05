@@ -255,7 +255,6 @@
 	//SKYRAT EDIT ADDITION END
 	//BUBBER EDIT ADDTION BEGIN
 	new_model.update_quadruped()
-	new_model.update_lightweight()
 	new_model.update_robot_rest()
 	new_model.update_footsteps()
 	//BUBBER EDIT ADDTION END
