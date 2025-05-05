@@ -216,7 +216,11 @@
 		for(var/obj/item/mecha_parts/mecha_tracking/ai_control/A in interact.trackers)
 			can_control_mech = TRUE
 
-		if(robot_user.emagged && !can_control_mech)
+		if(robot_user.shell) //No multi mechs for AIs
+			to_chat(user, span_warning("You cannot control exosuits as an AI shell."))
+			return ITEM_INTERACT_BLOCKING
+
+		else if(robot_user.emagged && !can_control_mech)
 			balloon_alert(user, "Hacking on board computer...")
 			if(!do_after(user, 10 SECONDS)) //HACKING THE SYSTEM
 				return ITEM_INTERACT_SUCCESS
