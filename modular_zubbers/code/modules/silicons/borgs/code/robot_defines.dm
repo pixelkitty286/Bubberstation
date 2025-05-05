@@ -31,7 +31,3 @@
 
 /mob/living/silicon/robot/model/centcom/ResetModel()
 	return
-
-/* Research cyborgs */
-/mob/living/silicon/robot/model/sci
-	icon_state = "research"

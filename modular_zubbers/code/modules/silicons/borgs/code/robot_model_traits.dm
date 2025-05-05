@@ -43,21 +43,3 @@
 		add_verb(cyborg, /mob/living/silicon/robot/proc/robot_lay_down)
 	else
 		remove_verb(cyborg, /mob/living/silicon/robot/proc/robot_lay_down)
-
-// TODO: Move Cat like grace to it's own thing
-//For cyborgs who have a lighter chassis
-// !!!NOTE WORKS BEST WITH ONLY 32 X 32 CYBORBG SPRITES!!!
-/obj/item/robot_model/proc/update_lightweight()
-	var/mob/living/silicon/robot/cyborg = robot || loc
-	if (!istype(robot))
-		return
-	if (model_features && (TRAIT_R_LIGHT_WEIGHT in model_features))
-		cyborg.can_be_held = TRUE
-		cyborg.held_w_class = WEIGHT_CLASS_HUGE
-		cyborg.add_traits(list(TRAIT_CATLIKE_GRACE), INNATE_TRAIT)
-		cyborg.mob_size = MOB_SIZE_SMALL
-	else
-		cyborg.can_be_held = FALSE
-		cyborg.held_w_class = WEIGHT_CLASS_NORMAL
-		cyborg.remove_traits(list(TRAIT_CATLIKE_GRACE), INNATE_TRAIT)
-		cyborg.mob_size = MOB_SIZE_HUMAN

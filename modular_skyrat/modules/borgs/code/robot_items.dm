@@ -641,8 +641,6 @@
 				model = new /obj/item/robot_model/syndicatejack
 			if("Spider Clan")
 				model = new /obj/item/robot_model/ninja
-			if("Research")
-				model = new /obj/item/robot_model/sci
 			else
 				return FALSE
 		if (!set_disguise_vars(model, user))
