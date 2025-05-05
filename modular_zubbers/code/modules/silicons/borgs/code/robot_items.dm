@@ -223,7 +223,7 @@
 		else if(robot_user.emagged && !can_control_mech)
 			balloon_alert(user, "Hacking on board computer...")
 			if(!do_after(user, 10 SECONDS)) //HACKING THE SYSTEM
-				return ITEM_INTERACT_SUCCESS
+				return ITEM_INTERACT_BLOCKING
 			//WE'RE IN!
 			interact.cyborg_enter_mech(user)
 			return ITEM_INTERACT_SUCCESS
