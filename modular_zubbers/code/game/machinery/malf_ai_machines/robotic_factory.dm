@@ -7,6 +7,7 @@
 	base_icon_state = "separator-AO0"
 	layer = ABOVE_ALL_MOB_LAYER // Overhead
 	density = TRUE
+	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 5
 	/// How many cyborgs are we storing
 	var/stored_cyborgs = 1
 	/// How many cyborgs can we store?
@@ -18,7 +19,7 @@
 	/// Whether we're on spawn cooldown
 	var/cooldown = FALSE
 	/// How much time between the storing of cyborgs?
-	var/stored_duration = 5 MINUTES
+	var/stored_duration = 3 MINUTES
 	/// Handles the stored Cyborg timer.
 	var/stored_timer
 	/// The countdown itself
@@ -83,11 +84,18 @@
 		return
 
 	stored_cyborgs++
+	playsound(src.loc, 'sound/machines/chime.ogg', 50, TRUE)
 	notify_ghosts("A new cyborg shell has been created at the [src]",
 		source = src,
 		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "New malfunctioning cyborg created!",
 	)
+
+
+/*
+	var/mob/living/silicon/robot/new_borg = new /mob/living/silicon/robot(loc)
+*/
+
 
 /obj/machinery/transformer_rp/proc/create_a_cyborg(mob/dead/observer/target_ghost)
 	if(!is_operational)
@@ -101,12 +109,29 @@
 	if(cyborg_ask == "No" || !src || QDELETED(src))
 		return FALSE
 
-	var/mob/living/silicon/robot/cyborg = new /mob/living/silicon/robot(loc)
-	cyborg.key = target_ghost.key
-	cyborg.set_connected_ai(master_ai)
-	cyborg.lawsync()
-	cyborg.lawupdate = TRUE
+	playsound(src.loc, 'sound/items/tools/rped.ogg', 50, TRUE)
 	stored_cyborgs--
-
 	cooldown = TRUE
 	cooldown_timer = cooldown_duration
+
+
+	var/mob/living/silicon/robot/new_borg = target_ghost.change_mob_type(/mob/living/carbon/human , loc, null, TRUE)
+	new_borg.Robotize() //loads prefs, creates the new borg, and checks for job ban
+	use_energy(active_power_usage)
+	new_borg.cell = new /obj/item/stock_parts/power_store/cell/super(new_borg)
+
+	//Powering up
+	new_borg.SetLockdown()
+	if(master_ai && new_borg.connected_ai != master_ai)
+		new_borg.set_connected_ai(master_ai)
+		new_borg.lawsync()
+		new_borg.lawupdate = TRUE
+		log_silicon("[key_name(new_borg)] resynced to [key_name(master_ai)]")
+	addtimer(CALLBACK(src, PROC_REF(unlock_new_robot), new_borg), 5 SECONDS)
+
+/obj/machinery/transformer_rp/proc/unlock_new_robot(mob/living/silicon/robot/new_borg)
+	playsound(src.loc, 'sound/machines/ping.ogg', 50, FALSE)
+	sleep(3 SECONDS)
+	if(new_borg)
+		new_borg.SetLockdown(FALSE)
+		new_borg.notify_ai(AI_NOTIFICATION_NEW_BORG)
