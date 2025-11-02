@@ -4,7 +4,7 @@
 
 /datum/antagonist/assault_operative
 	name = ROLE_ASSAULT_OPERATIVE
-	job_rank = ROLE_ASSAULT_OPERATIVE
+	pref_flag = ROLE_ASSAULT_OPERATIVE
 	roundend_category = "assault operatives"
 	antagpanel_category = "Assault Operatives"
 	antag_hud_name = "synd"
@@ -68,7 +68,6 @@
 					return
 		assault_team = new /datum/team/assault_operatives
 		assault_team.add_member(owner)
-		assault_team.update_objectives()
 		return
 	if(!istype(new_team))
 		stack_trace("Wrong team type passed to [type] initialization.")
@@ -161,7 +160,7 @@
 	for(var/obj/item/item in human_target.get_equipped_items(TRUE))
 		qdel(item)
 
-	var/obj/item/organ/internal/brain/human_brain = human_target.get_organ_slot(BRAIN)
+	var/obj/item/organ/brain/human_brain = human_target.get_organ_slot(BRAIN)
 	human_brain.destroy_all_skillchips() // get rid of skillchips to prevent runtimes
 	human_target.equipOutfit(assault_operative_default_outfit)
 	human_target.regenerate_icons()
@@ -200,14 +199,10 @@
  */
 
 /datum/team/assault_operatives
-	/// Our core objective, it's obviously goldeneye.
-	var/core_objective = /datum/objective/goldeneye
 
-/datum/team/assault_operatives/proc/update_objectives()
-	if(core_objective)
-		var/datum/objective/new_objective = new core_objective
-		new_objective.team = src
-		objectives += new_objective
+/datum/team/assault_operatives/New(starting_members)
+	. = ..()
+	add_objective(new /datum/objective/goldeneye())
 
 /datum/team/assault_operatives/proc/operatives_dead()
 	var/total_operatives = LAZYLEN(members)

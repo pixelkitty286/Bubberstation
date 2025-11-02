@@ -1,4 +1,4 @@
-/datum/controller/subsystem/map_vote/finalize_map_vote(datum/vote/map_vote/map_vote)
+/datum/controller/subsystem/map_vote/finalize_map_vote(datum/vote/map_vote/map_vote, winning_option) // BUBBER EDIT CHANGE - Ranked Choice Voting - add winning_option
 	if(already_voted)
 		message_admins("Attempted to finalize a map vote after a map vote has already been finalized.")
 		return
@@ -13,24 +13,18 @@
 	write_cache()
 	update_tally_printout()
 
-	var/list/message_data = list()
-	for(var/map_id in map_vote.choices)
-		var/datum/map_config/map = config.maplist[map_id]
-		message_data += "[map.map_name] - [map_vote_cache[map_id]]"
-	var/filtered_vote_results = "[span_bold("Vote Results (Including Carryover)")]\n\n[message_data.Join("\n")]"
-
 	if(admin_override)
 		send_map_vote_notice("Admin Override is in effect. Map will not be changed.", "Tallies are recorded and saved.")
 		return
 
-	var/list/valid_maps = filter_cache_to_valid_maps()
-	if(!length(valid_maps))
-		send_map_vote_notice("No valid maps.")
-		return
 
+	// BUBBER EDIT CHANGE BEGIN - Ranked Choice Voting
+	/*
+	var/list/message_data = list()
 	var/winner
 	var/winner_amount = 0
-	for(var/map in valid_maps)
+	for(var/map in map_vote.choices)
+		message_data += "[map] - [map_vote_cache[map]]"
 		if(!winner_amount)
 			winner = map
 			winner_amount = map_vote_cache[map]
@@ -39,6 +33,8 @@
 			continue
 		winner = map
 		winner_amount = map_vote_cache[map]
+
+	var/filtered_vote_results = "[span_bold("Vote Results (Including Carryover)")]\n\n[message_data.Join("\n")]"
 
 	ASSERT(winner, "No winner found in map vote.")
 	set_next_map(config.maplist[winner])
@@ -49,12 +45,18 @@
 		vote_result_message += list("\n[CONFIG_GET(number/map_vote_tally_carryover_percentage)]% of votes from the losing maps will be carried over and applied to the next map vote.")
 
 	// do not reset tallies if only one map is even possible
-	if(length(valid_maps) > 1)
+	if(length(map_vote.choices) > 1)
 		map_vote_cache[winner] = CONFIG_GET(number/map_vote_minimum_tallies)
 		write_cache()
 		update_tally_printout()
 	else
 		vote_result_message += "Only one map was possible, tallies were not reset."
+	*/
+	set_next_map(config.maplist[winning_option])
+	var/list/vote_results = map_vote.elimination_results
+	var/serialized_vote_results = "[vote_results.Join("\n")]"
+	var/list/vote_result_message = list("Method: Ranked Vote\n\nElimination order:\n[serialized_vote_results]\n\nNext Map: [span_vote_notice(span_bold(winning_option))]")
+	// BUBBER EDIT CHANGE END - Ranked Choice Voting
 
 	send_map_vote_notice(arglist(vote_result_message))
 
@@ -65,7 +67,8 @@
 	last_message_at = world.time
 
 	var/list/messages = args.Copy()
-	to_chat(world, examine_block(vote_font("[span_bold("Map Vote")]\n<hr>[messages.Join("\n")]")))
+	//to_chat(world, custom_boxed_message("purple_box", vote_font("[span_bold("Map Vote")]\n<hr>[messages.Join("\n")]"))) // BUBBER EDIT CHANGE - Ranked Choice Voting
+	to_chat(world, vote_font(fieldset_block("Map Vote - Results", "[messages.Join("\n")]", "boxed_message purple_box")))
 
 /datum/controller/subsystem/map_vote/update_tally_printout()
 	var/list/data = list()

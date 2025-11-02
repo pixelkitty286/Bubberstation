@@ -96,7 +96,7 @@
 	// Apply Appearance
 	user.regenerate_organs() // Actually regenerates the mutant_bodyparts.
 	user.update_body(TRUE) // Outfit and underware, also body.
-	user.update_mutant_bodyparts(TRUE) // Lizard tails etc
+	user.update_body_parts(TRUE) // Lizard tails etc
 
 	RegisterSignal(user, COMSIG_HUMAN_GET_VISIBLE_NAME, PROC_REF(return_disguise_name))
 
@@ -104,7 +104,7 @@
 	SIGNAL_HANDLER
 
 	identity[VISIBLE_NAME_FACE] = disguise_name
-	user.SetSpecialVoice(disguise_name)
+	user.get_message_voice(disguise_name)
 
 /datum/action/cooldown/bloodsucker/veil/DeactivatePower(deactivate_flags)
 	. = ..()
@@ -112,7 +112,7 @@
 		return
 	var/mob/living/carbon/human/user = owner
 	// Revert Identity
-	user.UnsetSpecialVoice()
+	user.get_message_voice()
 
 	// Revert Appearance
 	user.gender = prev_gender

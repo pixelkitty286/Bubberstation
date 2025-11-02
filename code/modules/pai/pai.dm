@@ -59,12 +59,8 @@
 	var/master_name
 	/// DNA string for owner verification
 	var/master_dna
-	/// Toggles whether the Medical  HUD is active or not
-	var/medHUD = FALSE
 	/// Used as currency to purchase different abilities
 	var/ram = 100
-	/// Toggles whether the Security HUD is active or not
-	var/secHUD = FALSE
 	/// The current leash to the owner
 	var/datum/component/leash/leash
 
@@ -123,20 +119,6 @@
 		"puppy" = TRUE,
 		"spider" = TRUE,
 	)
-	/// List of all available card overlays.
-	var/static/list/possible_overlays = list(
-		"null",
-		"angry",
-		"cat",
-		"extremely-happy",
-		"face",
-		"happy",
-		"laugh",
-		"off",
-		"sad",
-		"sunglasses",
-		"what"
-	)
 
 /mob/living/silicon/pai/add_sensors() //pAIs have to buy their HUDs
 	return
@@ -188,7 +170,7 @@
 	//SKYRAT EDIT ADDITION END
 
 /mob/living/silicon/pai/get_status_tab_items()
-	. += ..()
+	. = ..()
 	if(!stat)
 		. += "Emitter Integrity: [holochassis_health * (100 / HOLOCHASSIS_MAX_HEALTH)]."
 	else
@@ -220,6 +202,7 @@
 
 /mob/living/silicon/pai/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/holographic_nature)
 	if(istype(loc, /obj/item/modular_computer))
 		give_messenger_ability()
 	START_PROCESSING(SSfastprocess, src)
@@ -274,7 +257,12 @@
 	SEND_SIGNAL(src, COMSIG_LIVING_HEALTH_UPDATE)
 
 /mob/living/silicon/pai/update_desc(updates)
-	desc = "A hard-light holographic avatar representing a pAI. This one appears in the form of a [chassis]."
+// BUBBER EDIT START: PAI ReLeashed: ORIGINAL: desc = "A hard-light holographic avatar representing a pAI. This one appears in the form of a [chassis]."
+	if(!holo_leash)
+		desc = "A pAI mobile hard-light holographics emitter. This one appears in the form of a [chassis]."
+	else
+		desc = "A hard-light holographic avatar representing a pAI. This one appears in the form of a [chassis]."
+// BUBBER EDIT END
 	return ..()
 
 /mob/living/silicon/pai/update_icon_state()
@@ -401,7 +389,7 @@
 	master_ref = WEAKREF(master)
 	master_name = master.real_name
 	master_dna = master.dna.unique_enzymes
-	to_chat(src, span_boldannounce("You have been bound to a new master: [user.real_name]!"))
+	to_chat(src, span_bolddanger("You have been bound to a new master: [user.real_name]!"))
 	holochassis_ready = TRUE
 	return TRUE
 
@@ -485,7 +473,7 @@
 
 /// Updates the distance we can be from our pai card
 /mob/living/silicon/pai/proc/increment_range(increment_amount)
-	if(emagged)
+	if(!holo_leash) // BUBBER EDIT: PAI ReLeashed: ORIGINAL: if(emagged)
 		return
 
 	var/new_distance = leash.distance + increment_amount
@@ -503,3 +491,6 @@
 /mob/living/silicon/pai/proc/remove_messenger_ability()
 	if(messenger_ability)
 		messenger_ability.Remove(src)
+
+/mob/living/silicon/pai/get_access()
+	return list()

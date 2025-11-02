@@ -9,12 +9,12 @@
 	gain_text = span_notice("You feel at home in space.")
 	lose_text = span_danger("You feel homesick.")
 	icon = FA_ICON_USER_ASTRONAUT
-	value = 7
+	value = 5
 	quirk_flags = QUIRK_CHANGES_APPEARANCE //SKYRAT EDIT CHANGE - ORIGINAL: quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_CHANGES_APPEARANCE
 	medical_record_text = "Patient is well-adapted to non-terrestrial environments."
 	mail_goodies = list(
 		/obj/item/storage/pill_bottle/ondansetron,
-		/obj/item/reagent_containers/pill/gravitum,
+		/obj/item/reagent_containers/applicator/pill/gravitum,
 	)
 	/// How high spacers get bumped up to
 	var/modded_height = HUMAN_HEIGHT_TALLER
@@ -46,7 +46,9 @@
 	quirk_holder.inertia_move_multiplier *= 0.8
 
 	var/mob/living/carbon/human/human_quirker = quirk_holder
-	human_quirker.set_mob_height(modded_height)
+	//BUBBER EDIT REMOVAL START
+	//human_quirker.set_mob_height(modded_height)
+	//BUBBER EDIT REMOVAL END
 	human_quirker.physiology.pressure_mod *= 0.8
 	human_quirker.physiology.cold_mod *= 0.8
 
@@ -64,7 +66,7 @@
 	// Supply them with some patches to help out on their new assignment
 	var/obj/item/storage/pill_bottle/ondansetron/disgust_killers = new()
 	disgust_killers.desc += " Best to take one when travelling to a planet's surface."
-	if(quirk_holder.equip_to_slot_if_possible(disgust_killers, ITEM_SLOT_BACKPACK, qdel_on_fail = TRUE, initial = TRUE, indirect_action = TRUE))
+	if(quirk_holder.equip_to_storage(disgust_killers, ITEM_SLOT_BACK, indirect_action = TRUE, del_on_fail = TRUE))
 		to_chat(quirk_holder, span_info("You have[isnull(spacer_account) ? " " : " also "]been given some anti-emetic patches to assist in adjusting to planetary gravity."))
 
 /datum/quirk/spacer_born/remove()
@@ -79,7 +81,9 @@
 	quirk_holder.remove_status_effect(/datum/status_effect/spacer)
 
 	var/mob/living/carbon/human/human_quirker = quirk_holder
-	human_quirker.set_mob_height(HUMAN_HEIGHT_MEDIUM)
+	//BUBBER EDIT REMOVAL START
+	//human_quirker.set_mob_height(HUMAN_HEIGHT_MEDIUM)
+	//BUBBER EDIT REMOVAL END
 	human_quirker.physiology.pressure_mod /= 0.8
 	human_quirker.physiology.cold_mod /= 0.8
 

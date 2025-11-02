@@ -10,10 +10,6 @@
 /obj/structure/girder/reinforced,
 /turf/open/misc/asteroid/airless,
 /area/ruin/space/prison_shuttle)
-"d" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
-/turf/closed/mineral/random/stationside/asteroid,
-/area/ruin/space/prison_shuttle)
 "e" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/carpet/red/airless,
@@ -146,11 +142,6 @@
 /obj/effect/turf_decal/tile/brown/fourcorners,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/space/prison_shuttle)
-"O" = (
-/mob/living/basic/cockroach,
-/obj/effect/turf_decal/tile/brown/fourcorners,
-/turf/open/floor/iron/dark/airless,
-/area/ruin/space/prison_shuttle)
 "P" = (
 /obj/structure/bed,
 /obj/item/bedsheet/orange,
@@ -165,6 +156,11 @@
 "R" = (
 /obj/machinery/power/shuttle_engine/propulsion/burst/right,
 /turf/template_noop,
+/area/ruin/space/prison_shuttle)
+"S" = (
+/obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/effect/decal/cleanable/blood/splatter/xeno,
+/turf/open/floor/iron/dark/airless,
 /area/ruin/space/prison_shuttle)
 "T" = (
 /obj/effect/decal/cleanable/vomit/old,
@@ -261,7 +257,7 @@ F
 E
 Y
 Y
-d
+Y
 E
 j
 q
@@ -272,7 +268,7 @@ x
 z
 N
 N
-O
+S
 Q
 a
 "}
@@ -280,7 +276,7 @@ a
 E
 Y
 Y
-d
+Y
 K
 m
 r
@@ -289,7 +285,7 @@ h
 z
 h
 h
-O
+S
 T
 N
 Q

@@ -4,11 +4,13 @@
 //Visibility Flags
 #define HIDDEN_SCANNER (1<<0)
 #define HIDDEN_PANDEMIC (1<<1)
+#define HIDDEN_MEDHUD (1<<2) // BUBBER EDIT ADDITION - DISEASE OUTBREAK UPDATES
 
 //Bitfield for Visibility Flags
 DEFINE_BITFIELD(visibility_flags, list(
 	"HIDDEN_FROM_ANALYZER" = HIDDEN_SCANNER,
 	"HIDDEN_FROM_PANDEMIC" = HIDDEN_PANDEMIC,
+	"HIDDEN_FROM_MEDHUD" = HIDDEN_MEDHUD, // BUBBER EDIT ADDITION - DISEASE OUTBREAK UPDATES
 ))
 
 //Disease Flags
@@ -16,6 +18,8 @@ DEFINE_BITFIELD(visibility_flags, list(
 #define CAN_CARRY (1<<1)
 #define CAN_RESIST (1<<2)
 #define CHRONIC (1<<3)
+/// Instead of instantly curing the disease, cures will simply reduce the stage
+#define INCREMENTAL_CURE (1<<4)
 
 //Spread Flags
 #define DISEASE_SPREAD_SPECIAL (1<<0)

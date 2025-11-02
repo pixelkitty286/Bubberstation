@@ -95,7 +95,7 @@
 	desc = "A handheld tracking device that points to crew suit sensors."
 	icon_state = "pinpointer_crew"
 	worn_icon_state = "pinpointer_crew"
-	custom_price = PAYCHECK_CREW * 4
+	custom_price = PAYCHECK_CREW * 6
 	custom_premium_price = PAYCHECK_CREW * 6
 	var/has_owner = FALSE
 	var/pinpointer_owner = null
@@ -105,6 +105,8 @@
 	var/turf/here = get_turf(src)
 	var/turf/there = get_turf(H)
 	if(here && there && (there.z == here.z || (is_station_level(here.z) && is_station_level(there.z)))) // Device and target should be on the same level or different levels of the same station
+		if (H in GLOB.nanite_sensors_list) // BUBBER ADDITION START - NANITES
+			return TRUE
 		if (istype(H.w_uniform, /obj/item/clothing/under))
 			var/obj/item/clothing/under/U = H.w_uniform
 			if(U.has_sensor && (U.sensor_mode >= SENSOR_COORDS || ignore_suit_sensor_level)) // Suit sensors must be on maximum or a contractor pinpointer
@@ -188,29 +190,21 @@
 		. += "Its pair is being held by [mob_holder]."
 		return
 
-/obj/item/storage/box/pinpointer_pairs
-	name = "pinpointer pair box"
-
-/obj/item/storage/box/pinpointer_pairs/PopulateContents()
-	var/obj/item/pinpointer/pair/A = new(src)
-	var/obj/item/pinpointer/pair/B = new(src)
-
-	A.other_pair = B
-	B.other_pair = A
-
 /obj/item/pinpointer/shuttle
 	name = "bounty shuttle pinpointer"
 	desc = "A handheld tracking device that locates the bounty hunter shuttle for quick escapes."
 	icon_state = "pinpointer_hunter"
 	worn_icon_state = "pinpointer_black"
 	icon_suffix = "_hunter"
-	var/obj/shuttleport
+	var/obj/docking_port/mobile/shuttleport
 
 /obj/item/pinpointer/shuttle/Initialize(mapload)
 	. = ..()
 	shuttleport = SSshuttle.getShuttle("huntership")
 
 /obj/item/pinpointer/shuttle/scan_for_target()
+	if(!shuttleport)
+		shuttleport = SSshuttle.getShuttle("huntership")
 	target = shuttleport
 
 /obj/item/pinpointer/shuttle/Destroy()

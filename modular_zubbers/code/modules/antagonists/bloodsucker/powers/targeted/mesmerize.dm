@@ -28,7 +28,7 @@
 	/// At what level this ability will blind the target at. Level 0 = never.
 	var/blind_at_level = 0
 	/// if the ability requires you to be physically facing the target
-	var/requires_facing_target = TRUE
+	var/requires_facing_target = FALSE
 	/// if the ability requires you to not have your eyes covered
 	var/blocked_by_glasses = TRUE
 	/// if the ability will knockdown on secondary click
@@ -148,7 +148,7 @@
 		StartCooldown(cooldown_time * 0.5)
 		return
 	// Can't quite time it here, but oh well
-	to_chat(mesmerized_target, "[src]'s eyes look into yours, and [span_hypnophrase("you feel your mind slipping away")]...")
+	to_chat(mesmerized_target, "[user]'s eyes look into yours, and [span_hypnophrase("you feel your mind slipping away")]...")
 	/*if(IS_MONSTERHUNTER(mesmerized_target))
 		to_chat(mesmerized_target, span_notice("You feel your eyes burn for a while, but it passes."))
 		return*/

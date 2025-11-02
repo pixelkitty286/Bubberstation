@@ -1,4 +1,3 @@
-#define SENSORS_UPDATE_PERIOD 15 SECONDS //Why is this not a global define, why do I have to define it again
 #define ALARM_PERIOD 45 SECONDS
 
 /obj/machinery/computer/crew
@@ -20,10 +19,14 @@
 
 	for(var/mob/living/carbon/human/mob in GLOB.suit_sensors_list)
 
+		var/turf/pos = get_turf(mob)
+
 		if(!istype(mob))
 			continue
-		if(mob.z != src.z  && !HAS_TRAIT(mob, TRAIT_MULTIZ_SUIT_SENSORS))
+
+		if(pos.z != z && (!is_station_level(pos.z) || !is_station_level(z)) && !HAS_TRAIT(mob, TRAIT_MULTIZ_SUIT_SENSORS))
 			continue
+
 		var/obj/item/clothing/under/uniform = mob.w_uniform
 		if(uniform.sensor_mode == SENSOR_COORDS && (uniform.has_sensor != BROKEN_SENSORS) && (HAS_TRAIT(mob, TRAIT_CRITICAL_CONDITION) || mob.stat == DEAD))
 			if(mob.get_dnr()) // DNR won't beep anymore
@@ -47,5 +50,4 @@
 
 	return canalarm
 
-#undef SENSORS_UPDATE_PERIOD
 #undef ALARM_PERIOD

@@ -35,7 +35,14 @@
 	caliber = CALIBER_9MM
 	projectile_type = /obj/projectile/bullet/c9mm
 	newtonian_force = 0.75
-
+//BUBBERSTAION ADDITION
+/obj/item/ammo_casing/c9mm/security
+	name = "9mm bullet Security casing"
+	desc = "A 9mm bullet Security casing."
+	caliber = CALIBER_9MM
+	projectile_type = /obj/projectile/bullet/c9mm/security
+	newtonian_force = 0.75
+// BUBBBER EDIT END
 /obj/item/ammo_casing/c9mm/ap
 	name = "9mm armor-piercing bullet casing"
 	desc = "A 9mm armor-piercing bullet casing."
@@ -67,6 +74,8 @@
 	icon_state = "smartgun_casing"
 	caliber = CALIBER_160SMART
 	projectile_type = /obj/projectile/bullet/c160smart
+	/// How many tiles away should we check for smart auto-locking
+	var/auto_lock_range = 2
 
 /obj/item/ammo_casing/c160smart/Initialize(mapload)
 	. = ..()
@@ -76,3 +85,15 @@
 	. = ..()
 	if(!isturf(target))
 		loaded_projectile.set_homing_target(target)
+		new /obj/effect/temp_visual/smartgun_target(get_turf(target))
+	else
+		var/atom/aimbot_target = locate(/mob/living) in range(auto_lock_range, target)
+		if(aimbot_target)
+			loaded_projectile.set_homing_target(aimbot_target)
+			new /obj/effect/temp_visual/smartgun_target(get_turf(aimbot_target))
+
+/obj/effect/temp_visual/smartgun_target
+	name = "smartgun target reticle"
+	desc = "A holographic crosshair that probably means you should start running."
+	icon_state = "launchpad_pull"
+	duration = 0.25 SECONDS

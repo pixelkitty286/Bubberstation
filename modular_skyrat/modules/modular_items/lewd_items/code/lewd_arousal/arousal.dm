@@ -13,11 +13,12 @@
 		arousal_status = arousal_flag
 		if(istype(src, /mob/living/carbon/human))
 			var/mob/living/carbon/human/target = src
-			for(var/obj/item/organ/external/genital/target_genital in target.organs)
+			for(var/obj/item/organ/genital/target_genital in target.organs)
 				if(!target_genital.aroused == AROUSAL_CANT)
 					target_genital.aroused = arousal_status
 					target_genital.update_sprite_suffix()
 			target.update_body()
+			SEND_SIGNAL(src, COMSIG_HUMAN_ADJUST_AROUSAL)
 
 	arousal = clamp(arousal + arous, AROUSAL_MINIMUM, AROUSAL_LIMIT)
 
@@ -38,7 +39,7 @@
 		if(get_organ_slot(ORGAN_SLOT_VAGINA) && !has_status_effect(/datum/status_effect/body_fluid_regen/vagina))
 			apply_status_effect(/datum/status_effect/body_fluid_regen/vagina)
 
-	var/obj/item/organ/external/genital/breasts/breasts = get_organ_slot(ORGAN_SLOT_BREASTS)
+	var/obj/item/organ/genital/breasts/breasts = get_organ_slot(ORGAN_SLOT_BREASTS)
 
 	if(!breasts || !breasts.lactates)
 		remove_status_effect(/datum/status_effect/body_fluid_regen/breasts)
@@ -48,3 +49,16 @@
 
 	return TRUE
 
+
+/mob/living/carbon/human/examine(mob/user)
+	. = ..()
+	if(src.client?.prefs.read_preference(/datum/preference/toggle/erp) && user.client.prefs.read_preference(/datum/preference/toggle/erp))
+		if (arousal > AROUSAL_HIGH && src.dna.features["high_arousal"])
+			. += span_userlove(src.dna.features["high_arousal"])
+			return
+		if (arousal > AROUSAL_LOW && src.dna.features["medium_arousal"])
+			. += span_userlove(src.dna.features["medium_arousal"])
+			return
+		if (arousal > AROUSAL_NONE && src.dna.features["low_arousal"])
+			. += span_purple(src.dna.features["low_arousal"])
+			return

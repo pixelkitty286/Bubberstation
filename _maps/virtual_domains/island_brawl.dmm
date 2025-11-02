@@ -294,15 +294,6 @@
 	},
 /turf/open/water/beach,
 /area/virtual_domain/fullbright)
-"dv" = (
-/obj/structure/table,
-/obj/item/wrench{
-	pixel_y = 4
-	},
-/obj/item/storage/toolbox/emergency,
-/obj/effect/decal/cleanable/oil,
-/turf/open/floor/iron/dark/herringbone,
-/area/virtual_domain)
 "dA" = (
 /obj/structure/table/bronze,
 /obj/item/paper_bin/carbon{
@@ -402,11 +393,6 @@
 /obj/effect/turf_decal/sand/plating,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
-"ew" = (
-/obj/effect/landmark/bitrunning/cache_goal_turf,
-/obj/effect/landmark/bitrunning/loot_signal,
-/turf/open/indestructible/binary,
-/area/virtual_domain/protected_space/fullbright)
 "eH" = (
 /turf/open/misc/beach/coast{
 	dir = 9
@@ -480,9 +466,6 @@
 	},
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
-"fI" = (
-/turf/open/misc/beach/sand,
-/area/virtual_domain/protected_space/fullbright)
 "fJ" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
@@ -619,10 +602,21 @@
 /obj/structure/chair/stool/bar/directional/west,
 /turf/open/floor/wood/large,
 /area/virtual_domain)
-"hu" = (
-/obj/effect/baseturf_helper/virtual_domain,
+"hv" = (
+/obj/structure/table,
+/obj/item/wrench{
+	pixel_y = 4
+	},
+/obj/item/storage/toolbox/emergency,
+/obj/effect/decal/cleanable/blood/oil,
+/turf/open/floor/iron/dark/herringbone,
+/area/virtual_domain)
+"hw" = (
+/obj/effect/turf_decal/siding/dark{
+	dir = 1
+	},
 /turf/open/misc/beach/sand,
-/area/virtual_domain/protected_space/fullbright)
+/area/virtual_domain/fullbright)
 "hA" = (
 /obj/structure/table/wood,
 /obj/machinery/chem_dispenser/drinks/fullupgrade{
@@ -636,13 +630,6 @@
 	},
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
-"hD" = (
-/obj/effect/decal/cleanable/oil,
-/obj/machinery/button/door/directional/south{
-	id = "BeachGarage"
-	},
-/turf/open/floor/iron/dark/herringbone,
-/area/virtual_domain)
 "hM" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -718,6 +705,18 @@
 	},
 /turf/open/floor/wood,
 /area/virtual_domain/fullbright)
+"iA" = (
+/obj/structure/table/bronze,
+/obj/item/rag{
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/condiment/coconut_milk{
+	pixel_y = 14;
+	pixel_x = 5
+	},
+/obj/machinery/light/directional/east,
+/turf/open/floor/wood/large,
+/area/virtual_domain)
 "iF" = (
 /obj/structure/table/bronze,
 /obj/structure/desk_bell{
@@ -783,6 +782,9 @@
 	},
 /turf/open/floor/wood/parquet,
 /area/virtual_domain)
+"jo" = (
+/turf/open/floor/pod,
+/area/virtual_domain/protected_space/fullbright)
 "jp" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
 /obj/item/clothing/neck/necklace/dope,
@@ -821,6 +823,10 @@
 /obj/effect/mob_spawn/ghost_role/human/virtual_domain/islander,
 /turf/open/floor/iron/white/textured_large,
 /area/virtual_domain)
+"jM" = (
+/obj/effect/landmark/bitrunning/permanent_exit,
+/turf/open/floor/pod/dark,
+/area/virtual_domain/protected_space/fullbright)
 "jP" = (
 /turf/open/indestructible/binary,
 /area/virtual_domain/protected_space/fullbright)
@@ -840,6 +846,12 @@
 	},
 /turf/open/floor/iron/dark/herringbone,
 /area/virtual_domain)
+"kp" = (
+/obj/effect/turf_decal/siding/dark{
+	dir = 4
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "ky" = (
 /obj/machinery/vending/snack,
 /obj/effect/turf_decal/sand,
@@ -853,10 +865,6 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/virtual_domain)
-"kI" = (
-/obj/effect/turf_decal/sand,
-/turf/closed/wall/mineral/wood,
 /area/virtual_domain)
 "kJ" = (
 /obj/machinery/shower/directional/south,
@@ -1034,6 +1042,12 @@
 	},
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
+"mR" = (
+/obj/effect/turf_decal/siding/dark/corner{
+	dir = 1
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "mV" = (
 /obj/effect/mob_spawn/ghost_role/human/virtual_domain/islander,
 /turf/open/floor/wood/large,
@@ -1094,6 +1108,9 @@
 	},
 /turf/open/water/beach,
 /area/virtual_domain)
+"oj" = (
+/turf/open/floor/pod/light,
+/area/virtual_domain/protected_space/fullbright)
 "oq" = (
 /obj/structure/table/wood,
 /obj/item/food/grown/watermelon{
@@ -1411,6 +1428,13 @@
 	pixel_y = 2
 	},
 /turf/open/floor/wood/large,
+/area/virtual_domain)
+"sk" = (
+/obj/vehicle/ridden/atv{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/blood/oil,
+/turf/open/floor/iron/dark/herringbone,
 /area/virtual_domain)
 "sl" = (
 /obj/effect/turf_decal/sand/plating,
@@ -1800,6 +1824,13 @@
 /obj/item/stack/sheet/mineral/coal/ten,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
+"xl" = (
+/obj/effect/decal/cleanable/blood/oil,
+/obj/machinery/button/door/directional/south{
+	id = "BeachGarage"
+	},
+/turf/open/floor/iron/dark/herringbone,
+/area/virtual_domain)
 "xw" = (
 /obj/item/kirbyplants/organic/applebush{
 	pixel_x = 7
@@ -1846,6 +1877,11 @@
 /obj/machinery/oven/range,
 /turf/open/floor/wood/large,
 /area/virtual_domain)
+"xY" = (
+/obj/structure/flora/coconuts,
+/obj/effect/turf_decal/siding/dark/corner,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "yc" = (
 /obj/structure/closet/gmcloset,
 /turf/open/floor/plastic,
@@ -1854,6 +1890,14 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/wood/large,
 /area/virtual_domain)
+"yr" = (
+/obj/effect/landmark/bitrunning/cache_goal_turf,
+/obj/effect/landmark/bitrunning/loot_signal,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/turf/open/indestructible/bitrunning_transport,
+/area/virtual_domain/protected_space/fullbright)
 "yy" = (
 /obj/effect/mob_spawn/ghost_role/human/virtual_domain/islander,
 /turf/open/floor/carpet/red,
@@ -2139,27 +2183,6 @@
 /obj/structure/fluff/beach_umbrella/cap,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
-"Bz" = (
-/obj/structure/closet,
-/obj/item/key/atv{
-	pixel_x = -4
-	},
-/obj/item/key/atv{
-	pixel_x = 5;
-	pixel_y = 3
-	},
-/obj/item/key/atv{
-	pixel_x = 1;
-	pixel_y = 1
-	},
-/obj/item/clothing/head/soft/black,
-/obj/item/clothing/head/soft/black,
-/obj/item/clothing/head/soft/black,
-/obj/effect/decal/cleanable/oil,
-/obj/item/clothing/glasses/sunglasses,
-/obj/item/clothing/glasses/heat,
-/turf/open/floor/iron/dark/herringbone,
-/area/virtual_domain)
 "BB" = (
 /obj/item/toy/plush/moth{
 	pixel_y = 5
@@ -2525,9 +2548,6 @@
 	},
 /turf/closed/wall/mineral/wood,
 /area/virtual_domain)
-"Gw" = (
-/turf/open/indestructible/binary,
-/area/virtual_domain/fullbright)
 "Gx" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -2538,10 +2558,6 @@
 	},
 /turf/open/floor/plating,
 /area/virtual_domain)
-"GD" = (
-/obj/effect/landmark/bitrunning/permanent_exit,
-/turf/open/indestructible/bitrunning_transport,
-/area/virtual_domain/protected_space/fullbright)
 "GI" = (
 /turf/open/floor/iron/dark/textured_large,
 /area/virtual_domain)
@@ -2556,6 +2572,27 @@
 	},
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
+"GT" = (
+/obj/structure/closet,
+/obj/item/key/atv{
+	pixel_x = -4
+	},
+/obj/item/key/atv{
+	pixel_x = 5;
+	pixel_y = 3
+	},
+/obj/item/key/atv{
+	pixel_x = 1;
+	pixel_y = 1
+	},
+/obj/item/clothing/head/soft/black,
+/obj/item/clothing/head/soft/black,
+/obj/item/clothing/head/soft/black,
+/obj/effect/decal/cleanable/blood/oil,
+/obj/item/clothing/glasses/sunglasses,
+/obj/item/clothing/glasses/heat,
+/turf/open/floor/iron/dark/herringbone,
+/area/virtual_domain)
 "GX" = (
 /obj/machinery/light/directional/west,
 /turf/open/floor/carpet,
@@ -2594,6 +2631,10 @@
 	},
 /turf/open/floor/wood/large,
 /area/virtual_domain)
+"Hq" = (
+/obj/effect/turf_decal/siding/dark,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "HE" = (
 /obj/machinery/griddle,
 /turf/open/floor/wood/large,
@@ -2848,6 +2889,13 @@
 /obj/item/clothing/suit/apron/overalls,
 /turf/open/floor/wood,
 /area/virtual_domain)
+"Ke" = (
+/obj/structure/flora/tree/palm,
+/obj/effect/turf_decal/siding/dark{
+	dir = 8
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "Ko" = (
 /obj/item/toy/beach_ball,
 /turf/open/misc/beach/coast/corner{
@@ -3100,6 +3148,10 @@
 /obj/effect/turf_decal/stripes/red/box,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
+"MY" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/indestructible/binary,
+/area/virtual_domain/protected_space/fullbright)
 "MZ" = (
 /obj/machinery/button/door/directional/north{
 	id = "beach_room_12";
@@ -3177,10 +3229,6 @@
 	},
 /turf/open/floor/iron/white/textured_large,
 /area/virtual_domain)
-"NZ" = (
-/obj/effect/turf_decal/sand,
-/turf/closed/wall/mineral/wood,
-/area/virtual_domain/fullbright)
 "Of" = (
 /obj/item/reagent_containers/cup/soda_cans/space_mountain_wind{
 	pixel_x = -17;
@@ -3213,6 +3261,12 @@
 	},
 /turf/open/floor/carpet/cyan,
 /area/virtual_domain)
+"Oo" = (
+/obj/effect/turf_decal/siding/dark{
+	dir = 8
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "Or" = (
 /obj/effect/turf_decal/siding/dark_red{
 	dir = 4
@@ -3252,18 +3306,6 @@
 /obj/structure/sink/kitchen/directional/east,
 /turf/open/floor/plastic,
 /area/virtual_domain)
-"Pq" = (
-/obj/structure/table/bronze,
-/obj/item/reagent_containers/cup/rag{
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/condiment/coconut_milk{
-	pixel_y = 14;
-	pixel_x = 5
-	},
-/obj/machinery/light/directional/east,
-/turf/open/floor/wood/large,
-/area/virtual_domain)
 "PD" = (
 /obj/item/kirbyplants/organic/plant8{
 	pixel_y = 9;
@@ -3300,6 +3342,12 @@
 	},
 /turf/open/floor/iron/dark/diagonal,
 /area/virtual_domain)
+"PN" = (
+/obj/effect/turf_decal/siding/dark/corner{
+	dir = 4
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "PR" = (
 /obj/effect/turf_decal/siding/blue{
 	dir = 1
@@ -3835,13 +3883,6 @@
 	},
 /turf/open/floor/wood/large,
 /area/virtual_domain)
-"UJ" = (
-/obj/vehicle/ridden/atv{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/oil,
-/turf/open/floor/iron/dark/herringbone,
-/area/virtual_domain)
 "UO" = (
 /obj/machinery/vending/cola/pwr_game,
 /turf/open/floor/eighties,
@@ -3945,6 +3986,13 @@
 	},
 /turf/open/misc/beach/sand,
 /area/virtual_domain/fullbright)
+"WN" = (
+/obj/effect/turf_decal/sand,
+/obj/effect/turf_decal/siding/dark/corner{
+	dir = 8
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "WX" = (
 /obj/structure/marker_beacon/teal,
 /turf/open/water/beach,
@@ -3981,6 +4029,13 @@
 	},
 /turf/open/floor/wood/large,
 /area/virtual_domain)
+"XD" = (
+/obj/effect/turf_decal/sand,
+/obj/effect/turf_decal/siding/dark{
+	dir = 4
+	},
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
 "XJ" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Locker Room"
@@ -7866,9 +7921,9 @@ bX
 ev
 ka
 ka
-NZ
-NZ
-eK
+Bq
+Bq
+Bq
 JN
 JN
 ka
@@ -7948,7 +8003,7 @@ bX
 Yo
 sz
 ka
-NZ
+Bq
 YI
 LD
 JN
@@ -8030,9 +8085,9 @@ Yo
 Yo
 sz
 ka
-NZ
-kI
-eK
+Bq
+Bq
+Bq
 JN
 JN
 ka
@@ -8046,7 +8101,7 @@ si
 Co
 Mb
 Fp
-Pq
+iA
 Sz
 Fx
 ka
@@ -8112,7 +8167,7 @@ Yo
 ka
 ka
 ka
-NZ
+Bq
 Qk
 Uf
 JN
@@ -8194,9 +8249,9 @@ ka
 th
 ka
 eK
-kI
-kI
-eK
+Bq
+Bq
+Bq
 JN
 JN
 ka
@@ -8276,7 +8331,7 @@ ka
 ka
 ka
 ka
-NZ
+Bq
 ZB
 sa
 JN
@@ -8358,9 +8413,9 @@ ka
 ka
 ka
 ka
-eK
-eK
-eK
+Bq
+Bq
+Bq
 JN
 JN
 ka
@@ -9514,11 +9569,11 @@ ka
 ka
 ka
 ka
-rD
-ka
-JN
-ka
-ka
+xY
+kp
+XD
+kp
+PN
 ka
 dG
 ka
@@ -9596,11 +9651,11 @@ JN
 JN
 JN
 ka
-ka
-ka
-fI
+Hq
+oj
+jo
 jP
-fI
+hw
 lP
 dG
 ka
@@ -9678,11 +9733,11 @@ JN
 ka
 JN
 JN
-ka
-JN
-GD
-ew
-fI
+Hq
+jo
+jM
+yr
+hw
 sO
 dG
 Tw
@@ -9760,11 +9815,11 @@ ka
 yz
 ka
 ka
-ka
-Gw
-fI
+Hq
 jP
-hu
+jo
+MY
+hw
 lP
 dG
 ka
@@ -9842,11 +9897,11 @@ ka
 ka
 ka
 ka
-JN
-ka
-ka
-th
-ka
+WN
+Oo
+Oo
+Ke
+mR
 ka
 dG
 ka
@@ -10567,7 +10622,7 @@ ka
 ka
 eK
 jV
-dv
+hv
 Bq
 KH
 uu
@@ -10649,7 +10704,7 @@ th
 ka
 eK
 Tq
-hD
+xl
 Bq
 Bq
 xO
@@ -10730,9 +10785,9 @@ oa
 ka
 ka
 eK
-Bz
+GT
 Tb
-UJ
+sk
 Bq
 aE
 uu
@@ -11225,8 +11280,8 @@ cO
 oa
 th
 ka
-NZ
-NZ
+eK
+eK
 eK
 ka
 ka
@@ -11307,7 +11362,7 @@ cO
 wb
 MT
 ka
-NZ
+eK
 EA
 xe
 ka

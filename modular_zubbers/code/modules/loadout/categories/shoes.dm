@@ -1,6 +1,4 @@
-/datum/loadout_item/shoes/glow
-	name = "Glow Shoes"
-	item_path = /obj/item/clothing/shoes/glow
+//Title Capitalization for names please!!!
 
 /datum/loadout_item/shoes/bubber/clown/pink/squeak //Unlike the rest, these make noise. Job locked.
 	name = "Pink Clown Heels"
@@ -20,3 +18,34 @@
 	name = "Latex Heels"
 	item_path = /obj/item/clothing/shoes/latex_heels
 
+/datum/loadout_item/shoes/pirate_boots
+	name = "Pirate Boots"
+	item_path = /obj/item/clothing/shoes/pirate
+
+/datum/loadout_item/shoes/Wheely_heels
+	name = "Wheely-Heels"
+	item_path = /obj/item/clothing/shoes/wheelys
+
+/datum/loadout_item/shoes/horseshoes
+	name = "Horseshoes"
+	item_path = /obj/item/clothing/shoes/horseshoe
+
+/datum/loadout_item/shoes/diesel_m
+	name = "Male Diesel Boots"
+	item_path = /obj/item/clothing/shoes/jackboots/diesel_m
+
+/datum/loadout_item/shoes/diesel_f
+	name = "Female Diesel Boots"
+	item_path = /obj/item/clothing/shoes/jackboots/diesel_f
+
+/datum/loadout_item/shoes/frontier_colonist
+	name = "Frontier Boots"
+	item_path = /obj/item/clothing/shoes/jackboots/frontier_colonist/loadout
+
+/datum/loadout_item/shoes/jackboots/toeless
+	name = "Toeless Jackboots"
+	item_path = /obj/item/clothing/shoes/jackboots/toeless
+
+/datum/loadout_item/shoes/workboots/toeless
+	name = "Toeless Workboots"
+	item_path = /obj/item/clothing/shoes/workboots/toeless

@@ -2,7 +2,7 @@
 	name = "\improper Space Dragon"
 	roundend_category = "space dragons"
 	antagpanel_category = ANTAG_GROUP_LEVIATHANS
-	job_rank = ROLE_SPACE_DRAGON
+	pref_flag = ROLE_SPACE_DRAGON
 	show_in_antagpanel = FALSE
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
@@ -66,12 +66,10 @@
 /datum/antagonist/space_dragon/on_gain()
 	forge_objectives()
 	rift_ability = new()
-	owner.special_role = ROLE_SPACE_DRAGON
 	owner.set_assigned_role(SSjob.get_job_type(/datum/job/space_dragon))
 	return ..()
 
 /datum/antagonist/space_dragon/on_removal()
-	owner.special_role = null
 	owner.set_assigned_role(SSjob.get_job_type(/datum/job/unassigned))
 	return ..()
 
@@ -140,11 +138,11 @@
 		to_chat(owner.current, span_boldwarning("You have a minute left to summon the rift! Get to it!"))
 		return
 	if(riftTimer >= maxRiftTimer)
-		to_chat(owner.current, span_boldwarning("You've failed to summon the rift in a timely manner! You're being pulled back from whence you came!"))
-		destroy_rifts()
-		SEND_SOUND(owner.current, sound('sound/effects/magic/demon_dies.ogg'))
-		owner.current.death(/* gibbed = */ TRUE)
-		QDEL_NULL(owner.current)
+		// BUBBER CHANGE START: dragons don't die to not summoning a rift
+		to_chat(owner.current, span_boldwarning("You've failed to summon the rift in a timely manner! You will be slowed down until you do so!"))
+		owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dragon_depression)
+		riftTimer = -1
+		// BUBBER CHANGE END
 
 /**
  * Destroys all of Space Dragon's current rifts.
@@ -157,15 +155,26 @@
 	if(objective_complete)
 		return
 	rifts_charged = 0
-	ADD_TRAIT(owner.current, TRAIT_RIFT_FAILURE, REF(src))
+	ADD_TRAIT(owner.current, TRAIT_RIFT_FAILURE, DRAGON_PORTAL_LOSS) // BUBBER CHANGE
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dragon_depression)
 	riftTimer = -1
+	if(rifts_charged != 3 && !objective_complete) // BUBBER ADDITION
+		if(owner.current.stat == DEAD)
+			return
+		to_chat(owner.current, span_warning("You will be able to make a new rift in 5 minutes."))
+		addtimer(CALLBACK(src, PROC_REF(give_rift_ability)), 5 MINUTES)
 	SEND_SOUND(owner.current, sound('sound/vehicles/rocketlaunch.ogg'))
 	for(var/obj/structure/carp_rift/rift as anything in rift_list)
 		rift.dragon = null
 		rift_list -= rift
 		if(!QDELETED(rift))
 			QDEL_NULL(rift)
+
+/datum/antagonist/space_dragon/proc/give_rift_ability()
+	if(owner.current.stat == DEAD)
+		return
+	rift_ability = new()
+	rift_ability.Grant(owner.current)
 
 /**
  * Sets up Space Dragon's victory for completing the objectives.

@@ -124,13 +124,17 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		else
 			CRASH("Illegal action for ui_act: '[action]'")
 
-/obj/machinery/computer/cryopod/proc/announce(message_type, user, rank)
+/obj/machinery/computer/cryopod/proc/announce(message_type, mob/living/user, rank)
 	switch(message_type)
 		if("CRYO_JOIN")
-			radio.talk_into(src, "[user][rank ? ", [rank]" : ""] has woken up from cryo storage.", announcement_channel)
+			radio.talk_into(src, "[user.real_name][rank ? ", [rank]" : ""] has woken up from cryo storage.", announcement_channel)
 		if("CRYO_LEAVE")
-			radio.talk_into(src, "[user][rank ? ", [rank]" : ""] has been moved to cryo storage.", announcement_channel)
-
+			radio.talk_into(src, "[user.real_name][rank ? ", [rank]" : ""] has been moved to cryo storage.", announcement_channel)
+			var/is_command = user?.mind?.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND
+			var/last_of_command = length(SSjob.get_all_heads())
+			if(is_command && last_of_command <= 1)
+				minor_announce(message = "Your station's last member of command has entered cryogenic storage. \
+				Please make sure that the stations essential operational supplies are secured.")
 // Cryopods themselves.
 /obj/machinery/cryopod
 	name = "cryogenic freezer"
@@ -192,7 +196,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	return ..()
 
 /obj/machinery/cryopod/proc/find_control_computer(urgent = FALSE)
-	for(var/cryo_console as anything in GLOB.cryopod_computers)
+	for(var/cryo_console in GLOB.cryopod_computers)
 		var/obj/machinery/computer/cryopod/console = cryo_console
 		if(get_area(console) == get_area(src))
 			control_computer_weakref = WEAKREF(console)
@@ -337,6 +341,36 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 					update_objective.owner.announce_objectives()
 			qdel(objective)
 
+/**
+ * Attempt to store a given item in either the control computer or on the ground.
+ * * holder - mob holding the item being stored
+ * * target_item - the item to store
+ * * control_computer - the cryo console connected to this pod, can be null
+ */
+/obj/machinery/cryopod/proc/try_store_item(mob/living/holder, obj/item/target_item, obj/machinery/computer/cryopod/control_computer)
+	if(!istype(target_item) || HAS_TRAIT(target_item, TRAIT_NODROP))
+		return FALSE
+	if (issilicon(holder) && istype(target_item, /obj/item/mmi))
+		return FALSE
+	if(istype(target_item, /obj/item/implant/storage)) // store the contents of the storage implant
+		for(var/obj/item/nested_item as anything in target_item)
+			try_store_item(holder, nested_item, control_computer)
+		return FALSE
+	if(target_item.item_flags & (ABSTRACT|DROPDEL))
+		return FALSE
+
+	if(control_computer)
+		if(istype(target_item, /obj/item/modular_computer))
+			var/obj/item/modular_computer/computer = target_item
+			for(var/datum/computer_file/program/messenger/message_app in computer.stored_files)
+				message_app.invisible = TRUE
+		holder.transferItemToLoc(target_item, control_computer, force = TRUE, silent = TRUE)
+		target_item.dropped(holder)
+		control_computer.frozen_item += target_item
+	else
+		holder.transferItemToLoc(target_item, drop_location(), force = TRUE, silent = TRUE)
+	return TRUE
+
 /// This function can not be undone; do not call this unless you are sure.
 /// Handles despawning the player.
 /obj/machinery/cryopod/proc/despawn_occupant()
@@ -353,7 +387,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		// Handle tater cleanup.
 		if(LAZYLEN(mob_occupant.mind.objectives))
 			mob_occupant.mind.objectives.Cut()
-			mob_occupant.mind.special_role = null
+			LAZYNULL(mob_occupant.mind.special_roles)
 		// Handle freeing the high priest role for the next chaplain in line
 		if(mob_occupant.mind.holy_role == HOLY_ROLE_HIGHPRIEST)
 			reset_religion()
@@ -387,25 +421,20 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 	// Make an announcement and log the person entering storage. If set to quiet, does not make an announcement.
 	if(!quiet)
-		control_computer.announce("CRYO_LEAVE", mob_occupant.real_name, announce_rank)
+		control_computer.announce("CRYO_LEAVE", mob_occupant, announce_rank)
 
 	visible_message(span_notice("[src] hums and hisses as it moves [mob_occupant.real_name] into storage."))
 
-	for(var/obj/item/item_content as anything in mob_occupant)
-		if(!istype(item_content) || HAS_TRAIT(item_content, TRAIT_NODROP))
-			continue
-		if (issilicon(mob_occupant) && istype(item_content, /obj/item/mmi))
-			continue
-		if(control_computer)
-			if(istype(item_content, /obj/item/modular_computer))
-				var/obj/item/modular_computer/computer = item_content
-				for(var/datum/computer_file/program/messenger/message_app in computer.stored_files)
-					message_app.invisible = TRUE
-			mob_occupant.transferItemToLoc(item_content, control_computer, force = TRUE, silent = TRUE)
-			item_content.dropped(mob_occupant)
-			control_computer.frozen_item += item_content
-		else
-			mob_occupant.transferItemToLoc(item_content, drop_location(), force = TRUE, silent = TRUE)
+	var/list/nuke_disks = mob_occupant.get_all_contents_type(/obj/item/disk/nuclear) // No
+	for(var/obj/item/disk/nuclear/the_disk as anything in nuke_disks)
+		var/turf/launch_target = get_edge_target_turf(src, pick(GLOB.alldirs))
+		mob_occupant.transferItemToLoc(the_disk, drop_location(), force = TRUE, silent = TRUE)
+		the_disk.throw_at(launch_target, 8, 14)
+		visible_message(span_warning("[src] violently ejects [the_disk]!"))
+
+	// get_equipped_items() prevents moving bodyparts, since those are in mob contents now
+	for(var/obj/item/item_content in mob_occupant.get_equipped_items(INCLUDE_POCKETS | INCLUDE_HELD | INCLUDE_ACCESSORIES))
+		try_store_item(mob_occupant, item_content, control_computer)
 
 	GLOB.joined_player_list -= stored_ckey
 
@@ -441,7 +470,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 // Allows players to cryo others. Checks if they have been AFK for 30 minutes.
 	if(target.key && user != target)
-		if (target.get_organ_by_type(/obj/item/organ/internal/brain) ) //Target the Brain
+		if (target.get_organ_by_type(/obj/item/organ/brain) ) //Target the Brain
 			if(!target.mind || target.ssd_indicator ) // Is the character empty / AI Controlled
 				if(target.lastclienttime + ssd_time >= world.time)
 					to_chat(user, span_notice("You can't put [target] into [src] for another [round(((ssd_time - (world.time - target.lastclienttime)) / (1 MINUTES)), 1)] minutes."))
@@ -519,7 +548,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 			return
 		to_chat(user, span_notice("You tuck [occupant.name] into their pod!"))
 		qdel(weapon)
-		user.add_mood_event("tucked", /datum/mood_event/tucked_in, 1, occupant)
+		user.add_mood_event("tucked", /datum/mood_event/tucked_in, occupant)
 		tucked = TRUE
 
 /obj/machinery/cryopod/update_icon_state()
@@ -564,7 +593,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/cryopod/prison, 18)
 /obj/effect/mob_spawn/ghost_role/proc/find_control_computer()
 	if(!computer_area)
 		return
-	for(var/cryo_console as anything in GLOB.cryopod_computers)
+	for(var/cryo_console in GLOB.cryopod_computers)
 		var/obj/machinery/computer/cryopod/console = cryo_console
 		var/area/area = get_area(cryo_console) // Define moment
 		if(area.type == computer_area)

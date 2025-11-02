@@ -1,5 +1,5 @@
 /datum/outfit/centcom/ert/nri
-	name = "Novaya Rossiyskaya Imperiya Soldier"
+	name = "Pan-Slavic Commonwealth Soldier"
 	head = null
 	glasses = /obj/item/clothing/glasses/night
 	ears = /obj/item/radio/headset/headset_cent/alt/with_key
@@ -30,7 +30,7 @@
 	id_trim = /datum/id_trim/nri
 
 /datum/outfit/centcom/ert/nri/commander
-	name = "Novaya Rossiyskaya Imperiya Platoon Commander"
+	name = "Pan-Slavic Commonwealth Platoon Commander"
 	head = null
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	uniform = /obj/item/clothing/under/costume/nri/captain
@@ -55,7 +55,7 @@
 	id_trim = /datum/id_trim/nri/commander
 
 /datum/outfit/centcom/ert/nri/medic
-	name = "Novaya Rossiyskaya Imperiya Corpsman"
+	name = "Pan-Slavic Commonwealth Corpsman"
 	head = null
 	glasses = /obj/item/clothing/glasses/hud/health/night
 	uniform = /obj/item/clothing/under/costume/nri/medic
@@ -81,7 +81,7 @@
 	id_trim = /datum/id_trim/nri/medic
 
 /datum/outfit/centcom/ert/nri/engineer
-	name = "Novaya Rossiyskaya Imperiya Combat Engineer"
+	name = "Pan-Slavic Commonwealth Combat Engineer"
 	head = null
 	glasses = /obj/item/clothing/glasses/meson/night
 	uniform = /obj/item/clothing/under/costume/nri/engineer
@@ -103,7 +103,7 @@
 	id_trim = /datum/id_trim/nri/engineer
 
 /datum/outfit/centcom/ert/nri/major
-	name = "Novaya Rossiyskaya Imperiya Major"
+	name = "Pan-Slavic Commonwealth Major"
 	head = null
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	ears = /obj/item/radio/headset/headset_cent/alt/with_key
@@ -115,7 +115,6 @@
 	belt = /obj/item/gun/ballistic/revolver/shotgun_revolver
 	back = /obj/item/storage/backpack/satchel/leather
 	backpack_contents = list(/obj/item/storage/box/nri_survival_pack,
-							/obj/item/ammo_box/advanced/s12gauge/express,
 							/obj/item/suppressor/standard,
 							/obj/item/knife/combat,
 							/obj/item/beamout_tool)
@@ -126,7 +125,7 @@
 	id_trim = /datum/id_trim/nri/diplomat/major
 
 /datum/outfit/centcom/ert/nri/scientist
-	name = "Novaya Rossiyskaya Imperiya Research Inspector"
+	name = "Pan-Slavic Commonwealth Research Inspector"
 	head = null
 	glasses = /obj/item/clothing/glasses/regular
 	ears = /obj/item/radio/headset/headset_cent/alt/with_key
@@ -148,7 +147,7 @@
 	id_trim = /datum/id_trim/nri/diplomat/scientist
 
 /datum/outfit/centcom/ert/nri/doctor
-	name = "Novaya Rossiyskaya Imperiya Medical Inspector"
+	name = "Pan-Slavic Commonwealth Medical Inspector"
 	head = null
 	glasses = /obj/item/clothing/glasses/hud/health
 	ears = /obj/item/radio/headset/headset_cent/alt/with_key

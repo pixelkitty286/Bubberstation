@@ -227,11 +227,13 @@
 
 /obj/structure/deployable_barricade/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(anchored)
 		to_chat(usr, span_warning("It is secured to the floor, you can't turn it!"))
-		return FALSE
-
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	setDir(turn(dir, 270))
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 
 /*----------------------*/
@@ -672,7 +674,7 @@
 	///Either we react with other cades next to us ie when opening or so
 	var/linked = FALSE
 	///Open/close delay, for customisation. And because I was asked to - won't customise anything myself.
-	var/toggle_delay = 2 SECONDS
+	var/toggle_delay = 0 SECONDS
 
 /obj/structure/deployable_barricade/metal/plasteel/crowbar_act(mob/living/user, obj/item/I)
 	switch(build_state)
@@ -706,6 +708,7 @@
 
 	if(do_after(user, toggle_delay, src))
 		toggle_open(null, user)
+
 
 /obj/structure/deployable_barricade/metal/plasteel/proc/toggle_open(state, mob/living/user)
 	if(state == closed)

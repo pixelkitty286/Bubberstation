@@ -52,7 +52,7 @@
 
 /datum/area_spawn/bar_jukebox
 	target_areas = list(/area/station/commons/lounge, /area/station/service/bar/atrium, /area/station/service/bar)
-	desired_atom = /obj/machinery/jukebox/public
+	desired_atom = /obj/machinery/jukebox/no_access
 	mode = AREA_SPAWN_MODE_OPEN
 
 // Wall mounts. Use sparingly as walls are prime real estate
@@ -117,3 +117,10 @@
 		/area/station/engineering/break_room,
 	)
 	desired_atom = /obj/effect/landmark/start/telecomms_specialist
+
+// Bubber Edit: BA?
+/datum/area_spawn/bridge_assistant_landmark
+	target_areas = list(
+		/area/station/command/bridge,
+	)
+	desired_atom = /obj/effect/landmark/start/bridge_assistant

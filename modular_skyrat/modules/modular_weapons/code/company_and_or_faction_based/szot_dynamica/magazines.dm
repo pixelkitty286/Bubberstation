@@ -6,7 +6,7 @@
 
 	icon = 'modular_skyrat/modules/modular_weapons/icons/obj/company_and_or_faction_based/szot_dynamica/ammo.dmi'
 	icon_state = "lanca_mag"
-
+	w_class = WEIGHT_CLASS_NORMAL
 	multiple_sprites = AMMO_BOX_FULL_EMPTY
 
 	ammo_type = /obj/item/ammo_casing/strilka310
@@ -58,7 +58,6 @@
 	ammo_type = /obj/item/ammo_casing/shotgun
 	caliber = CALIBER_SHOTGUN
 	max_ammo = 4
-	multiload = FALSE
 
 // AMR magazine
 
@@ -71,3 +70,4 @@
 	ammo_type = /obj/item/ammo_casing/p60strela
 	max_ammo = 3
 	caliber = CALIBER_60STRELA
+	w_class = WEIGHT_CLASS_NORMAL

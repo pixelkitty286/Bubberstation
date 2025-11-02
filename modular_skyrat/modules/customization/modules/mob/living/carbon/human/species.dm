@@ -62,7 +62,7 @@ GLOBAL_LIST_EMPTY(customizable_races)
 /datum/species/mush
 	mutant_bodyparts = list()
 
-/datum/species/vampire
+/datum/species/human/vampire
 	mutant_bodyparts = list()
 
 /datum/species/plasmaman
@@ -130,7 +130,7 @@ GLOBAL_LIST_EMPTY(customizable_races)
 
 	if(noggin && !(HAS_TRAIT(species_human, TRAIT_HUSK)))
 		if(noggin.head_flags & HEAD_EYESPRITES)
-			var/obj/item/organ/internal/eyes/eye_organ = species_human.get_organ_slot(ORGAN_SLOT_EYES)
+			var/obj/item/organ/eyes/eye_organ = species_human.get_organ_slot(ORGAN_SLOT_EYES)
 
 			if(eye_organ)
 				eye_organ.refresh(call_update = FALSE)
@@ -148,7 +148,7 @@ GLOBAL_LIST_EMPTY(customizable_races)
 					icon_state += "_d"
 					female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY // for digi gender shaping
 				if(species_human.dna.species.sexes && species_human.physique == FEMALE && (underwear.gender == MALE))
-					underwear_overlay = wear_female_version(icon_state, underwear.icon, BODY_LAYER, female_sprite_flags)
+					underwear_overlay = mutable_appearance(wear_female_version(icon_state, underwear.icon, female_sprite_flags), layer = -BODY_LAYER)
 				else
 					underwear_overlay = mutable_appearance(underwear.icon, icon_state, -BODY_LAYER)
 				if(!underwear.use_static)
@@ -171,14 +171,14 @@ GLOBAL_LIST_EMPTY(customizable_races)
 			if(undershirt)
 				var/mutable_appearance/undershirt_overlay
 				if(species_human.dna.species.sexes && species_human.physique == FEMALE)
-					undershirt_overlay = wear_female_version(undershirt.icon_state, undershirt.icon, BODY_LAYER)
+					undershirt_overlay = mutable_appearance(wear_female_version(undershirt.icon_state, undershirt.icon),layer = -BODY_LAYER)
 				else
 					undershirt_overlay = mutable_appearance(undershirt.icon, undershirt.icon_state, -BODY_LAYER)
 				if(!undershirt.use_static)
 					undershirt_overlay.color = species_human.undershirt_color
 				standing += undershirt_overlay
 
-		if(species_human.socks && species_human.num_legs >= 2 && !(mutant_bodyparts["taur"]) && !(species_human.underwear_visibility & UNDERWEAR_HIDE_SOCKS))
+		if(species_human.socks && species_human.num_legs >= 2 && !(mutant_bodyparts[FEATURE_TAUR]) && !(species_human.underwear_visibility & UNDERWEAR_HIDE_SOCKS))
 			var/datum/sprite_accessory/socks/socks = SSaccessories.socks_list[species_human.socks]
 			if(socks)
 				var/mutable_appearance/socks_overlay
@@ -194,14 +194,13 @@ GLOBAL_LIST_EMPTY(customizable_races)
 		species_human.overlays_standing[BODY_LAYER] = standing
 
 	species_human.apply_overlay(BODY_LAYER)
-	handle_mutant_bodyparts(species_human)
 
 /datum/species/spec_stun(mob/living/carbon/human/target, amount)
 	if(istype(target))
 		target.unwag_tail()
 	return ..()
 
-/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE)
+/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE, replace_missing = TRUE)
 	. = ..()
 
 	var/robot_organs = HAS_TRAIT(target, TRAIT_ROBOTIC_DNA_ORGANS)
@@ -216,7 +215,18 @@ GLOBAL_LIST_EMPTY(customizable_races)
 			var/obj/item/organ/current_organ = target.get_organ_by_type(mutant_accessory.organ_type)
 
 			if(!current_organ || replace_current)
-				var/obj/item/organ/replacement = SSwardrobe.provide_type(mutant_accessory.organ_type)
+				var/organ_slot = mutant_accessory.organ_type::slot
+				var/obj/item/organ/current_organ_in_slot = target.get_organ_slot(organ_slot)
+				var/obj/item/organ/replacement
+
+				// If the current organ in that slot should override the replacement because it's a special organ for this species,
+				// force it to be the replacement organ.
+				if(current_organ_in_slot?.overrides_sprite_datum_organ_type && istype(current_organ_in_slot, get_mutant_organ_type_for_slot(organ_slot)))
+					replacement = SSwardrobe.provide_type(current_organ_in_slot.type)
+
+				else
+					replacement = SSwardrobe.provide_type(mutant_accessory.organ_type)
+
 				replacement.sprite_accessory_flags = mutant_accessory.flags_for_organ
 				replacement.relevant_layers = mutant_accessory.relevent_layers
 

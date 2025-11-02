@@ -1,19 +1,3 @@
-#define AMMO_MATS_SHOTGUN list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 4) // not quite as thick as a half-sheet
-
-#define AMMO_MATS_SHOTGUN_FLECH list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 2,\
-									/datum/material/glass = SMALL_MATERIAL_AMOUNT * 2)
-
-#define AMMO_MATS_SHOTGUN_HIVE list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 2,\
-									/datum/material/plasma = SMALL_MATERIAL_AMOUNT * 1,\
-									/datum/material/silver = SMALL_MATERIAL_AMOUNT * 1)
-
-#define AMMO_MATS_SHOTGUN_TIDE list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 2,\
-									/datum/material/plasma = SMALL_MATERIAL_AMOUNT * 1,\
-									/datum/material/gold = SMALL_MATERIAL_AMOUNT * 1)
-
-#define AMMO_MATS_SHOTGUN_PLASMA list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 2,\
-									/datum/material/plasma = SMALL_MATERIAL_AMOUNT * 2)
-
 /obj/item/ammo_casing/shotgun
 	icon = 'modular_skyrat/modules/shotgunrebalance/icons/shotshells.dmi'
 	desc = "A 12 gauge iron slug."
@@ -86,97 +70,6 @@
 	<i>HORNET'S NEST: Fire an overwhelming amount of projectiles in a single shot.</i>"
 	can_be_printed = FALSE
 
-/obj/item/ammo_casing/shotgun/buckshot
-	name = "buckshot shell"
-	desc = "A 12 gauge buckshot shell."
-	icon_state = "gshell"
-	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot
-	pellets = 8 // 8 * 6 for 48 damage if every pellet hits, we want to keep lethal shells ~50 damage
-	variance = 25
-
-/obj/projectile/bullet/pellet/shotgun_buckshot
-	name = "buckshot pellet"
-	damage = 6
-	weak_against_armour = TRUE
-
-/obj/item/ammo_casing/shotgun/rubbershot
-	name = "rubber shot"
-	desc = "A shotgun casing filled with densely-packed rubber balls, used to incapacitate crowds from a distance."
-	icon_state = "rshell"
-	projectile_type = /obj/projectile/bullet/pellet/shotgun_rubbershot
-	pellets = 6 // 6 * 10 for 60 stamina damage, + some small amount of brute, we want to keep less lethal shells ~60
-	variance = 20
-	harmful = FALSE
-
-/obj/projectile/bullet/pellet/shotgun_rubbershot
-	weak_against_armour = TRUE
-	stamina = 10
-
-/obj/item/ammo_casing/shotgun/magnum
-	name = "magnum blockshot shell"
-	desc = "A 12 gauge shell that fires fewer, larger pellets than buckshot. A favorite of TerraGov anti-piracy enforcers, \
-		especially against the likes of vox."
-	icon_state = "magshell"
-	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot/magnum
-	pellets = 4 // Half as many pellets for twice the damage each pellet, same overall damage as buckshot
-	variance = 20
-	advanced_print_req = TRUE
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/magnum
-	name = "magnum blockshot pellet"
-	damage = 15
-	wound_bonus = 10
-	weak_against_armour = FALSE
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/magnum/Initialize(mapload)
-	. = ..()
-	transform = transform.Scale(1.25, 1.25)
-
-/obj/item/ammo_casing/shotgun/express
-	name = "express pelletshot shell"
-	desc = "A 12 gauge shell that fires more and smaller projectiles than buckshot. Considered taboo to speak about \
-		openly near teshari, for reasons you would be personally blessed to not know at least some of."
-	icon_state = "expshell"
-	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot/express
-	pellets = 12 // 1.3x The pellets for 0.6x the damage, same overall damage as buckshot
-	variance = 30 // Slightly wider spread than buckshot
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/express
-	name = "express buckshot pellet"
-	damage = 5.5
-	wound_bonus = 10
-	weak_against_armour = FALSE
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/express/Initialize(mapload)
-	. = ..()
-	transform = transform.Scale(0.75, 0.75)
-
-/obj/item/ammo_casing/shotgun/flechette
-	name = "flechette shell"
-	desc = "A 12 gauge flechette shell that specializes in ripping armoured targets apart."
-	icon_state = "fshell"
-	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot/flechette
-	pellets = 5
-	variance = 8
-	custom_materials = AMMO_MATS_SHOTGUN_FLECH
-	advanced_print_req = TRUE
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/flechette
-	name = "flechette"
-	icon = 'modular_skyrat/modules/shotgunrebalance/icons/projectiles.dmi'
-	icon_state = "flechette"
-	damage = 10
-	wound_bonus = 5
-	bare_wound_bonus = 10
-	sharpness = SHARP_EDGED //Did you knew flechettes fly sideways into people
-	weak_against_armour = FALSE
-	damage_falloff_tile = 0
-	armour_penetration = 50
-
-/obj/projectile/bullet/pellet/shotgun_buckshot/flechette/Initialize(mapload)
-	. = ..()
-	SpinAnimation()
-
 /obj/item/ammo_casing/shotgun/beehive
 	name = "hornet shell"
 	desc = "A less-lethal 12 gauge shell that fires four pellets capable of bouncing off nearly any surface \
@@ -196,10 +89,10 @@
 	icon_state = "hornet"
 	damage = 4
 	stamina = 15
-	damage_falloff_tile = 1
-	stamina_falloff_tile = 1
+	damage_falloff_tile = -1
+	stamina_falloff_tile = -1
 	wound_bonus = 5
-	bare_wound_bonus = 5
+	exposed_wound_bonus = 5
 	wound_falloff_tile = 0
 	sharpness = NONE
 	ricochets_max = 5
@@ -209,7 +102,6 @@
 	ricochet_decay_damage = 1
 	ricochet_decay_chance = 1
 	ricochet_incidence_leeway = 0 //nanomachines son
-	homing = TRUE
 	homing_turn_speed = 25
 	homing_inaccuracy_min = 10
 	homing_inaccuracy_max = 80
@@ -232,19 +124,19 @@
 	icon_state = "stardust"
 	damage = 15
 	stamina = 33
-	damage_falloff_tile = 0.2
-	stamina_falloff_tile = 0.3
+	damage_falloff_tile = -0.2
+	stamina_falloff_tile = -0.3
 	wound_bonus = 40
-	bare_wound_bonus = 40
+	exposed_wound_bonus = 40
 	stutter = 3 SECONDS
 	jitter = 5 SECONDS
 	eyeblur = 1 SECONDS
 	sharpness = NONE
 	range = 12
-	embed_type = /datum/embed_data/shotgun_buckshot/antitide
+	embed_type = /datum/embedding/shotgun_buckshot/antitide
 	reflectable = NONE
 
-/datum/embed_data/shotgun_buckshot/antitide
+/datum/embedding/shotgun_buckshot/antitide
 	embed_chance = 200
 	pain_chance = 95
 	fall_chance = 10
@@ -268,12 +160,12 @@
 	name = "frangible slug"
 	damage = 15 //I'd kill you if you manage to kill someone with this shit
 	wound_bonus = 30
-	bare_wound_bonus = 30
+	exposed_wound_bonus = 30
 	demolition_mod = 2
 
 /obj/projectile/bullet/frangible_slug/on_hit(atom/target, blocked = 0, pierce_hit)
 	. = ..()
-	if(istype(target, /obj/structure/window) || istype(target, /obj/machinery/door/airlock) || istype(target, /obj/structure/grille) || istype(target,/obj/structure/door_assembly))
+	if(istype(target, /obj/structure/window) || istype(target, /obj/machinery/door/airlock) || istype(target, /obj/structure/grille) || istype(target,/obj/structure/door_assembly) || istype(target,/obj/machinery/door/window/))
 		if(isobj(target))
 			demolition_mod = 50
 			damage = 30
@@ -350,3 +242,8 @@
 
 /obj/item/ammo_casing/shotgun/beanbag
 	harmful = FALSE
+
+/obj/item/gun/ballistic/shotgun/Initialize(mapload)
+	AddElement(/datum/element/gun_launches_little_guys, throwing_force = 1, throwing_range = 1, knockdown_time = 0, gentle = TRUE)
+
+	return ..()

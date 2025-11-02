@@ -84,6 +84,7 @@
 		switch(unclaim_response)
 			if("Yes")
 				unbolt(user)
+	return CLICK_ACTION_SUCCESS
 /*
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
@@ -186,6 +187,7 @@
 			unbuckle_mob(buckled_carbons)
 		else
 			user_unbuckle_mob(buckled_carbons, user)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /**
  * Attempts to buckle target into the ghoulrack
@@ -330,8 +332,8 @@
 		return
 	// Convert to Ghoul!
 	bloodsuckerdatum.AdjustBloodVolume(-TORTURE_CONVERSION_COST)
+	remove_loyalties(target)
 	if(bloodsuckerdatum.make_ghoul(target))
-		remove_loyalties(target)
 		SEND_SIGNAL(bloodsuckerdatum, COMSIG_BLOODSUCKER_MADE_GHOUL, user, target)
 
 /obj/structure/bloodsucker/ghoulrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
@@ -377,7 +379,7 @@
 	target.apply_damages(brute = torture_dmg_brute, burn = torture_dmg_burn, def_zone = selected_bodypart.body_zone)
 	return TRUE
 
-/// Offer them the oppertunity to join now.
+/// Offer them the opportunity to join now.
 /obj/structure/bloodsucker/ghoulrack/proc/do_disloyalty(mob/living/user, mob/living/target)
 	if(disloyalty_offered)
 		return FALSE
@@ -398,8 +400,13 @@
 	switch(alert_response)
 		if("Accept")
 			disloyalty_confirm = TRUE
+			target.visible_message(
+				span_notice("[target] gives in to [user]'s offer of servitude!"),
+				span_userdanger("You give in to [user]'s offer of servitude!"))
 		else
-			target.balloon_alert_to_viewers("stares defiantly", "refused ghouling!")
+			target.visible_message(
+				span_danger("[target] stares defiantly at [user], refusing to give in!"),
+				span_danger("You stare defiantly at [user], refusing to give in!"))
 	disloyalty_offered = FALSE
 	return TRUE
 
@@ -470,11 +477,25 @@
 	. = ..()
 	if(!.)
 		return
-	if(anchored && (IS_GHOUL(user) || IS_BLOODSUCKER(user)))
+	if(IS_GHOUL(user) || IS_BLOODSUCKER(user))
 		toggle()
 	return ..()
 
+/obj/structure/bloodsucker/candelabrum/Click(location, control, params)
+	. = ..()
+	var/mob/user = usr
+	var/list/modifiers = params2list(params)
+	if(!LAZYACCESS(modifiers, RIGHT_CLICK) || !IS_BLOODSUCKER(user) || !istype(user))
+		return
+	if(user.stat >= UNCONSCIOUS)
+		return
+	user.balloon_alert_to_viewers("motions their hand at [src]")
+	toggle(user)
+
 /obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
+	if(!anchored)
+		to_chat(user, span_danger("You can't turn this on while it is not secured!"))
+		return
 	lit = !lit
 	if(lit)
 		desc = initial(desc)
@@ -485,6 +506,7 @@
 		set_light(0)
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
+
 
 /obj/structure/bloodsucker/candelabrum/process()
 	if(!lit)
@@ -514,7 +536,7 @@
 	var/mutable_appearance/armrest
 
 // Add rotating and armrest
-/obj/structure/bloodsucker/bloodthrone/Initialize()
+/obj/structure/bloodsucker/bloodthrone/Initialize(mapload)
 	AddComponent(/datum/component/simple_rotation)
 	armrest = GetArmrest()
 	armrest.layer = ABOVE_MOB_LAYER

@@ -3,6 +3,7 @@
 /datum/status_effect/spacer
 	id = "spacer_gravity_effects"
 	status_type = STATUS_EFFECT_REPLACE
+	alert_type = null
 	/// Essentially, tracks whether this is a planetary map.
 	/// It'd be pretty miserable if you're playing a planetary map and getting the worse of all effects, so we handwave it a bit.
 	VAR_FINAL/nerfed_effects_because_planetary = FALSE
@@ -87,7 +88,6 @@
 	icon_state = "paralysis"
 
 /datum/mood_event/spacer
-	category = "spacer"
 
 /datum/mood_event/spacer/in_space
 	description = "Space is long and dark and empty, but it's my home."

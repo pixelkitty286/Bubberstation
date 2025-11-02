@@ -15,15 +15,6 @@
 	ammo_type = /obj/item/ammo_casing/strilka310
 	max_ammo = 10
 
-// Rubber
-
-/obj/item/ammo_box/c310_cargo_box/rubber
-	name = "ammo box (.310 Strilka rubber)"
-	desc = "A box of .310 Strilka rubber rifle rounds, holds ten cartridges."
-
-	icon_state = "310_box_rubber"
-
-	ammo_type = /obj/item/ammo_casing/strilka310/rubber
 
 // AP
 
@@ -53,11 +44,11 @@
 /obj/projectile/bullet/p60strela // The funny thing is, these are wild but you only get three of them a magazine
 	name =".60 Strela bullet"
 	icon_state = "gaussphase"
-	speed = 0.4
+	speed = 2.5
 	damage = 50
 	armour_penetration = 50
 	wound_bonus = 20
-	bare_wound_bonus = 30
+	exposed_wound_bonus = 30
 	demolition_mod = 1.8
 	/// How much damage we add to things that are weak to this bullet
 	var/anti_materiel_damage_addition = 30

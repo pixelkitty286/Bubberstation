@@ -58,6 +58,8 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define DECAL_INIT_UPDATE_EXPERIENCED_1 (1<<17)
 /// This atom always returns its turf in get_turf_pixel instead of the turf from its offsets
 #define IGNORE_TURF_PIXEL_OFFSET_1 (1<<18)
+/// This atom does not need to generate its own preview icon for GAGS
+#define NO_NEW_GAGS_PREVIEW_1 (1<<19)
 
 //BUBBER EDIT START - Flags
 //Does item send log notices to admin log when consumed by supermatter?
@@ -147,6 +149,10 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define NO_BOH (1<<18)
 /// This area prevents fishing from removing unique/limited loot from sources that're also used outside of it.
 #define UNLIMITED_FISHING (1<<19)
+/// This area is prevented from having gravity (ie. space, nearstation, or outside solars)
+#define NO_GRAVITY (1<<20)
+/// This area can be teleported in, but -only- to locations within that same area.
+#define LOCAL_TELEPORT (1<<21)
 
 /*
 	These defines are used specifically with the atom/pass_flags bitmask
@@ -193,9 +199,10 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define PHASING (1<<4)
 /// The mob is walking on the ceiling. Or is generally just, upside down.
 #define UPSIDE_DOWN (1<<5)
-
 /// Combination flag for movetypes which, for all intents and purposes, mean the mob is not touching the ground
 #define MOVETYPES_NOT_TOUCHING_GROUND (FLYING|FLOATING|UPSIDE_DOWN)
+/// Trait source for stuff movetypes applies
+#define SOURCE_MOVETYPES "movetypes"
 
 //Fire and Acid stuff, for resistance_flags
 #define LAVA_PROOF (1<<0)
@@ -215,6 +222,8 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define FREEZE_PROOF (1<<7)
 /// can't be shuttle crushed.
 #define SHUTTLE_CRUSH_PROOF (1<<8)
+/// can't be destroyed by bombs
+#define BOMB_PROOF (1<<9)
 
 //tesla_zap
 #define ZAP_MACHINE_EXPLOSIVE (1<<0)
@@ -230,12 +239,14 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define ZAP_FUSION_FLAGS ZAP_OBJ_DAMAGE | ZAP_MOB_DAMAGE | ZAP_MOB_STUN
 #define ZAP_SUPERMATTER_FLAGS ZAP_GENERATES_POWER
 
-///EMP will protect itself.
+///Object will protect itself.
 #define EMP_PROTECT_SELF (1<<0)
-///EMP will protect the contents from also being EMPed.
+///Object will protect its contents from being EMPed.
 #define EMP_PROTECT_CONTENTS (1<<1)
-///EMP will protect the wires.
+///Object will protect its wiring from being EMPed.
 #define EMP_PROTECT_WIRES (1<<2)
+///Don't indicate EMP protection in object examine text.
+#define EMP_NO_EXAMINE (1<<3)
 
 ///Protects against all EMP types.
 #define EMP_PROTECT_ALL (EMP_PROTECT_SELF | EMP_PROTECT_CONTENTS | EMP_PROTECT_WIRES)

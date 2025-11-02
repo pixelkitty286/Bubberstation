@@ -49,7 +49,7 @@
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
 	worn_icon_teshari = 'modular_skyrat/modules/kahraman_equipment/icons/clothes/clothing_worn_teshari.dmi'
 	worn_icon_state = "jacket"
-	slot_flags = ITEM_SLOT_OCLOTHING|ITEM_SLOT_NECK
+	slot_flags = ITEM_SLOT_OCLOTHING
 	armor_type = /datum/armor/colonist_clothing
 	resistance_flags = NONE
 	allowed = null
@@ -208,8 +208,39 @@
 	worn_icon_teshari = 'modular_skyrat/modules/kahraman_equipment/icons/clothes/clothing_worn_teshari.dmi'
 	worn_icon_state = "gas_frontier"
 	flags_inv = HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
-	armor_type = /datum/armor/colonist_hazard
 
 /obj/item/clothing/mask/gas/atmos/frontier_colonist/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_KAHRAMAN)
+
+//// Loadout variant
+// suit
+/obj/item/clothing/suit/jacket/frontier_colonist/loadout
+	armor_type = /datum/armor/none
+
+/obj/item/clothing/suit/jacket/frontier_colonist/loadout/Initialize(mapload)
+	. = ..()
+	allowed = list()
+
+/obj/item/clothing/suit/jacket/frontier_colonist/short/loadout
+	armor_type = /datum/armor/none
+
+/obj/item/clothing/suit/jacket/frontier_colonist/short/loadout/Initialize(mapload)
+	. = ..()
+	allowed = list()
+
+// Gloves
+/obj/item/clothing/gloves/frontier_colonist/loadout
+	siemens_coefficient = 0.50
+
+// boots
+/obj/item/clothing/shoes/jackboots/frontier_colonist/loadout
+	name = "frontier jackboots"
+	armor_type = /datum/armor/shoes_jackboots
+
+// mask
+/obj/item/clothing/mask/gas/atmos/frontier_colonist/loadout
+	armor_type = /datum/armor/mask_gas
+	resistance_flags = NONE
+	max_filters = 1
+

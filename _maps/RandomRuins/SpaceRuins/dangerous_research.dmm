@@ -98,7 +98,7 @@
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/dangerous_research/medical)
 "aZ" = (
-/obj/item/surgery_tray/full,
+/obj/effect/spawner/surgery_tray/full,
 /obj/structure/table,
 /turf/open/floor/plating/rust,
 /area/ruin/space/has_grav/dangerous_research/medical)
@@ -149,15 +149,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/showroomfloor,
 /area/ruin/space/has_grav/dangerous_research/dorms)
-"ci" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/item/wallframe/camera,
-/obj/effect/decal/cleanable/robot_debris,
-/obj/effect/turf_decal/tile/purple{
-	dir = 1
-	},
-/turf/open/floor/iron/white,
-/area/ruin/space/has_grav/dangerous_research/lab)
 "cl" = (
 /obj/structure/table,
 /obj/structure/window/reinforced/spawner/directional/east,
@@ -341,7 +332,7 @@
 /obj/effect/decal/cleanable/blood/footprints{
 	dir = 8
 	},
-/obj/item/organ/internal/liver,
+/obj/item/organ/liver,
 /obj/structure/window/reinforced/spawner/directional/north,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/lab)
@@ -453,12 +444,6 @@
 /obj/machinery/light/small/red/directional/north,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/dangerous_research/maint)
-"gl" = (
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/obj/effect/spawner/structure/window/reinforced/plasma,
-/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/visible,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/dangerous_research/maint)
 "go" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
@@ -543,7 +528,7 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood/bubblegum,
-/obj/item/organ/internal/appendix,
+/obj/item/organ/appendix,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/effect/mapping_helpers/burnt_floor,
@@ -903,7 +888,7 @@
 /area/ruin/space/has_grav/dangerous_research/dorms)
 "mG" = (
 /obj/structure/table,
-/obj/item/organ/internal/heart,
+/obj/item/organ/heart,
 /obj/effect/decal/cleanable/blood/bubblegum,
 /obj/effect/spawner/random/medical/surgery_tool_advanced,
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -1056,24 +1041,11 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/blood/footprints,
-/obj/item/organ/internal/lungs,
+/obj/item/organ/lungs,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/lab)
-"oJ" = (
-/obj/item/stack/medical/suture/emergency,
-/obj/item/stack/medical/gauze/twelve,
-/obj/item/reagent_containers/hypospray/medipen/blood_loss,
-/obj/effect/spawner/random/medical/injector,
-/obj/effect/turf_decal/tile/dark_red/anticorner{
-	dir = 4
-	},
-/obj/structure/closet/crate/secure/freezer/interdyne{
-	req_access = null
-	},
-/turf/open/floor/iron/dark,
-/area/ruin/space/has_grav/dangerous_research)
 "oW" = (
 /obj/effect/turf_decal/stripes/asteroid{
 	dir = 8
@@ -1193,7 +1165,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/gibs,
-/obj/item/organ/internal/brain,
+/obj/item/organ/brain,
 /obj/item/skillchip/research_director,
 /obj/effect/turf_decal/tile/neutral/half{
 	dir = 4
@@ -1261,6 +1233,14 @@
 /obj/effect/decal/cleanable/blood/gibs/core,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/lab)
+"qI" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/oil,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/dangerous_research/maint)
 "qM" = (
 /turf/closed/wall,
 /area/ruin/space/has_grav/dangerous_research/medical)
@@ -1279,7 +1259,7 @@
 /obj/effect/decal/cleanable/blood/footprints{
 	dir = 8
 	},
-/obj/item/organ/internal/heart,
+/obj/item/organ/heart,
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/lab)
@@ -1353,7 +1333,6 @@
 /area/ruin/space/has_grav/dangerous_research/lab)
 "rA" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored{
-	chamber_id = "asrc_b";
 	dir = 8
 	},
 /turf/open/floor/engine/air,
@@ -1622,8 +1601,8 @@
 /obj/structure/rack,
 /obj/effect/decal/cleanable/dirt,
 /obj/item/storage/toolbox/mechanical,
-/obj/item/ammo_box/c38,
-/obj/item/ammo_box/c38,
+/obj/item/ammo_box/speedloader/c38,
+/obj/item/ammo_box/speedloader/c38,
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 1
 	},
@@ -1896,6 +1875,19 @@
 /obj/structure/barricade/wooden,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/dangerous_research)
+"yY" = (
+/obj/item/stack/medical/bandage,
+/obj/item/stack/medical/gauze/twelve,
+/obj/item/reagent_containers/hypospray/medipen/blood_loss,
+/obj/effect/spawner/random/medical/injector,
+/obj/effect/turf_decal/tile/dark_red/anticorner{
+	dir = 4
+	},
+/obj/structure/closet/crate/secure/freezer/interdyne{
+	req_access = null
+	},
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research)
 "yZ" = (
@@ -2355,6 +2347,17 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/lab)
+"DC" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/effect/mapping_helpers/apc/away_general_access,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/oil/slippery,
+/obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/dangerous_research/maint)
 "DL" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/components/unary/passive_vent{
@@ -2435,6 +2438,15 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/dorms)
+"Fl" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/item/wallframe/camera,
+/obj/effect/decal/cleanable/blood/gibs/robot_debris,
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/turf/open/floor/iron/white,
+/area/ruin/space/has_grav/dangerous_research/lab)
 "Fq" = (
 /obj/structure/flora/rock/icy/style_2,
 /turf/open/misc/asteroid/airless,
@@ -2660,15 +2672,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/dangerous_research/lab)
-"IC" = (
-/obj/effect/turf_decal/trimline/purple/line{
-	dir = 1
-	},
-/obj/item/wallframe/camera,
-/obj/item/stack/cable_coil,
-/obj/effect/decal/cleanable/robot_debris/up,
-/turf/open/floor/iron/white,
-/area/ruin/space/has_grav/dangerous_research/medical)
 "IZ" = (
 /obj/effect/turf_decal/stripes/asteroid{
 	dir = 4
@@ -3208,14 +3211,6 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research/dorms)
-"PZ" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/oil,
-/obj/effect/turf_decal/tile/yellow/half/contrasted{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/dangerous_research/maint)
 "Qa" = (
 /obj/effect/turf_decal/siding/dark{
 	dir = 4
@@ -3229,6 +3224,15 @@
 "Qe" = (
 /turf/closed/wall/r_wall/rust,
 /area/ruin/space/has_grav/dangerous_research/dorms)
+"Ql" = (
+/obj/effect/turf_decal/trimline/purple/line{
+	dir = 1
+	},
+/obj/item/wallframe/camera,
+/obj/item/stack/cable_coil,
+/obj/effect/decal/cleanable/blood/gibs/robot_debris/up,
+/turf/open/floor/iron/white,
+/area/ruin/space/has_grav/dangerous_research/medical)
 "Qn" = (
 /obj/structure/table,
 /obj/structure/window/reinforced/spawner/directional/north,
@@ -3657,7 +3661,7 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/effect/spawner/random/contraband/permabrig_weapon,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/item/ammo_box/c38,
+/obj/item/ammo_box/speedloader/c38,
 /obj/effect/turf_decal/tile/dark_red/anticorner,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/dangerous_research)
@@ -3692,8 +3696,8 @@
 /area/ruin/space/has_grav/dangerous_research/lab)
 "Wt" = (
 /obj/structure/table/optable,
-/obj/item/organ/internal/eyes,
-/obj/item/organ/internal/liver,
+/obj/item/organ/eyes,
+/obj/item/organ/liver,
 /obj/effect/decal/cleanable/blood/bubblegum,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron/white,
@@ -3709,7 +3713,6 @@
 /area/ruin/space/has_grav/dangerous_research)
 "Xb" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored{
-	chamber_id = "asrc_a";
 	dir = 8
 	},
 /turf/open/floor/engine/airless,
@@ -3759,17 +3762,6 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/dangerous_research/maint)
-"XI" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/directional/north,
-/obj/effect/mapping_helpers/apc/away_general_access,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/oil/slippery,
-/obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
-	dir = 4
-	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/dangerous_research/maint)
 "XO" = (
@@ -3839,7 +3831,7 @@
 /obj/machinery/light/small/directional/east,
 /obj/item/paper/fluff/ruins/dangerous_research/smith,
 /obj/item/clothing/suit/toggle/labcoat/chemist,
-/obj/item/reagent_containers/pill/stimulant,
+/obj/item/reagent_containers/applicator/pill/stimulant,
 /obj/item/card/id/away/dangerous_research,
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted,
 /turf/open/floor/iron/dark/corner{
@@ -3876,6 +3868,11 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark/diagonal,
 /area/ruin/space/has_grav/dangerous_research/dorms)
+"Zj" = (
+/obj/effect/spawner/structure/window/reinforced/plasma,
+/obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/visible,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/dangerous_research/maint)
 "Zn" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
@@ -4624,7 +4621,7 @@ Qv
 Bg
 Bg
 Tc
-ci
+Fl
 Gb
 VL
 Ja
@@ -4925,12 +4922,12 @@ Zc
 PM
 Ki
 Zn
-IC
+Ql
 Jh
 wV
 kz
 Zv
-oJ
+yY
 at
 VP
 uR
@@ -5319,7 +5316,7 @@ By
 OK
 xW
 XB
-gl
+Zj
 DL
 Qv
 Qv
@@ -5354,11 +5351,11 @@ js
 Ag
 dC
 jR
-XI
+DC
 go
 Ob
 Aq
-PZ
+qI
 MU
 CB
 jR

@@ -1,5 +1,6 @@
 /obj/item/clothing/under/rank/rnd
 	worn_icon_digi = 'modular_skyrat/master_files/icons/mob/clothing/under/rnd_digi.dmi'	// Anything that was in the rnd.dmi, should be in the rnd_digi.dmi
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION
 
 /obj/item/clothing/under/rank/rnd/scientist/skyrat
 	icon = 'modular_skyrat/master_files/icons/obj/clothing/under/rnd.dmi'
@@ -42,7 +43,7 @@
 */
 
 /obj/item/clothing/under/rank/rnd/roboticist/skyrat/sleek
-	name = "sleek roboticst jumpsuit"
+	name = "sleek roboticist jumpsuit"
 	desc = "A sleek version of the roboticist uniform, complete with amber sci-fi stripes."
 	icon_state = "robosleek"
 	can_adjust = FALSE

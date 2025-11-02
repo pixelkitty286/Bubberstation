@@ -27,6 +27,7 @@
 		/obj/item/clothing/head/playbunnyears/hos = 1,
 		/obj/item/clothing/under/rank/security/head_of_security/bunnysuit = 1,
 		/obj/item/clothing/suit/armor/hos_tailcoat = 1,
+		/obj/item/clothing/under/rank/security/peacekeeper/skirt_hos = 1,
 	)
 
 	access_lists["[ACCESS_HOP]"] += list(
@@ -39,14 +40,14 @@
 	access_lists["[ACCESS_CMO]"] += list(
 		/obj/item/clothing/head/playbunnyears/cmo = 1,
 		/obj/item/clothing/under/rank/medical/cmo_bunnysuit = 1,
-		/obj/item/clothing/suit/toggle/labcoat/doctor_tailcoat/cmo = 1,
+		/obj/item/clothing/suit/toggle/labcoat/cmo/doctor_tailcoat = 1,
 		/obj/item/clothing/neck/tie/bunnytie/cmo = 1,
 	)
 
 	access_lists["[ACCESS_RD]"] += list(
 		/obj/item/clothing/head/playbunnyears/rd = 1,
 		/obj/item/clothing/under/rank/rnd/research_director/bunnysuit = 1,
-		/obj/item/clothing/suit/jacket/research_director/tailcoat = 1,
+		/obj/item/clothing/suit/toggle/labcoat/research_director/tailcoat = 1,
 		/obj/item/clothing/neck/tie/bunnytie/rd = 1,
 	)
 

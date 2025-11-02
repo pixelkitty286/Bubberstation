@@ -37,7 +37,7 @@
 	name = "Synthanol"
 	description = "A runny liquid with conductive capacities. Its effects on synthetics are similar to those of alcohol on organics."
 	color = "#1BB1FF"
-	process_flags = REAGENT_ORGANIC | REAGENT_SYNTHETIC
+	process_flags = REAGENT_ORGANIC | REAGENT_SYNTHETIC | REAGENT_PROTEAN
 	boozepwr = 50
 	quality = DRINK_NICE
 	taste_description = "motor oil"
@@ -204,7 +204,7 @@
 	name = "glass of sin's delight"
 	desc = "You can smell the seven sins rolling off the top of the glass."
 
-/datum/reagent/consumable/ethanol/strawberry_daiquiri
+/datum/reagent/consumable/ethanol/daiquiri/strawberry
 	name = "Strawberry Daiquiri"
 	description = "Pink looking alcoholic drink."
 	boozepwr = 20
@@ -212,8 +212,8 @@
 	quality = DRINK_NICE
 	taste_description = "sweet strawberry, lime and the ocean breeze"
 
-/datum/glass_style/drinking_glass/strawberry_daiquiri
-	required_drink_type = /datum/reagent/consumable/ethanol/strawberry_daiquiri
+/datum/glass_style/drinking_glass/daiquiri/strawberry
+	required_drink_type = /datum/reagent/consumable/ethanol/daiquiri/strawberry
 	icon = 'modular_skyrat/master_files/icons/obj/drinks.dmi'
 	icon_state = "strawberry_daiquiri"
 	name = "glass of strawberry daiquiri"
@@ -711,7 +711,7 @@
 	cube.color = COLOR_CYAN
 	cube.set_anchored(TRUE)
 	drinker.forceMove(cube)
-	cryostylane_alert = drinker.throw_alert("cryostylane_alert", /atom/movable/screen/alert/status_effect/freon/cryostylane)
+	cryostylane_alert = drinker.throw_alert("cryostylane_alert", /atom/movable/screen/alert/status_effect/freon/stasis)
 	cryostylane_alert.attached_effect = src //so the alert can reference us, if it needs to
 
 /datum/reagent/consumable/ethanol/blizzard_brew/on_mob_delete(mob/living/carbon/drinker, amount)

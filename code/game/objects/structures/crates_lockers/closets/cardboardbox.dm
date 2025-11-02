@@ -31,12 +31,21 @@
 	/// If the speed multiplier should be applied to mobs inside this box
 	var/move_delay = FALSE
 
+/obj/structure/closet/cardboard/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_SPEED_POTION_APPLIED, PROC_REF(on_speed_potioned))
+
+/obj/structure/closet/cardboard/proc/on_speed_potioned(datum/source)
+	SIGNAL_HANDLER
+	move_speed_multiplier *= 0.2
+
 /obj/structure/closet/cardboard/relaymove(mob/living/user, direction)
 	if(opened || move_delay || user.incapacitated || !isturf(loc) || !has_gravity(loc))
 		return
 	move_delay = TRUE
 	var/oldloc = loc
-	try_step_multiz(direction);
+	try_step_multiz(direction)
+	user.setDir(dir)
 	if(oldloc != loc)
 		addtimer(CALLBACK(src, PROC_REF(ResetMoveDelay)), CONFIG_GET(number/movedelay/walk_delay) * move_speed_multiplier)
 	else

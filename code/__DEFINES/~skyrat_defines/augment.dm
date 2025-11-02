@@ -11,12 +11,14 @@
 #define AUGMENT_SLOT_R_LEG			"Right Leg"
 //Organs
 #define AUGMENT_CATEGORY_ORGANS		"Organs"
+#define AUGMENT_SLOT_BRAIN			"Brain"
 #define AUGMENT_SLOT_HEART			"Heart"
 #define AUGMENT_SLOT_LUNGS			"Lungs"
 #define AUGMENT_SLOT_LIVER			"Liver"
 #define AUGMENT_SLOT_STOMACH		"Stomach"
 #define AUGMENT_SLOT_EYES			"Eyes"
 #define AUGMENT_SLOT_TONGUE			"Tongue"
+#define AUGMENT_SLOT_EARS			"Ears"
 //Implants - we add an "implant" suffix because the defines need to be unique
 #define AUGMENT_CATEGORY_IMPLANTS				"Implants"
 #define AUGMENT_SLOT_BRAIN_IMPLANT			"Brain implant"

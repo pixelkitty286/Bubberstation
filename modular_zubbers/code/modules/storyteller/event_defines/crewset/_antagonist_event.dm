@@ -1,10 +1,12 @@
 /datum/round_event_control/antagonist
 	reoccurence_penalty_multiplier = 0
 	track = EVENT_TRACK_CREWSET
+	alert_observers = FALSE
 	/// Protected roles from the antag roll. People will not get those roles if a config is enabled
 	var/protected_roles = list(
 		JOB_CAPTAIN,
 		JOB_BLUESHIELD,
+		JOB_BRIDGE_ASSISTANT,
 
 		// Heads of staff
 		JOB_HEAD_OF_PERSONNEL,
@@ -33,7 +35,8 @@
 
 	/// Restricted roles from the antag roll
 	var/restricted_roles = list(JOB_AI, JOB_CYBORG)
-
+	/// Restricted species from the antag roll
+	var/restricted_species = list()
 	/// How many baseline antags do we spawn
 	var/base_antags = 1
 	/// How many maximum antags can we spawn
@@ -80,7 +83,7 @@
 
 /datum/round_event_control/antagonist/proc/get_candidates()
 	var/round_started = SSticker.HasRoundStarted()
-	var/list/candidates = SSgamemode.get_candidates(antag_flag, pick_roundstart_players = !round_started, restricted_roles = restricted_roles)
+	var/list/candidates = SSgamemode.get_candidates(antag_flag, pick_roundstart_players = !round_started, restricted_roles = restricted_roles, restricted_species = restricted_species)
 	return candidates
 
 /datum/round_event_control/antagonist/solo
@@ -147,8 +150,8 @@
 /datum/round_event/antagonist/proc/candidate_roles_setup(mob/candidate)
 	SHOULD_CALL_PARENT(FALSE)
 
-	candidate.mind.special_role = antag_flag
-	candidate.mind.restricted_roles = restricted_roles
+	LAZYADD(candidate.mind.special_roles, antag_flag)
+	LAZYADDASSOC(SSjob.prevented_occupations, candidate.mind, restricted_roles)
 
 /datum/round_event/antagonist/proc/template_setup(datum/round_event_control/antagonist/cast_control)
 	for(var/template in cast_control.ruleset_lazy_templates)

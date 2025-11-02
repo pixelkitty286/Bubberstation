@@ -34,7 +34,7 @@
 	job_spawn_title = JOB_ASSISTANT
 
 	voice_of_god_silence_power = 3
-	rpg_title = "Ye olde Smithy"
+	rpg_title = "Smithy"
 
 /datum/outfit/job/blacksmith
 	name = "Blacksmith"
@@ -42,10 +42,12 @@
 
 	id_trim = /datum/id_trim/job/blacksmith
 	uniform = /obj/item/clothing/under/rank/cargo/tech/skyrat/long
+	suit = /obj/item/clothing/suit/leatherapron
 	backpack_contents = list(
 		/obj/item/forging/hammer = 1,
 		/obj/item/forging/tongs = 1,
 		/obj/item/forging/billow = 1,
+		/obj/item/stack/sheet/mineral/wood = 25,
 	)
 	belt = /obj/item/modular_computer/pda/cargo
 	ears = /obj/item/radio/headset/headset_cargo

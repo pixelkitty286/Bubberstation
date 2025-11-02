@@ -1,5 +1,3 @@
-
-
 /*
  * Simple helper to generate a string of
  * garbled symbols up to [length] characters.
@@ -7,6 +5,8 @@
  * Used in creating spooky-text for heretic ascension announcements.
  */
 /proc/generate_heretic_text(length = 25)
+	if(!isnum(length)) // stupid thing so we can use this directly in replacetext
+		length = 25
 	. = ""
 	for(var/i in 1 to length)
 		. += pick("!", "$", "^", "@", "&", "#", "*", "(", ")", "?")
@@ -18,7 +18,7 @@
 	antagpanel_category = "Heretic"
 	ui_name = "AntagInfoHeretic"
 	antag_moodlet = /datum/mood_event/heretics
-	job_rank = ROLE_HERETIC
+	pref_flag = ROLE_HERETIC
 	antag_hud_name = "heretic"
 	hijack_speed = 0.5
 	suicide_cry = "THE MANSUS SMILES UPON ME!!"
@@ -27,6 +27,7 @@
 	default_custom_objective = "Turn a department into a testament for your dark knowledge."
 	hardcore_random_bonus = TRUE
 	stinger_sound = 'sound/music/antag/heretic/heretic_gain.ogg'
+	antag_flags = parent_type::antag_flags | ANTAG_OBSERVER_VISIBLE_PANEL
 
 	/// Whether we give this antagonist objectives on gain.
 	var/give_objectives = TRUE
@@ -60,31 +61,6 @@
 	var/rust_strength = 0
 	/// Wether we are allowed to ascend
 	var/feast_of_owls = FALSE
-	/// Static list of what each path converts to in the UI (colors are TGUI colors)
-	var/static/list/path_to_ui_bgr = list(
-		PATH_START = "node_side",
-		PATH_SIDE = "node_side",
-		PATH_RUST = "node_rust",
-		PATH_FLESH = "node_flesh",
-		PATH_ASH = "node_ash",
-		PATH_VOID = "node_void",
-		PATH_BLADE = "node_blade",
-		PATH_COSMIC = "node_cosmos",
-		PATH_LOCK = "node_lock",
-		PATH_MOON = "node_moon",
-	)
-
-	var/static/list/path_to_rune_color = list(
-		PATH_START = COLOR_LIME,
-		PATH_RUST = COLOR_CARGO_BROWN,
-		PATH_FLESH = COLOR_SOFT_RED,
-		PATH_ASH = COLOR_VIVID_RED,
-		PATH_VOID = COLOR_CYAN,
-		PATH_BLADE = COLOR_SILVER,
-		PATH_COSMIC = COLOR_PURPLE,
-		PATH_LOCK = COLOR_YELLOW,
-		PATH_MOON = COLOR_BLUE_LIGHT,
-	)
 
 	/// List that keeps track of which items have been gifted to the heretic after a cultist was sacrificed. Used to alter drop chances to reduce dupes.
 	var/list/unlocked_heretic_items = list(
@@ -118,9 +94,9 @@
 	//if the knowledge is a spell, use the spell's button
 	else if(ispath(knowledge,/datum/heretic_knowledge/spell))
 		var/datum/heretic_knowledge/spell/spell_knowledge = knowledge
-		var/datum/action/cooldown/spell/result_spell = spell_knowledge.spell_to_add
-		icon_path = result_spell.button_icon
-		icon_state = result_spell.button_icon_state
+		var/datum/action/result_action = spell_knowledge.action_to_add
+		icon_path = result_action.button_icon
+		icon_state = result_action.button_icon_state
 
 	//if the knowledge is a summon, use the mob sprite
 	else if(ispath(knowledge,/datum/heretic_knowledge/summon))
@@ -162,7 +138,7 @@
 	knowledge_data["gainFlavor"] = initial(knowledge.gain_text)
 	knowledge_data["cost"] = initial(knowledge.cost)
 	knowledge_data["disabled"] = (!done) && (initial(knowledge.cost) > knowledge_points)
-	knowledge_data["bgr"] = (path_to_ui_bgr[initial(knowledge.route)] || "side")
+	knowledge_data["bgr"] = GLOB.heretic_research_tree[knowledge][HKT_UI_BGR]
 	knowledge_data["finished"] = done
 	knowledge_data["ascension"] = ispath(knowledge,/datum/heretic_knowledge/ultimate)
 
@@ -190,10 +166,10 @@
 	for(var/datum/heretic_knowledge/knowledge as anything in researched_knowledge)
 		var/list/knowledge_data = get_knowledge_data(knowledge,TRUE)
 
-		while(initial(knowledge.depth) > tiers.len)
+		while(GLOB.heretic_research_tree[knowledge][HKT_DEPTH] > tiers.len)
 			tiers += list(list("nodes"=list()))
 
-		tiers[initial(knowledge.depth)]["nodes"] += list(knowledge_data)
+		tiers[GLOB.heretic_research_tree[knowledge][HKT_DEPTH]]["nodes"] += list(knowledge_data)
 
 	for(var/datum/heretic_knowledge/knowledge as anything in get_researchable_knowledge())
 		var/list/knowledge_data = get_knowledge_data(knowledge,FALSE)
@@ -202,10 +178,10 @@
 		if(ispath(knowledge, /datum/heretic_knowledge/ultimate))
 			knowledge_data["disabled"] ||= !can_ascend()
 
-		while(initial(knowledge.depth) > tiers.len)
+		while(GLOB.heretic_research_tree[knowledge][HKT_DEPTH] > tiers.len)
 			tiers += list(list("nodes"=list()))
 
-		tiers[initial(knowledge.depth)]["nodes"] += list(knowledge_data)
+		tiers[GLOB.heretic_research_tree[knowledge][HKT_DEPTH]]["nodes"] += list(knowledge_data)
 
 	data["knowledge_tiers"] = tiers
 
@@ -228,8 +204,13 @@
 		if("research")
 			var/datum/heretic_knowledge/researched_path = text2path(params["path"])
 			if(!ispath(researched_path, /datum/heretic_knowledge))
-				CRASH("Heretic attempted to learn non-heretic_knowledge path! (Got: [researched_path])")
-
+				CRASH("Heretic attempted to learn non-heretic_knowledge path! (Got: [researched_path || "invalid path"])")
+			if(!(researched_path in get_researchable_knowledge()))
+				message_admins("Heretic [key_name(owner)] potentially attempted to href exploit to learn knowledge they can't learn!")
+				CRASH("Heretic attempted to learn knowledge they can't learn! (Got: [researched_path])")
+			if(ispath(researched_path, /datum/heretic_knowledge/ultimate) && !can_ascend())
+				message_admins("Heretic [key_name(owner)] potentially attempted to href exploit to learn ascension knowledge without completing objectives!")
+				CRASH("Heretic attempted to learn a final knowledge despite not being able to ascend!")
 			if(initial(researched_path.cost) > knowledge_points)
 				return TRUE
 			if(!gain_knowledge(researched_path))
@@ -253,8 +234,8 @@
 	return ..()
 
 /datum/antagonist/heretic/ui_status(mob/user, datum/ui_state/state)
-	if(user.stat == DEAD)
-		return UI_CLOSE
+	if(isnull(owner.current) || owner.current.stat == DEAD) // If the owner is dead, we can't show the UI.
+		return UI_UPDATE
 	return ..()
 
 /datum/antagonist/heretic/get_preview_icon()
@@ -279,11 +260,14 @@
 	return finish_preview_icon(icon)
 
 /datum/antagonist/heretic/farewell()
-	if(!silent)
+	if(!silent && owner.current)
 		to_chat(owner.current, span_userdanger("Your mind begins to flare as the otherwordly knowledge escapes your grasp!"))
 	return ..()
 
 /datum/antagonist/heretic/on_gain()
+	if(!GLOB.heretic_research_tree)
+		GLOB.heretic_research_tree = generate_heretic_research_tree()
+
 	if(give_objectives)
 		forge_primary_objectives()
 
@@ -291,14 +275,17 @@
 		gain_knowledge(starting_knowledge)
 
 
+	ADD_TRAIT(owner, TRAIT_SEE_BLESSED_TILES, REF(src))
 	addtimer(CALLBACK(src, PROC_REF(passive_influence_gain)), passive_gain_timer) // Gain +1 knowledge every 20 minutes.
 	return ..()
 
 /datum/antagonist/heretic/on_removal()
-	for(var/knowledge_index in researched_knowledge)
-		var/datum/heretic_knowledge/knowledge = researched_knowledge[knowledge_index]
-		knowledge.on_lose(owner.current, src)
+	if(owner.current)
+		for(var/knowledge_index in researched_knowledge)
+			var/datum/heretic_knowledge/knowledge = researched_knowledge[knowledge_index]
+			knowledge.on_lose(owner.current, src)
 
+	REMOVE_TRAIT(owner, TRAIT_SEE_BLESSED_TILES, REF(src))
 	QDEL_LIST_ASSOC_VAL(researched_knowledge)
 	return ..()
 
@@ -375,7 +362,7 @@
  * and have mansus grasp active in their offhand,
  * they're able to draw a transmutation rune.
  */
-/datum/antagonist/heretic/proc/on_item_use(mob/living/source, atom/target, obj/item/weapon, click_parameters)
+/datum/antagonist/heretic/proc/on_item_use(mob/living/source, atom/target, obj/item/weapon, list/modifiers)
 	SIGNAL_HANDLER
 	if(!is_type_in_typecache(weapon, scribing_tools))
 		return NONE
@@ -426,7 +413,7 @@
 /datum/antagonist/heretic/proc/draw_rune(mob/living/user, turf/target_turf, drawing_time = 20 SECONDS, additional_checks)
 	drawing_rune = TRUE
 
-	var/rune_colour = path_to_rune_color[heretic_path]
+	var/rune_colour = GLOB.heretic_path_to_color[heretic_path]
 	target_turf.balloon_alert(user, "drawing rune...")
 	var/obj/effect/temp_visual/drawing_heretic_rune/drawing_effect
 	if (drawing_time < (10 SECONDS))
@@ -844,8 +831,8 @@
 	var/list/banned_knowledge = list()
 	for(var/knowledge_index in researched_knowledge)
 		var/datum/heretic_knowledge/knowledge = researched_knowledge[knowledge_index]
-		researchable_knowledge |= knowledge.next_knowledge
-		banned_knowledge |= knowledge.banned_knowledge
+		researchable_knowledge |= GLOB.heretic_research_tree[knowledge_index][HKT_NEXT]
+		banned_knowledge |= GLOB.heretic_research_tree[knowledge_index][HKT_BAN]
 		banned_knowledge |= knowledge.type
 	researchable_knowledge -= banned_knowledge
 	return researchable_knowledge
@@ -961,7 +948,7 @@
 		// (All the main paths are (should be) the same length, so it doesn't matter.)
 		var/rust_paths_found = 0
 		for(var/datum/heretic_knowledge/knowledge as anything in subtypesof(/datum/heretic_knowledge))
-			if(initial(knowledge.route) == PATH_RUST)
+			if(GLOB.heretic_research_tree[knowledge][HKT_ROUTE] == PATH_RUST)
 				rust_paths_found++
 
 		main_path_length = rust_paths_found

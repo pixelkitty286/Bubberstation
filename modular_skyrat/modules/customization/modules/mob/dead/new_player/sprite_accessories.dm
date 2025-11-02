@@ -1,14 +1,5 @@
 // GLOBAL_LIST_EMPTY(cached_mutant_icon_files)
 
-/// The flag to show that snouts should use the muzzled sprite.
-#define SPRITE_ACCESSORY_USE_MUZZLED_SPRITE (1<<0)
-/// The flag to show that this tail sprite can wag.
-#define SPRITE_ACCESSORY_WAG_ABLE (1<<1)
-/// The flag that controls whether or not this sprite accessory should force the wearer to hide its shoes.
-#define SPRITE_ACCESSORY_HIDE_SHOES (1<<2)
-/// The flag to that controls whether or not this sprite accessory should force worn facewear to use layers 5 (for glasses) and 4 (for masks and hats).
-#define SPRITE_ACCESSORY_USE_ALT_FACEWEAR_LAYER (1<<3)
-
 /datum/sprite_accessory
 	///Unique key of an accessory. All tails should have "tail", ears "ears" etc.
 	var/key = null
@@ -18,9 +9,11 @@
 	///Which color we default to on acquisition of the accessory (such as switching species, default color for character customization etc)
 	///You can also put down a a HEX color, to be used instead as the default
 	var/default_color
-	///Set this to a name, then the accessory will be shown in preferences, if a species can have it. Most accessories have this
-	///Notable things that have it set to FALSE are things that need special setup, such as genitals
-	var/generic
+
+	/// Whether or not this sprite accessory has an additional overlay added to
+	/// it as an "inner" part, which is pre-colored.
+	/// BUBBER TODO: See about retiring this
+	var/has_inner = FALSE
 
 	/// For all the flags that you need to pass from a sprite_accessory to an organ, when it's linked to one.
 	/// (i.e. passing through the fact that a snout should or shouldn't use a muzzled sprite for head worn items)
@@ -35,7 +28,7 @@
 	var/factual = TRUE
 
 	///Use this as a type path to an organ that this sprite_accessory will be associated. Make sure the organ has 'mutantpart_info' set properly.
-	var/organ_type
+	var/obj/item/organ/organ_type
 
 	///Set this to true to make an accessory appear as color customizable in preferences despite advanced color settings being off, will also prevent the accessory from being reset
 	var/always_color_customizable
@@ -45,8 +38,6 @@
 	var/use_custom_mod_icon
 	///If defined, the accessory will be only available to ckeys inside the list. ITS ASSOCIATIVE, ie. ("ckey" = TRUE). For speed
 	var/list/ckey_whitelist
-	///Whether this feature is genetic, and thus modifiable by DNA consoles
-	var/genetic = FALSE
 	var/uses_emissives = FALSE
 	var/color_layer_names
 	/// If this sprite accessory will be inaccessable if ERP config is disabled
@@ -95,18 +86,18 @@
 	var/list/colors
 	switch(default_color)
 		if(DEFAULT_PRIMARY)
-			colors = list(features["mcolor"])
+			colors = list(features[FEATURE_MUTANT_COLOR])
 		if(DEFAULT_SECONDARY)
-			colors = list(features["mcolor2"])
+			colors = list(features[FEATURE_MUTANT_COLOR_TWO])
 		if(DEFAULT_TERTIARY)
-			colors = list(features["mcolor3"])
+			colors = list(features[FEATURE_MUTANT_COLOR_THREE])
 		if(DEFAULT_MATRIXED)
-			colors = list(features["mcolor"], features["mcolor2"], features["mcolor3"])
+			colors = list(features[FEATURE_MUTANT_COLOR], features[FEATURE_MUTANT_COLOR_TWO], features[FEATURE_MUTANT_COLOR_THREE])
 		if(DEFAULT_SKIN_OR_PRIMARY)
 			if(pref_species && !(TRAIT_USES_SKINTONES in pref_species.inherent_traits))
-				colors = list(features["skin_color"])
+				colors = list(features[FEATURE_SKIN_COLOR])
 			else
-				colors = list(features["mcolor"])
+				colors = list(features[FEATURE_MUTANT_COLOR])
 		else
 			colors = list(default_color)
 
@@ -114,8 +105,7 @@
 
 /datum/sprite_accessory/moth_markings
 	key = "moth_markings"
-	generic = "Moth markings"
-	// organ_type = /obj/item/organ/external/moth_markings // UNCOMMENT THIS IF THEY EVER FIX IT UPSTREAM, CAN'T BE BOTHERED TO FIX IT MYSELF
+	// organ_type = /obj/item/organ/moth_markings // UNCOMMENT THIS IF THEY EVER FIX IT UPSTREAM, CAN'T BE BOTHERED TO FIX IT MYSELF
 
 /datum/sprite_accessory/moth_markings/is_hidden(mob/living/carbon/human/owner)
 	return FALSE
@@ -128,7 +118,7 @@
 	icon = 'modular_skyrat/master_files/icons/mob/species/podperson_hair.dmi'
 	key = "pod_hair"
 	recommended_species = list(SPECIES_PODPERSON, SPECIES_PODPERSON_WEAK)
-	organ_type = /obj/item/organ/external/pod_hair
+	organ_type = /obj/item/organ/pod_hair
 
 /datum/sprite_accessory/pod_hair/none
 	name = SPRITE_ACCESSORY_NONE
@@ -137,15 +127,13 @@
 
 /datum/sprite_accessory/caps
 	key = "caps"
-	generic = "Caps"
 	icon = 'icons/mob/human/species/mush_cap.dmi'
 	relevent_layers = list(BODY_ADJ_LAYER)
 	color_src = USE_ONE_COLOR
-	organ_type = /obj/item/organ/external/mushroom_cap
-	genetic = TRUE
+	organ_type = /obj/item/organ/mushroom_cap
 
 /datum/sprite_accessory/caps/is_hidden(mob/living/carbon/human/human)
-	if(((human.head?.flags_inv & HIDEHAIR) || (human.wear_mask?.flags_inv & HIDEHAIR)) || (key in human.try_hide_mutant_parts))
+	if((human.covered_slots & HIDEHAIR) || (key in human.try_hide_mutant_parts))
 		return TRUE
 
 	return FALSE
@@ -162,7 +150,6 @@
 
 /datum/sprite_accessory/lizard_markings
 	key = "body_markings"
-	generic = "Body Markings"
 	default_color = DEFAULT_TERTIARY
 
 /datum/sprite_accessory/lizard_markings/none
@@ -170,11 +157,19 @@
 	icon_state = "none"
 
 
+/// Legs are a special case, they aren't actually sprite_accessories but are updated with them.
+/// These datums exist for selecting legs on preference, and little else
 /datum/sprite_accessory/legs
+	icon = null
+	em_block = TRUE
 	key = "legs"
-	generic = "Leg Type"
 	color_src = null
-	genetic = TRUE
+
+/datum/sprite_accessory/legs/none
+	name = NORMAL_LEGS
+
+/datum/sprite_accessory/legs/digitigrade_lizard
+	name = DIGITIGRADE_LEGS
 
 /datum/sprite_accessory/socks
 	icon = 'modular_skyrat/master_files/icons/mob/clothing/underwear.dmi'

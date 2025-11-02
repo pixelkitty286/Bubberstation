@@ -8,11 +8,12 @@
 /datum/loadout_item/head/pinwheel_hat/gold //sprites by Keila.
 	name = "Magnificent Pinwheel Hat"
 	item_path = /obj/item/clothing/head/helmet/toggleable/pinwheel/gold
-	ckeywhitelist = list("malice69", "miniusAreas", "gavla", "hydrosatan", "nevimer", "naruga", "OmegaTracing", "KeRSe", "CprlEvergreen", "RiskyBusiness", "Slouista", "SapphoQueer", "LordGingy", "ARandomHyena", "LiuJr", "jamiemundy", "snajper202", "snaffle15", "sonicgotnuked", "fellis", "laetex", "especiallystrange", "ghostie_dwagons", "Kidkirby",)
+	ckeywhitelist = list("malice69", "miniusAreas", "gavla", "hydrosatan", "nevimer", "naruga", "OmegaTracing", "KeRSe", "CprlEvergreen", "RiskyBusiness", "Slouista", "SapphoQueer", "LordGingy", "ARandomHyena", "LiuJr", "jamiemundy", "snajper202", "snaffle15", "sonicgotnuked", "fellis", "laetex", "especiallystrange", "ghostie_dwagons", "Kidkirby", "Destrucktoid", "Vulpesishot")
 
 //11/08/23: Added as a reward to people who have recommended friends to Bubberstation. Add to this list as you please, you can offer this as a reward for basically anything.
 //Please mark the date and what this was awarded for in code comments here. For example:
 //XX/XX/XX: Added as a reward for EXAMPLE EVENT's winners.
+//6/21/2025: Given as a reward to the duo winners of toolbox tournament held on the same day. Vulpesishot and Destrucktoid.
 
 /datum/loadout_item/head/idmaberet
 	name = "IDMA Beret"
@@ -21,9 +22,13 @@
 /datum/loadout_item/head/idmahelmet
 	name = "IDMA Service Helmet"
 	item_path = /obj/item/clothing/head/helmet/sec/sol/idma_helmet
-	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
-	restricted_roles = list (JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
+	ckeywhitelist = list("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
+	restricted_roles = list(JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
 
+/datum/loadout_item/head/unberet
+	name = "UN Beret"
+	item_path = /obj/item/clothing/head/peacekeeperberet
+	ckeywhitelist = list("majesticmanateee")
 
 /*
 *	GLASSES
@@ -51,14 +56,14 @@
 /datum/loadout_item/uniform/miscellaneous/idmasnowfatigue
 	name = "IDMA Service Uniform"
 	item_path = /obj/item/clothing/under/rank/security/idma_fatigue
-	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
-	restricted_roles = list (JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
+	ckeywhitelist = list("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
+	restricted_roles = list(JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
 
 /datum/loadout_item/uniform/miscellaneous/idmafatigue
 	name = "IDMA Desert Service Uniform"
 	item_path = /obj/item/clothing/under/rank/security/idma_fatigue/alt
-	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
-	restricted_roles = list (JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
+	ckeywhitelist = list("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
+	restricted_roles = list(JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
 
 /datum/loadout_item/uniform/miscellaneous/idmautility
 	name = "IDMA Utility Uniform"
@@ -72,23 +77,23 @@
 	name = "IDMA Combat Vest"
 	item_path = /obj/item/clothing/suit/armor/vest/idma_vest
 	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
-	restricted_roles = list (JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
+	restricted_roles = list(JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
 
 /datum/loadout_item/suit/idmarsuit
 	name = "IDMA Service Jacket"
 	item_path = /obj/item/clothing/suit/jacket/idma_jacket
-	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
+	ckeywhitelist = list("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
 
 /datum/loadout_item/suit/idmaarmouredjacket
 	name = "IDMA Service Jacket"
 	item_path = /obj/item/clothing/suit/armor/vest/idma_vest/idma_jacket
 	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "1Ceres", "Raxraus", "Tecktonic")
-	restricted_roles = list (JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
+	restricted_roles = list(JOB_BLUESHIELD, JOB_CAPTAIN, JOB_NT_REP, JOB_HEAD_OF_SECURITY, JOB_RESEARCH_DIRECTOR, JOB_CHIEF_MEDICAL_OFFICER, JOB_CHIEF_ENGINEER, JOB_HEAD_OF_PERSONNEL, JOB_QUARTERMASTER, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_SECURITY_MEDIC, JOB_DETECTIVE)
 
 /datum/loadout_item/suit/idmardjacket
 	name = "Silicon Administrator Vest"
 	item_path = /obj/item/clothing/suit/jacket/vera_jacket
-	restricted_roles = list (JOB_RESEARCH_DIRECTOR) // De whitelisted since I dont use it anymore
+	restricted_roles = list(JOB_RESEARCH_DIRECTOR) // De whitelisted since I dont use it anymore
 
 /datum/loadout_item/suit/runner_winter
 	name = "Winter Runner Jacket"
@@ -106,9 +111,9 @@
 	//ckeywhitelist = list("sexmaster", "leafydasurvivor")
 
 /datum/loadout_item/suit/holographic
-    name = "Holographic Suit V4000"
-    item_path = /obj/item/clothing/suit/misc/holographic
-    ckeywhitelist = list("blovy", "snailomi")
+	name = "Holographic Suit V4000"
+	item_path = /obj/item/clothing/suit/misc/holographic
+	ckeywhitelist = list("blovy", "snailomi")
 
 /datum/loadout_item/suit/flight //Donor item for ironknight060
 	name = "MA-1 flight jacket"
@@ -136,7 +141,7 @@
 /datum/loadout_item/accessory/idmaarmbands
 	name = "IDMA Armband"
 	item_path = /obj/item/clothing/accessory/armband/idmaarmband
-	ckeywhitelist = list ("EspeciallyStrange", "Wolf751", "Waterpig", "Mishanok", "Raxraus")
+	ckeywhitelist = list("EspeciallyStrange", "Wolf751", "Waterpig", "Mishanok", "Raxraus")
 
 /*
 *	TOYS
@@ -186,9 +191,8 @@
 	ckeywhitelist = list("MyGuy49")
 
 /datum/loadout_item/inhand/kanken_pack // donator item for LT3
-    name = "Kånken Backpack"
-    item_path = /obj/item/storage/backpack/kanken
-    ckeywhitelist = list("lt3", "gavla")
+	name = "Kånken Backpack"
+	item_path = /obj/item/storage/backpack/kanken
 
 /*
 *	POCKETS

@@ -8,13 +8,13 @@ import {
   Stack,
   Tabs,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { Rules } from './AntagInfoRules'; // SKYRAT EDIT ADDITION
 import {
-  Objective,
+  type Objective,
   ObjectivePrintout,
   ReplaceObjectivesButton,
 } from './common/Objectives';
@@ -166,7 +166,8 @@ const GuideSection = () => {
           &nbsp;around the station invisible to the normal eye and&nbsp;
           <b>right click</b> on them to harvest them for&nbsp;
           <span style={hereticBlue}>knowledge points</span>. Tapping them makes
-          them visible to all after a short time.
+          them visible to all after a short time. Dreaming of Mansus may help to
+          find them.
         </Stack.Item>
         <Stack.Item>
           - Use your&nbsp;

@@ -98,27 +98,32 @@
 /obj/item/clothing/head/beret/sec/science
 	name = "science guard beret"
 	desc = "A robust beret with an Erlenmeyer flask emblazoned on it. Uses reinforced fabric to offer sufficient protection."
-	icon_state = "beret_badge"
+	icon_state = "/obj/item/clothing/head/beret/sec/science"
+	post_init_icon_state = "beret_badge"
 	greyscale_colors = "#8D008F#F2F2F2"
 
 /obj/item/clothing/head/beret/sec/medical
 	name = "medical officer beret"
 	desc = "A robust beret with a Medical insignia emblazoned on it. Uses reinforced fabric to offer sufficient protection."
+	icon_state = "/obj/item/clothing/head/beret/sec/medical"
 	greyscale_colors = "#16313D#F2F2F2" //Paramed blue to (mostly) match their vest (as opposed to medical white)
 
 /obj/item/clothing/head/beret/sec/engineering
 	name = "engineer officer beret"
 	desc = "A robust beret with a hazard symbol emblazoned on it. Uses reinforced fabric to offer sufficient protection."
+	icon_state = "/obj/item/clothing/head/beret/sec/engineering"
 	greyscale_colors = "#FFBC30#F2F2F2"
 
 /obj/item/clothing/head/beret/sec/cargo
 	name = "cargo officer beret"
 	desc = "A robust beret with a Crate emblazoned on it. Uses reinforced fabric to offer sufficient protection."
+	icon_state = "/obj/item/clothing/head/beret/sec/cargo"
 	greyscale_colors = "#c99840#F2F2F2"
 
 /obj/item/clothing/head/beret/sec/service
 	name = "bouncer beret"
 	desc = "A robust beret with a simple badge emblazoned on it. Uses reinforced fabric to offer sufficient protection."
+	icon_state = "/obj/item/clothing/head/beret/sec/service"
 	greyscale_colors = "#5E8F2D#F2F2F2"
 
 /*
@@ -154,6 +159,7 @@
 */
 /datum/job/science_guard
 	title = JOB_SCIENCE_GUARD
+	rpg_title = "Secrets Keeper"
 	description = "Figure out why the emails aren't working, keep an eye on the eggheads, protect them from their latest mistakes."
 	department_head = list(JOB_RESEARCH_DIRECTOR)
 	faction = FACTION_STATION
@@ -178,12 +184,13 @@
 	family_heirlooms = list(/obj/item/book/manual/wiki/security_space_law, /obj/item/clothing/head/beret/sec/science)
 
 	mail_goodies = list(
-		/obj/item/food/donut/caramel = 10,
-		/obj/item/food/donut/matcha = 10,
-		/obj/item/food/donut/blumpkin = 5,
-		/obj/item/clothing/mask/whistle = 5,
-		/obj/item/melee/baton/security/boomerang/loaded = 1
+	/obj/item/food/donut/caramel = 10,
+	/obj/item/food/donut/matcha = 10,
+	/obj/item/food/donut/blumpkin = 5,
+	/obj/item/clothing/mask/whistle = 10,
+	/obj/item/melee/baton = 5
 	)
+
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 
 /datum/outfit/job/science_guard
@@ -194,13 +201,14 @@
 	ears = /obj/item/radio/headset/headset_sci
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt/skyrat
 	shoes = /obj/item/clothing/shoes/jackboots
-	head =  /obj/item/clothing/head/helmet/blueshirt/skyrat
-	suit = /obj/item/clothing/suit/armor/vest/blueshirt/skyrat
-	r_pocket = /obj/item/assembly/flash/handheld
-	l_pocket = /obj/item/restraints/handcuffs/cable/pink
+	head =  /obj/item/clothing/head/beret/sec/science
+	suit = /obj/item/clothing/suit/armor/vest/alt
+	r_pocket = /obj/item/reagent_containers/spray/pepper
+	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded/departmental/science = 1,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/pepperball = 1,
+		/obj/item/gun/energy/e_gun/advtaser = 1,
+		/obj/item/holosign_creator/security = 1
 	)
 
 	backpack = /obj/item/storage/backpack/science
@@ -257,6 +265,7 @@
 */
 /datum/job/orderly
 	title = JOB_ORDERLY
+	rpg_title = "Praetorian"
 	description = "Defend the medical department, hold down idiots who refuse the vaccine, assist medical with prep and/or cleanup."
 	department_head = list(JOB_CHIEF_MEDICAL_OFFICER)
 	faction = FACTION_STATION
@@ -284,8 +293,8 @@
 		/obj/item/food/donut/caramel = 10,
 		/obj/item/food/donut/matcha = 10,
 		/obj/item/food/donut/blumpkin = 5,
-		/obj/item/clothing/mask/whistle = 5,
-		/obj/item/melee/baton/security/boomerang/loaded = 1
+		/obj/item/clothing/mask/whistle = 10,
+		/obj/item/melee/baton = 5
 	)
 
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
@@ -298,13 +307,15 @@
 	ears = /obj/item/radio/headset/headset_med
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt/skyrat/orderly
 	shoes = /obj/item/clothing/shoes/sneakers/white
-	head =  /obj/item/clothing/head/helmet/blueshirt/skyrat/guard
+	head = /obj/item/clothing/head/beret/sec/medical
+	glasses = /obj/item/clothing/glasses/hud/medsechud/sunglasses
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt/skyrat/orderly
-	r_pocket = /obj/item/assembly/flash/handheld
-	l_pocket = /obj/item/restraints/handcuffs/cable/blue
+	r_pocket = /obj/item/reagent_containers/spray/pepper
+	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded/departmental/medical = 1,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/pepperball = 1,
+		/obj/item/gun/energy/e_gun/advtaser = 1,
+		/obj/item/holosign_creator/security = 1
 	)
 
 	backpack = /obj/item/storage/backpack/medic
@@ -360,6 +371,7 @@
 */
 /datum/job/engineering_guard
 	title = JOB_ENGINEERING_GUARD
+	rpg_title = "Crystal Guardian"
 	description = "Monitor the supermatter, keep an eye on atmospherics, make sure everyone is wearing Proper Protective Equipment."
 	department_head = list(JOB_CHIEF_ENGINEER)
 	faction = FACTION_STATION
@@ -387,9 +399,10 @@
 		/obj/item/food/donut/caramel = 10,
 		/obj/item/food/donut/matcha = 10,
 		/obj/item/food/donut/blumpkin = 5,
-		/obj/item/clothing/mask/whistle = 5,
-		/obj/item/melee/baton/security/boomerang/loaded = 1
+		/obj/item/clothing/mask/whistle = 10,
+		/obj/item/melee/baton = 5
 	)
+
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 
 /datum/outfit/job/engineering_guard
@@ -400,13 +413,14 @@
 	ears = /obj/item/radio/headset/headset_eng
 	shoes = /obj/item/clothing/shoes/workboots
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt/skyrat/engineering_guard
-	head =  /obj/item/clothing/head/helmet/blueshirt/skyrat/guard
+	head =  /obj/item/clothing/head/beret/sec/engineering
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt/skyrat/engineering_guard
-	r_pocket = /obj/item/assembly/flash/handheld
-	l_pocket = /obj/item/restraints/handcuffs/cable/yellow
+	r_pocket = /obj/item/reagent_containers/spray/pepper
+	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded/departmental/engineering = 1,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/pepperball = 1,
+		/obj/item/gun/energy/e_gun/advtaser = 1,
+		/obj/item/holosign_creator/security = 1
 	)
 
 	backpack = /obj/item/storage/backpack/industrial
@@ -464,6 +478,7 @@
 */
 /datum/job/customs_agent
 	title = JOB_CUSTOMS_AGENT
+	rpg_title = "Vault Keeper"
 	description = "Inspect the packages coming to and from the station, protect the cargo department, beat the shit out of people trying to ship Cocaine to the Spinward Stellar Coalition."
 	department_head = list(JOB_QUARTERMASTER)
 	faction = FACTION_STATION
@@ -491,9 +506,10 @@
 		/obj/item/food/donut/caramel = 10,
 		/obj/item/food/donut/matcha = 10,
 		/obj/item/food/donut/blumpkin = 5,
-		/obj/item/clothing/mask/whistle = 5,
-		/obj/item/melee/baton/security/boomerang/loaded = 1
+		/obj/item/clothing/mask/whistle = 10,
+		/obj/item/melee/baton = 5
 	)
+
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 
 /datum/outfit/job/customs_agent
@@ -504,14 +520,15 @@
 	ears = /obj/item/radio/headset/headset_cargo
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt/skyrat/customs_agent
-	head =  /obj/item/clothing/head/helmet/blueshirt/skyrat/guard
+	head = /obj/item/clothing/head/beret/sec/cargo
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt/skyrat/customs_agent
 	glasses = /obj/item/clothing/glasses/hud/gun_permit
-	r_pocket = /obj/item/assembly/flash/handheld
-	l_pocket = /obj/item/restraints/handcuffs/cable/orange
+	r_pocket = /obj/item/reagent_containers/spray/pepper
+	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded/departmental/cargo = 1,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/pepperball = 1,
+		/obj/item/gun/energy/e_gun/advtaser = 1,
+		/obj/item/holosign_creator/security = 1
 	)
 
 	backpack = /obj/item/storage/backpack
@@ -562,6 +579,7 @@
 */
 /datum/job/bouncer
 	title = JOB_BOUNCER
+	rpg_title = "Tavern Watch"
 	description = "Make sure people don't jump the kitchen counter, stop Chapel vandalism, check bargoer's IDs, prevent the dreaded \"food fight\"."
 	department_head = list(JOB_HEAD_OF_PERSONNEL)
 	faction = FACTION_STATION
@@ -589,9 +607,10 @@
 		/obj/item/food/donut/caramel = 10,
 		/obj/item/food/donut/matcha = 10,
 		/obj/item/food/donut/blumpkin = 5,
-		/obj/item/clothing/mask/whistle = 5,
-		/obj/item/melee/baton/security/boomerang/loaded = 1
+		/obj/item/clothing/mask/whistle = 10,
+		/obj/item/melee/baton = 5
 	)
+
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
 
 /datum/outfit/job/bouncer
@@ -602,15 +621,16 @@
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt/skyrat/bouncer
 	shoes = /obj/item/clothing/shoes/sneakers/black
-	head =  /obj/item/clothing/head/helmet/blueshirt/skyrat/guard
-	suit = /obj/item/clothing/suit/armor/vest/blueshirt/skyrat/guard
-	l_pocket = /obj/item/restraints/handcuffs/cable/green
-	r_pocket = /obj/item/assembly/flash/handheld
+	head =  /obj/item/clothing/head/beret/sec/service
+	suit = /obj/item/clothing/suit/armor/vest/alt
+	l_pocket = /obj/item/restraints/handcuffs
+	r_pocket = /obj/item/reagent_containers/spray/pepper
 	backpack_contents = list(
 		/obj/item/melee/baton/security/loaded/departmental/service = 1,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/pepperball = 1,
-		)
-	glasses = /obj/item/clothing/glasses/sunglasses
+		/obj/item/gun/energy/e_gun/advtaser = 1,
+		/obj/item/holosign_creator/security = 1
+	)
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -662,30 +682,36 @@
 	name = "departmental stun baton"
 	desc = "A stun baton fitted with a departmental area-lock, based off the station's blueprint layout - outside of its department, it only has three uses."
 	icon = 'modular_skyrat/modules/goofsec/icons/departmental_batons.dmi'
-	icon_state = "prison_baton"
+	icon_state = "prison_baton" // We're abstract anyhow
+	base_inhand_state = "stunbaton"
 	var/list/valid_areas = list()
 	var/emagged = FALSE
 	var/non_departmental_uses_left = 4
 
-/obj/item/melee/baton/security/loaded/departmental/baton_attack(mob/living/target, mob/living/user, modifiers)
-	if(active && !emagged && cooldown_check <= world.time)
-		var/area/current_area = get_area(user)
-		if(!is_type_in_list(current_area, valid_areas))
-			if(non_departmental_uses_left)
-				non_departmental_uses_left--
-				if(non_departmental_uses_left)
-					say("[non_departmental_uses_left] non-departmental uses left!")
-				else
-					say("[src] is out of non-departmental uses! Return to your department and reactivate the baton to refresh it!")
-			else
-				target.visible_message(span_warning("[user] prods [target] with [src]. Luckily, it shut off due to being in the wrong area."), \
-					span_warning("[user] prods you with [src]. Luckily, it shut off due to being in the wrong area."))
-				active = FALSE
-				balloon_alert(user, "wrong department")
-				playsound(src, SFX_SPARKS, 75, TRUE, -1)
-				update_appearance()
-				return BATON_ATTACK_DONE
+/obj/item/melee/baton/security/loaded/departmental/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
+	if(. || !isliving(target))
+		return .
+
+	if(!active)
+		return .
+
+	var/area/current_area = get_area(user)
+	if(emagged || is_type_in_list(current_area, valid_areas))
+		return .
+
+	if(non_departmental_uses_left)
+		if(--non_departmental_uses_left)
+			say("[non_departmental_uses_left] non-departmental uses left!")
+		else
+			say("[src] is out of non-departmental uses! Return to your department and reactivate the baton to refresh it!")
+		return .
+
+	target.visible_message(span_warning("[user] prods [target] with [src]. Luckily, it was shut off due to being in the wrong area."), \
+						span_warning("[user] prods you with [src]. Luckily, it was shut off due to being in the wrong area."))
+	turn_off()
+	balloon_alert(user, "wrong department")
+	return TRUE
 
 /obj/item/melee/baton/security/loaded/departmental/attack_self(mob/user)
 	. = ..()
@@ -713,37 +739,37 @@
 /obj/item/melee/baton/security/loaded/departmental/medical
 	name = "medical stun baton"
 	desc = "A stun baton that doesn't operate outside of the Medical department, based off the station's blueprint layout. Can be used outside of Medical up to three times before needing to return!"
-	icon_state = "medical_baton"
+	base_icon_state = "medical_baton"
 	valid_areas = list(/area/station/medical, /area/station/maintenance/department/medical, /area/shuttle/escape)
 
 /obj/item/melee/baton/security/loaded/departmental/engineering
 	name = "engineering stun baton"
 	desc = "A stun baton that doesn't operate outside of the Engineering department, based off the station's blueprint layout. Can be used outside of Engineering up to three times before needing to return!"
-	icon_state = "engineering_baton"
+	base_icon_state = "engineering_baton"
 	valid_areas = list(/area/station/engineering, /area/station/maintenance/department/engine, /area/shuttle/escape)
 
 /obj/item/melee/baton/security/loaded/departmental/science
 	name = "science stun baton"
 	desc = "A stun baton that doesn't operate outside of the Science department, based off the station's blueprint layout. Can be used outside of Science up to three times before needing to return!"
-	icon_state = "science_baton"
+	base_icon_state = "science_baton"
 	valid_areas = list(/area/station/science, /area/station/maintenance/department/science, /area/shuttle/escape)
 
 /obj/item/melee/baton/security/loaded/departmental/cargo
 	name = "cargo stun baton"
 	desc = "A stun baton that doesn't operate outside of the Cargo department, based off the station's blueprint layout. Can be used outside of Cargo up to three times before needing to return!"
-	icon_state = "cargo_baton"
+	base_icon_state = "cargo_baton"
 	valid_areas = list(/area/station/cargo, /area/station/maintenance/department/cargo, /area/shuttle/escape)
 
 /obj/item/melee/baton/security/loaded/departmental/service
 	name = "service stun baton"
 	desc = "A stun baton that doesn't operate outside of the Service department, based off the station's blueprint layout. Can be used outside of Service up to three times before needing to return!"
-	icon_state = "service_baton"
+	base_icon_state = "service_baton"
 	valid_areas = list(/area/station/service, /area/station/hallway/secondary/service, /area/station/maintenance/department/chapel, /area/station/maintenance/department/crew_quarters, /area/shuttle/escape)
 
 /obj/item/melee/baton/security/loaded/departmental/prison
 	name = "prison stun baton"
 	desc = "A stun baton that doesn't operate outside of the Prison, based off the station's blueprint layout. Can be used outside of the Prison up to three times before needing to return!"
-	icon_state = "prison_baton"
+	base_icon_state = "prison_baton"
 	valid_areas = list(/area/station/security/prison, /area/station/security/processing, /area/shuttle/escape)
 
 /datum/supply_pack/security/baton_prison

@@ -1,6 +1,6 @@
 GLOBAL_VAR_INIT(changeling_zombies_detected,FALSE)
 
-/proc/can_become_changeling_zombie(var/datum/parent)
+/proc/can_become_changeling_zombie(datum/parent)
 
 	if(!ishuman(parent) || HAS_TRAIT(parent,TRAIT_NO_ZOMBIFY) || HAS_TRAIT(parent,TRAIT_GENELESS))
 		return FALSE
@@ -11,6 +11,9 @@ GLOBAL_VAR_INIT(changeling_zombies_detected,FALSE)
 		return FALSE
 
 	if(!host.dna)
+		return FALSE
+
+	if(HAS_TRAIT(host, TRAIT_DNR))
 		return FALSE
 
 	var/datum/species/host_species = host.dna.species
@@ -116,8 +119,8 @@ GLOBAL_VAR_INIT(changeling_zombies_detected,FALSE)
 		if(length(healing_options))
 			host.heal_damage_type(CHANGELING_ZOMBIE_PASSIVE_HEALING,pick(healing_options))
 
-		if(host.blood_volume <= BLOOD_VOLUME_BAD)
-			host.blood_volume += 3
+		if(host.blood_volume <= BLOOD_VOLUME_NORMAL)
+			host.blood_volume += 5
 
 		if(length(bodypart_zones_to_regenerate) && COOLDOWN_FINISHED(src,limb_regen_cooldown))
 			var/selected_zone = pick_n_take(bodypart_zones_to_regenerate)
@@ -215,7 +218,8 @@ GLOBAL_VAR_INIT(changeling_zombies_detected,FALSE)
 			TRAIT_TUMOR_SUPPRESSED,
 			TRAIT_RDS_SUPPRESSED,
 			TRAIT_EASYDISMEMBER,
-			TRAIT_HARD_SOLES
+			TRAIT_HARD_SOLES,
+			TRAIT_FAKEDEATH,
 		),
 		TRAIT_CHANGELING_ZOMBIE
 	)
@@ -256,7 +260,7 @@ GLOBAL_VAR_INIT(changeling_zombies_detected,FALSE)
 
 	if(!was_changeling_husked && !GLOB.changeling_zombies_detected) //Only announce if it's from a non-changeling spawn.
 		var/turf/T = get_turf(host)
-		if(is_station_level(T.z)) //Prevents the announcements if admins are fucking around on centcomm.
+		if(is_station_level(T.z)) //Prevents the announcements if admins are fucking around on centcom.
 			var/list/turf/found_turfs = get_area_turfs(/area/station/medical,subtypes=TRUE)
 			if(length(found_turfs))
 				var/turf/chosen_turf = pick(found_turfs)

@@ -21,16 +21,17 @@
 	heat_capacity = 20000
 	tiled_dirt = TRUE
 
-/turf/open/misc/attackby(obj/item/W, mob/user, params)
+/turf/open/misc/attackby(obj/item/attacking_item, mob/user, list/modifiers)
 	. = ..()
 	if(.)
 		return TRUE
 
-	if(istype(W, /obj/item/stack/rods))
-		build_with_rods(W, user)
+	if(istype(attacking_item, /obj/item/stack/rods))
+		build_with_rods(attacking_item, user)
 		return TRUE
-	else if(istype(W, /obj/item/stack/tile/iron))
-		build_with_floor_tiles(W, user)
+
+	if(ismetaltile(attacking_item))
+		build_with_floor_tiles(attacking_item, user)
 		return TRUE
 
 /turf/open/misc/attack_paw(mob/user, list/modifiers)
@@ -42,7 +43,7 @@
 	if(target == src)
 		ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 		return TRUE
-	if(severity < EXPLODE_DEVASTATE && is_shielded())
+	if(is_explosion_shielded(severity))
 		return FALSE
 
 	if(target)
@@ -68,9 +69,13 @@
 
 	return TRUE
 
-/turf/open/misc/is_shielded()
-	for(var/obj/structure/A in contents)
-		return TRUE
+/turf/open/misc/is_explosion_shielded(severity)
+	if(severity >= EXPLODE_DEVASTATE)
+		return FALSE
+	for(var/obj/blocker in src)
+		if(blocker.density)
+			return TRUE
+	return FALSE
 
 /turf/open/misc/blob_act(obj/structure/blob/B)
 	return

@@ -4,7 +4,7 @@
 	icon_state = "foilhat"
 	inhand_icon_state = null
 	armor_type = /datum/armor/costume_foilhat
-	equip_delay_other = 140
+	equip_delay_other = 14 SECONDS
 	clothing_flags = ANTI_TINFOIL_MANEUVER
 	// var/datum/brain_trauma/mild/phobia/conspiracies/paranoia BUBBERSTATION CHANGE, REMOVES PARANOIA
 	var/warped = FALSE
@@ -24,8 +24,8 @@
 		/datum/component/anti_magic, \
 		antimagic_flags = MAGIC_RESISTANCE_MIND, \
 		inventory_flags = ITEM_SLOT_HEAD, \
-		charges = 1000, \
-		drain_antimagic = CALLBACK(src, PROC_REF(drain_antimagic)), \
+		charges = 6, \
+		block_magic = CALLBACK(src, PROC_REF(drain_antimagic)), \
 		expiration = CALLBACK(src, PROC_REF(warp_up)) \
 	) //BUBBERSTATION CHANGE: NEAR-INFINITE CHARGES (6 TO 1000)
 
@@ -68,7 +68,7 @@
 
 /obj/item/clothing/head/costume/foilhat/proc/warp_up()
 	name = "scorched tinfoil hat"
-	desc = "A badly warped up hat. Quite unprobable this will still work against any of fictional and contemporary dangers it used to."
+	desc = "A badly warped up hat. Quite unlikely this will still work against any of the fictional or real dangers it used to."
 	warped = TRUE
 	clothing_flags &= ~ANTI_TINFOIL_MANEUVER
 	if(!isliving(loc)) //BUBBERSTATION CHANGE, REMOVES PARANOIA
@@ -113,7 +113,7 @@
 		";WE REPEAT OUR LIVES DAILY WITHOUT FURTHER QUESTIONS!!"
 	)
 	user.say(pick(conspiracy_line), forced=type)
-	var/obj/item/organ/internal/brain/brain = user.get_organ_slot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/brain/brain = user.get_organ_slot(ORGAN_SLOT_BRAIN)
 	if(brain)
 		brain.set_organ_damage(BRAIN_DAMAGE_DEATH)
 	return OXYLOSS

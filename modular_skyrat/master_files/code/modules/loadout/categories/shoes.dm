@@ -33,6 +33,22 @@
 	name = "Recolorable Jackboots"
 	item_path = /obj/item/clothing/shoes/jackboots/recolorable
 
+/datum/loadout_item/shoes/jackboots/sec
+	name = "security jackboots"
+	item_path = /obj/item/clothing/shoes/jackboots/sec
+	restricted_roles = list(JOB_WARDEN, JOB_DETECTIVE, JOB_SECURITY_OFFICER, JOB_HEAD_OF_SECURITY, JOB_CORRECTIONS_OFFICER, JOB_SECURITY_MEDIC)
+
+
+/datum/loadout_item/shoes/jackboots/peacekeeper
+	name = "Armadyne combat boots"
+	item_path = /obj/item/clothing/shoes/jackboots/peacekeeper/armadyne
+	restricted_roles = list(JOB_WARDEN, JOB_DETECTIVE, JOB_SECURITY_OFFICER, JOB_HEAD_OF_SECURITY, JOB_CORRECTIONS_OFFICER, JOB_SECURITY_MEDIC)
+
+/datum/loadout_item/shoes/jackboots/gogo_boots
+	name = "Tactical Go-Go boots"
+	item_path = /obj/item/clothing/shoes/jackboots/gogo_boots
+	restricted_roles = list(JOB_WARDEN, JOB_DETECTIVE, JOB_SECURITY_OFFICER, JOB_HEAD_OF_SECURITY, JOB_CORRECTIONS_OFFICER, JOB_SECURITY_MEDIC)
+
 /*
 *	MISC BOOTS
 */
@@ -53,6 +69,10 @@
 	name = "Work Boots"
 	item_path = /obj/item/clothing/shoes/workboots
 
+/datum/loadout_item/shoes/work_boots/heeled
+	name = "Heeled Work Boots"
+	item_path = /obj/item/clothing/shoes/workboots/heeled
+
 /datum/loadout_item/shoes/work_boots/old
 	name = "Old Work Boots"
 	item_path = /obj/item/clothing/shoes/workboots/old
@@ -60,6 +80,10 @@
 /datum/loadout_item/shoes/mining_boots
 	name = "Mining Boots"
 	item_path = /obj/item/clothing/shoes/workboots/mining
+
+/datum/loadout_item/shoes/mining_boots/heeled
+	name = "Heeled Mining Boots"
+	item_path = /obj/item/clothing/shoes/workboots/mining/heeled
 
 /datum/loadout_item/shoes/russian_boots
 	name = "Russian Boots"
@@ -92,10 +116,6 @@
 /*
 *	SNEAKERS
 */
-
-/datum/loadout_item/shoes/greyscale_sneakers
-	name = "Colorable Sneakers"
-	item_path = /obj/item/clothing/shoes/sneakers
 
 /datum/loadout_item/shoes/black_sneakers
 	name = "Black Sneakers"

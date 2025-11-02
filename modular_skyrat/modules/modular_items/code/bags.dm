@@ -4,7 +4,7 @@
 	desc = "It's a nondescript pouch made with dark fabric. It has a clip, for fitting in pockets."
 	icon = 'modular_skyrat/modules/modular_items/icons/storage.dmi'
 	icon_state = "survival"
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_BULKY
 	resistance_flags = FLAMMABLE
 	slot_flags = ITEM_SLOT_POCKETS
 
@@ -18,7 +18,6 @@
 	desc = "A pouch for your ammo that goes in your pocket."
 	icon = 'modular_skyrat/modules/modular_items/icons/storage.dmi'
 	icon_state = "ammopouch"
-	w_class = WEIGHT_CLASS_BULKY
 	custom_price = PAYCHECK_CREW * 4
 	// this is just to have post_reskin called later
 	uses_advanced_reskins = TRUE
@@ -37,7 +36,7 @@
 	atom_storage.max_total_storage = 12
 	atom_storage.max_slots = 3
 	atom_storage.numerical_stacking = FALSE
-	atom_storage.can_hold = typecacheof(list(/obj/item/ammo_box/magazine, /obj/item/ammo_casing, /obj/item/stock_parts/power_store/cell/microfusion))
+	atom_storage.can_hold = typecacheof(list(/obj/item/ammo_box/magazine, /obj/item/ammo_casing))
 
 /obj/item/storage/pouch/ammo/post_reskin(mob/our_mob)
 	if(icon_state == "casingpouch")
@@ -54,7 +53,6 @@
 	desc = "A pouch for sheets and RCD ammunition that manages to hang where you would normally put things in your pocket."
 	icon = 'modular_skyrat/modules/modular_items/icons/storage.dmi'
 	icon_state = "materialpouch"
-	w_class = WEIGHT_CLASS_BULKY
 	custom_price = PAYCHECK_CREW * 4
 
 /obj/item/storage/pouch/material/Initialize(mapload)
@@ -74,18 +72,21 @@
 	/// The list of things that medical pouches can hold. Stolen from what medkits can hold, but modified for things you would probably want at pocket-access.
 	var/static/list/med_pouch_holdables = list(
 		/obj/item/healthanalyzer,
+		/obj/item/hypospray/mkii,
 		/obj/item/dnainjector,
 		/obj/item/reagent_containers/dropper,
 		/obj/item/reagent_containers/cup/beaker,
 		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/cup/tube,
-		/obj/item/reagent_containers/pill,
+		/obj/item/reagent_containers/cup/vial,
+		/obj/item/reagent_containers/applicator/pill,
 		/obj/item/reagent_containers/syringe,
 		/obj/item/reagent_containers/medigel,
 		/obj/item/reagent_containers/spray,
 		/obj/item/reagent_containers/hypospray,
 		/obj/item/storage/pill_bottle,
 		/obj/item/storage/box/bandages,
+		/obj/item/stack/cable_coil,
 		/obj/item/stack/medical,
 		/obj/item/flashlight/pen,
 		/obj/item/bonesetter,

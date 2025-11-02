@@ -7,3 +7,4 @@
 	cost = 0
 	always_place = TRUE //WOULD BE UNFAIR IF SOMETHING THAT IS ALWAYS PLACED HAD A COST...
 	allow_duplicates = FALSE
+

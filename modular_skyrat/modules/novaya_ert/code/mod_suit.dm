@@ -1,17 +1,18 @@
 /datum/mod_theme/frontline
 	name = "frontline"
-	desc = "A Novaya Rossiyskaya Imperiya Defense Collegia protective suit, designed for fortified positions operation and humanitarian aid."
-	extended_desc = "A cheaper and more versatile replacement of the dated VOSKHOD Power Armor, designed by the Novaya Rossiyskaya Imperiya Innovations Collegia in \
+	desc = "A Pan-Slavic Commonwealth Defense Collegia protective suit, designed for fortified positions operation and humanitarian aid."
+	extended_desc = "A cheaper and more versatile replacement of the dated VOSKHOD Power Armor, designed by the then-Novaya Rossiyskaya Imperiya Innovations Collegia in \
 	collaboration with Agurkrral researchers. Instead of the polyurea coated durathread-lined plasteel plates it utilises thin plates of Kevlar-backed titanium, making it lighter and more compact \
 	while leaving place for other modules; yet due to its lack of energy dissipation systems, making its user more vulnerable against conventional laser weaponry. \
 	Built-in projectile trajectory and munition assistance computer informs the operator of better places to aim, as well as the remaining munitions for \
 	the currently held weapon and its magazines. This function is quite straining on the power cell, and as such, this suit is rarely seen outside of the fortified positions or humanitarian missions; \
 	becoming the sign of what little hospitality and assistance the military can provide. However many people who had an experience with this MOD describe it as \"Very uncomfortable.\", \
-	mainly due to its lack of proper environmental regulation systems. But because of its protective capabilities, extreme mass-production and cheap price, it easily became the main armor system of the NRI DC."
+	mainly due to its lack of proper environmental regulation systems. But because of its protective capabilities, extreme mass-production and cheap price, it easily became the main armor system of the PSC DC."
 	default_skin = "frontline"
 	armor_type = /datum/armor/mod_theme_frontline
 	complexity_max = DEFAULT_MAX_COMPLEXITY
 	charge_drain = DEFAULT_CHARGE_DRAIN * 1.5
+	inbuilt_modules = list(/obj/item/mod/module/hearing_protection)
 	allowed_suit_storage = list(
 		/obj/item/flashlight,
 		/obj/item/tank/internals,
@@ -96,9 +97,51 @@
 		/obj/item/mod/module/magboot/advanced,
 	)
 
+
+/datum/mod_theme/frontline/surplus
+	name = "frontline surplus"
+	activation_step_time = MOD_ACTIVATION_STEP_TIME + 3
+	desc = "A Pan-Slavic Commonwealth Defense Collegia protective suit, designed for fortified positions operation and humanitarian aid, this one looks rather old and worn out."
+	extended_desc = "A Pan-Slavic Commonwealth Defense Collegia protective suit, designed for fortified positions operation and humanitarian aid. \
+		This one was purchased at auction, the combat spec modules have been removed but \
+		it would still be right at home in the service of gunrunners and private security forces. \
+		Though, it's internal systems have degraded, and some of the ablative plating has been removed."
+	armor_type = /datum/armor/mod_theme_frontline/surplus
+	inbuilt_modules = list(/obj/item/mod/module/hearing_protection)
+
+/datum/mod_theme/frontline/surplus/set_skin(obj/item/mod/control/mod, skin)
+	. = ..()
+	mod.set_mod_color("#888888", FIXED_COLOUR_PRIORITY)
+
+/datum/armor/mod_theme_frontline/surplus
+	melee = 30
+	bullet = 40
+	laser = 15
+	energy = 15
+	bomb = 30
+	wound = 10
+
+/datum/mod_theme/frontline/surplus/New()
+	allowed_suit_storage -= /obj/item/shield/riot
+	. = ..()
+
+/obj/item/mod/control/pre_equipped/frontline/surplus
+	theme = /datum/mod_theme/frontline/surplus
+
+/datum/supply_pack/imports/surplus_nri_modsuit
+	name = "Surplus Combat MODsuit Crate"
+	desc = "A crate containing a single surplus MODsuit, \
+		designed for use by the Pan-Slavic Commonwealth Defense Collegia. \
+		This one has been stripped of its combat modules, but is still a good suit for those who need protection and mobility. \
+		Notably, does not use or require a armor module."
+	cost = CARGO_CRATE_VALUE * 22
+	contraband = TRUE
+	contains = list(/obj/item/mod/control/pre_equipped/frontline/surplus)
+	crate_name = "surplus MODsuit crate"
+
 /datum/mod_theme/policing
 	name = "policing"
-	desc = "A Novaya Rossiyskaya Imperiya Internal Affairs Collegia general purpose protective suit, designed for coreworld patrols."
+	desc = "A Pan-Slavic Commonwealth Internal Affairs Collegia general purpose protective suit, designed for coreworld patrols."
 	extended_desc = "An Apadyne Technologies outsourced, then modified for frontier use by the responding imperial police precinct, MODsuit model, \
 		designed for reassuring panicking civilians than participating in active combat. The suit's thin plastitanium armor plating is durable against environment and projectiles, \
 		and comes with a built-in miniature power redistribution system to protect against energy weaponry; albeit ineffectively. \
@@ -107,8 +150,7 @@
 	armor_type = /datum/armor/mod_theme_policing
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 1
 	charge_drain = DEFAULT_CHARGE_DRAIN * 1.25
-	slowdown_inactive = 1.5
-	slowdown_active = 0.5
+	slowdown_deployed = 0.5
 	allowed_suit_storage = list(
 		/obj/item/flashlight,
 		/obj/item/tank/internals,
@@ -317,9 +359,11 @@
 	UnregisterSignal(mod.wearer, COMSIG_LIVING_HEALTH_UPDATE)
 
 /obj/item/mod/module/auto_doc/on_install()
+	. = ..()
 	RegisterSignal(mod, COMSIG_ATOM_ITEM_INTERACTION, PROC_REF(on_item_interact))
 
 /obj/item/mod/module/auto_doc/on_uninstall(deleting)
+	. = ..()
 	UnregisterSignal(mod, COMSIG_ATOM_ATTACKBY)
 
 /obj/item/mod/module/auto_doc/attackby(obj/item/attacking_item, mob/user, params)

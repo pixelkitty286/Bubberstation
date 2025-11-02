@@ -148,11 +148,21 @@
 #define JOB_TERRAGOV_LIASON "TerraGov Liason"
 // SKYRAT EDIT ADDITION END
 
+//Lost crew
+#define JOB_LOSTCREW_ENGINEER "Visiting Engineer"
+#define JOB_LOSTCREW_MEDICAL "Visiting Doctor"
+#define JOB_LOSTCREW_SECURITY "Visiting Officer"
+#define JOB_LOSTCREW_SCIENCE "Visiting Scientist"
+#define JOB_LOSTCREW_CARGO "Visiting Technician"
+#define JOB_LOSTCREW_CIVILLIAN "Visiting Civillian"
+
 #define JOB_GROUP_ENGINEERS list( \
 	JOB_STATION_ENGINEER, \
 	JOB_ATMOSPHERIC_TECHNICIAN, \
 )
 
+//Bots
+#define JOB_MEDIBOT "Medibot"
 
 #define JOB_DISPLAY_ORDER_ASSISTANT 1
 #define JOB_DISPLAY_ORDER_CAPTAIN 2
@@ -271,6 +281,10 @@ DEFINE_BITFIELD(departments_bitflags, list(
 #define JOB_LATEJOIN_ONLY (1<<11)
 /// This job is a head of staff.
 #define JOB_HEAD_OF_STAFF (1<<12)
+/// This job will NEVER be selected as an antag role
+#define JOB_ANTAG_BLACKLISTED (1<<13)
+/// This job will never be selected as an antag role IF config `protect_roles_from_antagonist` is set
+#define JOB_ANTAG_PROTECTED (1<<14)
 
 DEFINE_BITFIELD(job_flags, list(
 	"JOB_ANNOUNCE_ARRIVAL" = JOB_ANNOUNCE_ARRIVAL,
@@ -309,3 +323,5 @@ DEFINE_BITFIELD(job_flags, list(
 
 /// Mind traits that should be shared by every head of staff. has to be this way cause byond lists lol
 #define HEAD_OF_STAFF_MIND_TRAITS TRAIT_FAST_TYING, TRAIT_HIGH_VALUE_RANSOM
+#define MEDICAL_MIND_TRAITS TRAIT_DESENSITIZED
+#define SECURITY_MIND_TRAITS TRAIT_DESENSITIZED

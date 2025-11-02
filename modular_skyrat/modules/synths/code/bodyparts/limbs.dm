@@ -54,7 +54,7 @@
 		BURN = ROBOTIC_BURN_EXAMINE_TEXT,
 	)
 
-	head_flags = HEAD_ALL_FEATURES
+	head_flags = HEAD_DEFAULT_FEATURES
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /datum/design/synth_head
@@ -112,7 +112,8 @@
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 	wing_types = list(
-		/obj/item/organ/external/wings/functional/robotic,
+		/obj/item/organ/wings/functional/robotic,
+		/obj/item/organ/wings/functional/robotic/virtual
 	)
 
 /datum/design/synth_chest

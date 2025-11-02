@@ -1,6 +1,7 @@
 
 /obj/item/clothing/under/suit
 	worn_icon_digi = 'modular_skyrat/master_files/icons/mob/clothing/under/suits_digi.dmi' //Anything that was in TG's suits.dmi, should be in our suits_digi.dmi
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION
 
 /obj/item/clothing/under/suit/skyrat
 	icon = 'modular_skyrat/master_files/icons/obj/clothing/under/suits.dmi'
@@ -14,7 +15,9 @@
 /obj/item/clothing/under/suit/skyrat/recolorable
 	name = "recolorable suit"
 	desc = "A semi-formal suit, clean-cut with a matching vest and slacks."
-	icon_state = "recolorable_suit"
+	icon = 'icons/map_icons/clothing/under/_under.dmi'
+	icon_state = "/obj/item/clothing/under/suit/skyrat/recolorable"
+	post_init_icon_state = "recolorable_suit"
 	can_adjust = FALSE
 	greyscale_config = /datum/greyscale_config/recolorable_suit
 	greyscale_config_worn = /datum/greyscale_config/recolorable_suit/worn
@@ -25,7 +28,9 @@
 /obj/item/clothing/under/suit/skyrat/recolorable/skirt
 	name = "recolorable suitskirt"
 	desc = "A semi-formal suitskirt, clean-cut with a matching vest and skirt."
-	icon_state = "recolorable_suitskirt"
+	icon = 'icons/map_icons/clothing/under/_under.dmi'
+	icon_state = "/obj/item/clothing/under/suit/skyrat/recolorable/skirt"
+	post_init_icon_state = "recolorable_suitskirt"
 	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
 	gets_cropped_on_taurs = FALSE
