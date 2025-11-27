@@ -94,6 +94,7 @@
 		"Command Bodyguard",
 		"Executive Protection Agent",
 		"Command Protection Officer",
+		"Henchman",
 	)
 
 /datum/job/botanist
@@ -152,6 +153,7 @@
 		"Postwoman",
 		"Receiving Clerk",
 		"Union Associate",
+		"Crate Pusher",
 	)
 
 /datum/job/chaplain
@@ -209,6 +211,7 @@
 		"Comedian",
 		"Jester",
 		"Joker",
+		"Prankster",
 	)
 
 /datum/job/cook
@@ -272,6 +275,7 @@
 		"Forensic Technician",
 		"Private Investigator",
 		"CID Officer",
+		"Gumshoe",
 	)
 
 /datum/job/doctor
@@ -287,11 +291,6 @@
 		"Epidemiologist",
 		"Pathologist",
 		"Junior Pathologist",
-	)
-
-/datum/job/engineering_guard //see orderly
-	alt_titles = list(
-		"Engineering Guard",
 	)
 
 /datum/job/geneticist
@@ -329,7 +328,6 @@
 		"Custodian",
 		"Groundskeeper",
 		"Maid",
-		"Maintenance Technician",
 		"Sanitation Technician",
 	)
 
@@ -398,6 +396,7 @@
 		"Counsellor",
 		"Psychiatrist",
 		"Therapist",
+		"Shrink",
 	)
 
 /datum/job/quartermaster

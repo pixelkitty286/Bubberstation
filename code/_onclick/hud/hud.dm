@@ -51,6 +51,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	var/hotkey_ui_hidden = FALSE //This is to hide the buttons that can be used via hotkeys. (hotkeybuttons list of buttons)
 
 	var/atom/movable/screen/ammo_counter //SKYRAT EDIT ADDITION
+	var/atom/movable/screen/text/activation_text/activation // BUBBER EDIT ADDITION
 
 	var/atom/movable/screen/alien_plasma_display
 	var/atom/movable/screen/alien_queen_finder
@@ -59,9 +60,9 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	var/atom/movable/screen/zone_select
 	var/atom/movable/screen/pull_icon
 	var/atom/movable/screen/rest_icon
+	var/atom/movable/screen/sleep_icon
 	var/atom/movable/screen/throw_icon
 	var/atom/movable/screen/resist_icon
-	var/atom/movable/screen/module_store_icon
 	var/atom/movable/screen/floor_change
 
 	var/list/static_inventory = list() //the screen objects which are static
@@ -72,7 +73,8 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	var/list/always_visible_inventory = list()
 	var/list/inv_slots[SLOTS_AMT] // /atom/movable/screen/inventory objects, ordered by their slot ID.
 	var/list/hand_slots // /atom/movable/screen/inventory/hand objects, assoc list of "[held_index]" = object
-
+	/// storages (and its content) currently open by mob
+	var/list/open_containers = list()
 	/// Assoc list of key => "plane master groups"
 	/// This is normally just the main window, but it'll occasionally contain things like spyglasses windows
 	var/list/datum/plane_master_group/master_groups = list()
@@ -118,13 +120,14 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	var/atom/movable/screen/healthdoll/healthdoll
 	var/atom/movable/screen/spacesuit
 	var/atom/movable/screen/hunger/hunger
-	// subtypes can override this to force a specific UI style
+
+	/// Subtypes can override this to force a specific UI style
 	var/ui_style
 	var/erp_ui_style //SKYRAT EDIT - ADDITION - ERP ICONS FIX
 
-	// List of weakrefs to objects that we add to our screen that we don't expect to DO anything
-	// They typically use * in their render target. They exist solely so we can reuse them,
-	// and avoid needing to make changes to all idk 300 consumers if we want to change the appearance
+	/// List of weakrefs to objects that we add to our screen that we don't expect to DO anything
+	/// They typically use * in their render target. They exist solely so we can reuse them,
+	/// and avoid needing to make changes to all idk 300 consumers if we want to change the appearance
 	var/list/asset_refs_for_reuse = list()
 
 /datum/hud/New(mob/owner)
@@ -153,6 +156,9 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	screentip_images = preferences?.read_preference(/datum/preference/toggle/screentip_images)
 	screentip_text = new(null, src)
 	static_inventory += screentip_text
+
+	activation = new(null, src) // BUBBER EDIT ADDITION
+	static_inventory += activation // BUBBER EDIT ADDITION
 
 	for(var/mytype in subtypesof(/atom/movable/plane_master_controller))
 		var/atom/movable/plane_master_controller/controller_instance = new mytype(null,src)
@@ -208,7 +214,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	if(should_sight_scale(new_sight) == should_sight_scale(old_sight))
 		return
 
-	for(var/group_key as anything in master_groups)
+	for(var/group_key in master_groups)
 		var/datum/plane_master_group/group = master_groups[group_key]
 		group.build_planes_offset(src, current_plane_offset)
 
@@ -232,7 +238,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	current_plane_offset = new_offset
 
 	SEND_SIGNAL(src, COMSIG_HUD_OFFSET_CHANGED, old_offset, new_offset)
-	for(var/group_key as anything in master_groups)
+	for(var/group_key in master_groups)
 		var/datum/plane_master_group/group = master_groups[group_key]
 		group.build_planes_offset(src, new_offset)
 
@@ -247,7 +253,6 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	QDEL_NULL(listed_actions)
 	QDEL_LIST(floating_actions)
 
-	QDEL_NULL(module_store_icon)
 	QDEL_LIST(static_inventory)
 
 	// all already deleted by static inventory clear
@@ -256,6 +261,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	zone_select = null
 	pull_icon = null
 	rest_icon = null
+	sleep_icon = null
 	floor_change = null
 	hand_slots.Cut()
 
@@ -264,6 +270,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	throw_icon = null
 	resist_icon = null
 	QDEL_LIST(infodisplay)
+	open_containers = null
 
 	healths = null
 	stamina = null
@@ -276,6 +283,7 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 	//SKYRAT EDIT ADDITION START - SKYRAT HUD
 	wanted_lvl = null
 	ammo_counter = null
+	activation = null
 	// SKYRAT EDIT ADDITION END - SKYRAT HUD
 
 	QDEL_LIST_ASSOC_VAL(master_groups)
@@ -372,7 +380,9 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 				screenmob.client.screen += infodisplay
 			if(always_visible_inventory.len)
 				screenmob.client.screen += always_visible_inventory
-
+			if(open_containers.len && screenmob == mymob) // Don't show open inventories to ghosts
+				list_clear_nulls(open_containers)
+				screenmob.client.screen += open_containers
 			screenmob.client.screen += toggle_palette
 
 			if(action_intent)
@@ -452,12 +462,6 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 		return
 	var/mob/screenmob = viewmob || mymob
 	hidden_inventory_update(screenmob)
-
-/datum/hud/robot/show_hud(version = 0, mob/viewmob)
-	. = ..()
-	if(!.)
-		return
-	update_robot_modules_display()
 
 /* BUBBER EDIT REMOVAL - We use a different lobby hud
 /datum/hud/new_player/show_hud(version = 0, mob/viewmob)
@@ -874,4 +878,4 @@ GLOBAL_LIST_INIT(available_erp_ui_styles, list(
 
 /datum/action_group/listed/refresh_actions()
 	. = ..()
-	owner.palette_actions.refresh_actions() // We effect them, so we gotta refresh em
+	owner?.palette_actions.refresh_actions() // We effect them, so we gotta refresh em

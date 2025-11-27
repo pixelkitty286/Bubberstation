@@ -2,8 +2,9 @@
 //SUITS
 /obj/item/clothing/suit/hooded/wintercoat/colourable
 	name = "custom winter coat"
-	icon_state = "winter_coat"
-	icon = null
+	icon = 'icons/map_icons/clothing/suit/_suit.dmi'
+	icon_state = "/obj/item/clothing/suit/hooded/wintercoat/colourable"
+	post_init_icon_state = "winter_coat"
 	worn_icon_state = null
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/colourable
 	greyscale_config = /datum/greyscale_config/winter_coat
@@ -49,7 +50,9 @@
 
 /obj/item/clothing/neck/cloak/colourable
 	name = "colourable cloak"
-	icon_state = "gags_cloak"
+	icon = 'icons/map_icons/clothing/neck.dmi'
+	icon_state = "/obj/item/clothing/neck/cloak/colourable"
+	post_init_icon_state = "gags_cloak"
 	greyscale_config = /datum/greyscale_config/cloak
 	greyscale_config_worn = /datum/greyscale_config/cloak/worn
 	greyscale_colors = "#917A57#4e412e#4e412e"
@@ -57,19 +60,22 @@
 
 /obj/item/clothing/neck/cloak/colourable/veil
 	name = "colourable veil"
-	icon_state = "gags_veil"
+	icon_state = "/obj/item/clothing/neck/cloak/colourable/veil"
+	post_init_icon_state = "gags_veil"
 	greyscale_config = /datum/greyscale_config/cloak/veil
 	greyscale_config_worn = /datum/greyscale_config/cloak/veil/worn
 
 /obj/item/clothing/neck/cloak/colourable/boat
 	name = "colourable boatcloak"
-	icon_state = "gags_boat"
+	icon_state = "/obj/item/clothing/neck/cloak/colourable/boat"
+	post_init_icon_state = "gags_boat"
 	greyscale_config = /datum/greyscale_config/cloak/boat
 	greyscale_config_worn = /datum/greyscale_config/cloak/boat/worn
 
 /obj/item/clothing/neck/cloak/colourable/shroud
 	name = "colourable shroud"
-	icon_state = "gags_shroud"
+	icon_state = "/obj/item/clothing/neck/cloak/colourable/shroud"
+	post_init_icon_state = "gags_shroud"
 	greyscale_config = /datum/greyscale_config/cloak/shroud
 	greyscale_config_worn = /datum/greyscale_config/cloak/shroud/worn
 
@@ -213,21 +219,9 @@
 	icon_state = "black_turtleneck"
 	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/uniform.dmi'
 	supports_variations_flags = NONE
-	armor_type = /datum/armor/clothing_under/none
+	armor_type = /datum/armor/clothing_under
 	can_adjust = FALSE //There wasnt an adjustable sprite anyways
 	has_sensor = HAS_SENSORS	//Actually has sensors, to balance the new lack of armor
-
-/datum/armor/clothing_under/none
-
-/obj/item/clothing/shoes/jackboots/heel
-	name = "high-heeled jackboots"
-	desc = "Almost like regular jackboots... why are they on a high heel?"
-	icon = 'modular_skyrat/master_files/icons/donator/obj/clothing/shoes.dmi'
-	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/feet.dmi'
-	icon_state = "heel-jackboots"
-	supports_variations_flags = NONE
-	uses_advanced_reskins = FALSE
-	unique_reskin = NONE
 
 // Donation reward for Bloodrite
 /obj/item/clothing/shoes/clown_shoes/britches
@@ -648,23 +642,20 @@
 	return mutable_appearance('modular_skyrat/master_files/icons/donator/obj/custom.dmi', "darksheath-darksabre")
 
 // Donation reward for inferno707
-/obj/item/storage/belt/sabre/darksabre
+/obj/item/storage/belt/sheath/sabre/darksabre
 	name = "ornate sheathe"
 	desc = "An ornate and rather sinister looking sabre sheathe."
 	icon = 'modular_skyrat/master_files/icons/donator/obj/custom.dmi'
 	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/custom_w.dmi'
 	icon_state = "sheath"
 	worn_icon_state = "sheath"
+	stored_blade = /obj/item/toy/darksabre
 
-/obj/item/storage/belt/sabre/darksabre/Initialize(mapload)
+/obj/item/storage/belt/sheath/sabre/darksabre/Initialize(mapload)
 	. = ..()
 	atom_storage.set_holdable(list(
 		/obj/item/toy/darksabre
 		))
-
-/obj/item/storage/belt/sabre/darksabre/PopulateContents()
-	new /obj/item/toy/darksabre(src)
-	update_icon()
 
 // Donation reward for inferno707
 /obj/item/clothing/suit/armor/vest/darkcarapace
@@ -840,6 +831,7 @@
 	greyscale_colors = null
 	desc = " "
 	icon_state = "mikuleggings"
+	post_init_icon_state = null
 	icon = 'modular_skyrat/master_files/icons/donator/obj/clothing/shoes.dmi'
 	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/feet.dmi'
 	worn_icon_state = "mikuleggings"
@@ -885,14 +877,9 @@
 	icon_state = "plasmaman_jax"
 
 // Donation reward for Raxraus
-/obj/item/clothing/shoes/combat/rax
+/obj/item/clothing/shoes/jackboots/peacekeeper/armadyne/rax
 	name = "tactical boots"
 	desc = "Tactical and sleek. This model seems to resemble Armadyne's."
-	icon = 'modular_skyrat/master_files/icons/obj/clothing/shoes.dmi'
-	worn_icon = 'modular_skyrat/master_files/icons/mob/clothing/feet.dmi'
-	worn_icon_digi = 'modular_skyrat/master_files/icons/mob/clothing/feet_digi.dmi'
-	icon_state = "armadyne_boots"
-	worn_icon_state = "armadyne_boots"
 
 // Donation reward for Raxraus
 /obj/item/clothing/suit/armor/vest/warden/rax
@@ -1106,6 +1093,9 @@
 	icon_state = "fushankadown"
 	upsprite = "fushankaup"
 	downsprite = "fushankadown"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_config_worn = null
 
 // Donation reward for M97screwsyourparents
 /obj/item/clothing/neck/cross
@@ -1218,7 +1208,6 @@
 /obj/item/poster/korpstech
 	name = "Korps Genetics poster"
 	poster_type = /obj/structure/sign/poster/contraband/korpstech
-	icon = 'modular_skyrat/modules/aesthetics/posters/contraband.dmi'
 	icon_state = "rolled_poster"
 
 /obj/structure/sign/poster/contraband/korpstech
@@ -1551,6 +1540,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	icon = 'modular_skyrat/master_files/icons/donator/obj/clothing/suits.dmi'
 	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/suit.dmi'
 	icon_state = "razurath_coat"
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
 
 // Donation reward for MaSvedish
 /obj/item/holocigarette/masvedishcigar
@@ -1820,7 +1810,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 		message = span_warning("[src]'s delicate fabric is shredded by [washer]! How terrible!")
 		sound_effect_path = 'sound/effects/cloth_rip.ogg'
 		sound_effect_volume = 30
-		for (var/zone as anything in cover_flags2body_zones(body_parts_covered))
+		for (var/zone in cover_flags2body_zones(body_parts_covered))
 			take_damage_zone(zone, limb_integrity * 1.1, BRUTE) // fucking shreds it
 
 	var/turf/our_turf = get_turf(src)
@@ -1850,30 +1840,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	icon_state = "anubite_headpiece"
 	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/head.dmi'
 	worn_y_offset = 4
-
-//  Donator reward Smol42
-
-/obj/item/clothing/neck/trenchcoat
-	name = "Graceful Trenchcoat"
-	icon = 'modular_skyrat/master_files/icons/donator/obj/clothing/cloaks.dmi'
-	icon_state = "trenchcoat"
-	worn_icon = 'modular_skyrat/master_files/icons/donator/mob/clothing/neck.dmi'
-	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	uses_advanced_reskins = TRUE
-	unique_reskin = list(
-		"White" = list(
-			RESKIN_ICON_STATE = "trenchcoat_white",
-			RESKIN_WORN_ICON_STATE = "trenchcoat_white"
-		),
-		"Tin variant" = list(
-			RESKIN_ICON_STATE = "trenchcoat_tin",
-			RESKIN_WORN_ICON_STATE = "trenchcoat_tin"
-		),
-		"Blue variant" = list(
-			RESKIN_ICON_STATE = "trenchcoat_blue",
-			RESKIN_WORN_ICON_STATE = "trenchcoat_blue"
-		)
-	)
 
 //Donation reward for Jasohavents
 /obj/item/clothing/under/rank/cargo/qm/skirt/old

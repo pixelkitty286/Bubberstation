@@ -79,6 +79,7 @@
 	icon = 'modular_zubbers/icons/obj/clothing/under/security.dmi'
 	worn_icon = 'modular_zubbers/icons/mob/clothing/under/security.dmi'
 	icon_state = "security_medic_turtleneck"
+	worn_icon_digi = 'modular_zubbers/icons/mob/clothing/under/security_digi.dmi'
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION
 
 /obj/item/clothing/under/rank/security/peacekeeper/security_medic/skirt
@@ -92,8 +93,9 @@
 /obj/item/clothing/head/beret/sec/peacekeeper/security_medic
 	name = "security medic beret"
 	desc = "A robust beret with the medical insignia emblazoned on it. Uses reinforced fabric to offer sufficient protection."
+	icon_state = "/obj/item/clothing/head/beret/sec/peacekeeper/security_medic"
 	greyscale_colors = "#3F3C40#870E12"
-	icon_state = "beret_badge_med"
+	post_init_icon_state = "beret_badge_med"
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
 
 /obj/item/clothing/head/helmet/sec/peacekeeper/security_medic

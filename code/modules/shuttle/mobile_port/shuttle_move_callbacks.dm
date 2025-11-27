@@ -99,7 +99,8 @@ All ShuttleMove procs go here
 // returns the new move_mode (based on the old)
 // WARNING: Do not leave turf contents in beforeShuttleMove or dock() will runtime
 /atom/movable/proc/beforeShuttleMove(turf/newT, rotation, move_mode, obj/docking_port/mobile/moving_dock)
-	return move_mode
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_BEFORE_SHUTTLE_MOVE, newT, rotation, move_mode, moving_dock) || move_mode
 
 /// Called on atoms to move the atom to the new location
 /atom/movable/proc/onShuttleMove(turf/newT, turf/oldT, list/movement_force, move_dir, obj/docking_port/stationary/old_dock, obj/docking_port/mobile/moving_dock)
@@ -115,6 +116,7 @@ All ShuttleMove procs go here
 
 // Called on atoms after everything has been moved
 /atom/movable/proc/afterShuttleMove(turf/oldT, list/movement_force, shuttle_dir, shuttle_preferred_direction, move_dir, rotation)
+	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ATOM_AFTER_SHUTTLE_MOVE, oldT)
 	if(light)
 		update_light()
@@ -236,11 +238,11 @@ All ShuttleMove procs go here
 	. = ..()
 	if(. & MOVE_AREA)
 		. |= MOVE_CONTENTS
-		GLOB.cameranet.removeCamera(src)
+		SScameras.remove_camera_from_chunk(src)
 
 /obj/machinery/camera/afterShuttleMove(turf/oldT, list/movement_force, shuttle_dir, shuttle_preferred_direction, move_dir, rotation)
 	. = ..()
-	GLOB.cameranet.addCamera(src)
+	SScameras.add_camera_to_chunk(src)
 
 /obj/machinery/mech_bay_recharge_port/afterShuttleMove(turf/oldT, list/movement_force, shuttle_dir, shuttle_preferred_direction, move_dir)
 	. = ..()
@@ -317,14 +319,17 @@ All ShuttleMove procs go here
 		shake_camera(src, shake_force, 1)
 
 /mob/living/lateShuttleMove(turf/oldT, list/movement_force, move_dir)
-	if(buckled)
-		return
-
-	. = ..()
-
 	var/knockdown = movement_force["KNOCKDOWN"]
-	if(knockdown)
+	if(buckled && istype(get_area(src), /area/shuttle/arrival))
+		//if we're on the arrival shuttle, unbuckle so that new player's don't get stuck in there
+		// buckled.user_unbuckle_mob(src, src) // BUBBER EDIT REMOVAL - The interlink shuttle takes off and then lands, this code will make you unbuckle when it takes off
+		return
+	if(knockdown > 0)
+		if(buckled)
+			Immobilize(knockdown * 0.5)
+			return
 		Paralyze(knockdown)
+	return ..()
 
 
 /mob/living/simple_animal/hostile/megafauna/onShuttleMove(turf/newT, turf/oldT, list/movement_force, move_dir, obj/docking_port/stationary/old_dock, obj/docking_port/mobile/moving_dock)

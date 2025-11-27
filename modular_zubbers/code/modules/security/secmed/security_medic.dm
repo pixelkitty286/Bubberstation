@@ -11,7 +11,7 @@
 	exp_requirements = 120
 	exp_required_type = EXP_TYPE_CREW
 	exp_required_type_department = EXP_TYPE_MEDICAL
-	exp_granted_type = EXP_TYPE_CREW
+	exp_granted_type = EXP_TYPE_SECURITY
 	config_tag = "SECURITY_MEDIC"
 
 	outfit = /datum/outfit/job/security_medic
@@ -56,7 +56,7 @@
 	suit = /obj/item/clothing/suit/armor/vest/peacekeeper/security_medic
 	l_hand = /obj/item/storage/medkit/brute
 	head = /obj/item/clothing/head/beret/sec/peacekeeper/security_medic
-	suit_store = /obj/item/gun/energy/disabler/smg
+	suit_store = /obj/item/gun/energy/e_gun/advtaser
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec

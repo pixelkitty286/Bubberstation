@@ -17,13 +17,13 @@ GLOBAL_LIST_INIT(heavy_cavity_implants, typecacheof(list(/obj/item/transfer_valv
 	accept_hand = 1
 	implements = list(/obj/item = 100)
 	repeatable = TRUE
-	time = 32
+	time = 3.2 SECONDS
 	preop_sound = 'sound/items/handling/surgery/organ1.ogg'
 	success_sound = 'sound/items/handling/surgery/organ2.ogg'
 	var/obj/item/item_for_cavity
 
 /datum/surgery_step/handle_cavity/tool_check(mob/user, obj/item/tool)
-	if(tool.tool_behaviour == TOOL_CAUTERY || istype(tool, /obj/item/gun/energy/laser))
+	if(tool.tool_behaviour == TOOL_CAUTERY || istype(tool, /obj/item/gun/energy/laser)) // BUBBER EDIT: adds TOOL_WRENCH and TOOL_RETRACTOR to the list of excluded items so that the robotic surgery functions
 		return FALSE
 	return !tool.get_temperature()
 

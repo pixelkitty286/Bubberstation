@@ -34,19 +34,19 @@
 			)
 			continue
 
-		for(var/department_type as anything in job.departments_list)
+		for(var/department_type in job.departments_list)
 			var/datum/job_department/department = departments_by_type[department_type]
 
 			if(!department)
 				stack_trace("get_exploitable_manifest() failed to get job department for [department_type] of [job.type]")
 				continue
 
-			var/list/exp_entry = list(
+			var/list/exp_entry = list(list(
 				"name" = name,
 				"rank" = rank,
 //				"truerank" = truerank,
 				"exploitable_information" = exploitables,
-			)
+			))
 
 			var/list/exp_department_list = exp_manifest_out[department.department_name]
 
@@ -85,13 +85,6 @@
 		var/datum/record/locked/target_record = find_record(exploitable_id, TRUE)
 		if(!isnull(target_record)) // this can be null
 			to_chat(usr, "<b>Exploitable information:</b> [target_record.exploitable_information]")
-
-	else if(action == "show_background")
-		var/background_id = params["background_id"]
-		var/datum/record/locked/target_record = find_record(background_id, TRUE)
-		if(!isnull(target_record))
-			to_chat(usr, "<b>Background information:</b> [target_record.background_information]")
-
 
 /datum/record_manifest/ui_data(mob/user)
 	var/list/positions = list()

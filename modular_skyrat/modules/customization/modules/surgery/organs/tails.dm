@@ -3,6 +3,7 @@
 	mutantpart_info = list(MUTANT_INDEX_NAME = "Smooth", MUTANT_INDEX_COLOR_LIST = list("#FFFFFF"))
 	var/can_wag = TRUE
 	var/wagging = FALSE
+	organ_flags = ORGAN_EXTERNAL
 
 /datum/bodypart_overlay/mutant/tail
 	color_source = ORGAN_COLOR_OVERRIDE
@@ -38,7 +39,7 @@
 			return TRUE
 
 		// Hide accessory if flagged to do so
-		else if(wearer.wear_suit.flags_inv & HIDETAIL)
+		else if(wearer.covered_slots & HIDETAIL)
 			return FALSE
 
 	return TRUE

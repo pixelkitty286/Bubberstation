@@ -1,11 +1,5 @@
-/datum/loadout_category/suit
-	category_name = "Suits"
-	category_ui_icon = FA_ICON_TOILET
-	type_to_generate = /datum/loadout_item/suit
+/datum/loadout_category/suits
 	tab_order = /datum/loadout_category/head::tab_order + 10
-
-/datum/loadout_item/suit
-	abstract_type = /datum/loadout_item/suit
 
 /datum/loadout_item/suit/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only, loadout_placement_preference)
 	if(loadout_placement_preference != LOADOUT_OVERRIDE_JOB && outfit.suit)
@@ -122,7 +116,7 @@
 
 /datum/loadout_item/suit/labcoat_pharmacist
 	name = "Pharmacist's Labcoat"
-	item_path = /obj/item/clothing/suit/toggle/labcoat/skyrat/pharmacist
+	item_path = /obj/item/clothing/suit/toggle/labcoat/chemist/skyrat/pharmacist
 
 /*
 *	PONCHOS
@@ -640,7 +634,7 @@
 
 /datum/loadout_item/suit/labcoat/doctor_tailcoat
 	name = "Brig Physician's tailcoat"
-	item_path = /obj/item/clothing/suit/toggle/labcoat/doctor_tailcoat/sec
+	item_path = /obj/item/clothing/suit/toggle/labcoat/skyrat/security_medic/doctor_tailcoat
 	restricted_roles = list(JOB_SECURITY_MEDIC)
 
 /datum/loadout_item/suit/supply_jacket

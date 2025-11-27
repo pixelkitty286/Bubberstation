@@ -151,6 +151,7 @@
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/nt_rep)
 "s" = (
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/carpet/green,
 /area/station/command/heads_quarters/nt_rep)
 "t" = (
@@ -288,7 +289,7 @@
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/nt_rep)
 "T" = (
-/obj/structure/closet/secure_closet/nanotrasen_consultant/station,
+/obj/structure/closet/secure_closet/nanotrasen_consultant,
 /turf/open/floor/carpet/green,
 /area/station/command/heads_quarters/nt_rep)
 "U" = (

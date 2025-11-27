@@ -10,7 +10,6 @@
 		TRAIT_CAN_STRIP,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
-		TRAIT_OXYIMMUNE,
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_LITERATE,
 		TRAIT_DRINKS_BLOOD,
@@ -104,12 +103,12 @@
 
 
 /datum/species/hemophage/prepare_human_for_preview(mob/living/carbon/human/human)
-	human.skin_tone = "albino"
+	human.dna.features["mcolor"] = "#fff4e6"
+	human.set_eye_color(COLOR_RED)
 	human.hair_color = "#1d1d1d"
-	human.hairstyle = "Pompadour (Big)"
+	human.hairstyle = "Royal Curls"
 	regenerate_organs(human, src, visual_only = TRUE)
 	human.update_body(TRUE)
-
 
 /datum/species/hemophage/create_pref_unique_perks()
 	var/list/to_add = list()
@@ -177,3 +176,6 @@
 
 
 #undef HEMOPHAGE_SPAWN_TEXT
+
+/mob/living/carbon/human/species/hemophage //Why was this never added?
+	race = /datum/species/hemophage

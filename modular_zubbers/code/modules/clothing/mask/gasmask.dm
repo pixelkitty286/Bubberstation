@@ -1,3 +1,9 @@
+/obj/item/clothing/mask/gas
+	flags_inv = HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
+
+/obj/item/clothing/mask/gas/welding
+	flags_inv = HIDEEYES|HIDEFACE|HIDESNOUT
+
 /obj/item/clothing/mask/gas/modulator
 	name = "modified gas mask"
 	desc = "An older model of gas mask issued for use on station to help protect against airborne hazards. This one appears to be \
@@ -64,19 +70,19 @@
 
 	if(HAS_TRAIT(human_user, TRAIT_SIGN_LANG))
 		user_tongue.temp_say_mod = "signs"
-		human_user.special_voice = previous_special_name
+		human_user.override_voice = previous_special_name
 		previous_special_name = null
 		return
 
-	if(human_user.special_voice != modulated_name)
-		previous_special_name = human_user.special_voice
+	if(human_user.override_voice != modulated_name)
+		previous_special_name = human_user.override_voice
 
 	if(human_user.wear_mask == src && modulate_voice)
-		human_user.special_voice = modulated_name
+		human_user.override_voice = modulated_name
 		user_tongue.temp_say_mod = "states"
 		return
 
-	human_user.special_voice = previous_special_name
+	human_user.override_voice = previous_special_name
 	user_tongue.temp_say_mod = initial(user_tongue.temp_say_mod)
 	previous_special_name = null
 

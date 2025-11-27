@@ -33,6 +33,8 @@
 #define WAVE_DURATION_MEDIUM 90 SECONDS
 /// Duration for wave defense for a large vent.
 #define WAVE_DURATION_LARGE 150 SECONDS
+/// Duration for wave defense for the tarkon emergency engines.
+#define WAVE_DURATION_TARKON 120 SECONDS
 
 /// Proximity to a vent that a wall ore needs to be for 5 ore to be mined.
 #define VENT_PROX_VERY_HIGH 3
@@ -66,6 +68,14 @@
 #define ORE_WALL_LOW 2
 /// The amount of ore that is mined from a wall that is VENT_PROX_FAR tiles to a vent.
 #define ORE_WALL_FAR 1
+
+/// Lifetime of a boulder platform in seconds when spawned in lava/plasma.
+#define PLATFORM_LIFE_DEFAULT 10 SECONDS
+
+#define PLATFORM_LIFE_GULAG 1 SECONDS
+#define PLATFORM_LIFE_SMALL 20 SECONDS
+#define PLATFORM_LIFE_MEDIUM 45 SECONDS
+#define PLATFORM_LIFE_LARGE 90 SECONDS
 
 /// The number of points a miner gets for discovering a vent, multiplied by BOULDER_SIZE when completing a wave defense minus the discovery bonus.
 #define MINER_POINT_MULTIPLIER 100

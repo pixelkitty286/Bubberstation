@@ -19,7 +19,7 @@
 
 // If brainproblems is added to a synth, this detours to the brainproblems/synth quirk.
 // TODO: Add more brain-specific detours when PR #16105 is merged
-/datum/quirk/item_quirk/brainproblems/add_to_holder(mob/living/new_holder, quirk_transfer = FALSE, client/client_source, unique = TRUE)
+/datum/quirk/item_quirk/brainproblems/add_to_holder(mob/living/new_holder, quirk_transfer = FALSE, client/client_source, unique = TRUE, announce = TRUE)
 	if(!issynthetic(new_holder) || type != /datum/quirk/item_quirk/brainproblems)
 		// Defer to TG brainproblems if the character isn't robotic.
 		return ..()
@@ -34,10 +34,10 @@
 	give_item_to_holder(
 		/obj/item/storage/pill_bottle/liquid_solder/braintumor,
 		list(
-			LOCATION_LPOCKET = ITEM_SLOT_LPOCKET,
-			LOCATION_RPOCKET = ITEM_SLOT_RPOCKET,
-			LOCATION_BACKPACK = ITEM_SLOT_BACKPACK,
-			LOCATION_HANDS = ITEM_SLOT_HANDS,
+			LOCATION_LPOCKET,
+			LOCATION_RPOCKET,
+			LOCATION_BACKPACK,
+			LOCATION_HANDS,
 		),
 		flavour_text = "These will keep you alive until you can secure a supply of medication. Don't rely on them too much!",
 	)
