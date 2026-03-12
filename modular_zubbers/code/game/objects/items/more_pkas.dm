@@ -55,8 +55,7 @@
 	item_flags = NONE
 	obj_flags = UNIQUE_RENAME
 	weapon_weight = WEAPON_HEAVY
-	max_mod_capacity = 60
-	disabled_modkits = list(/obj/item/borg/upgrade/modkit/aoe) // Should cover all AOE variants
+	max_mod_capacity = 75
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/glock
 	name = "proto-kinetic pistol"
